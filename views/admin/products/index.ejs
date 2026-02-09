@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+</head>
+<body>
+    <%- include('../../partials/admin-sidebar') %>
+
+    <main class="admin-main">
+        <%- include('../../partials/flash-messages') %>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="fw-bold mb-1"><i class="bi bi-box-seam me-2"></i>Quản lý sản phẩm</h4>
+                <p class="text-muted mb-0">Tổng: <%= products.length %> sản phẩm</p>
+            </div>
+            <a href="/admin/products/create" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> Thêm sản phẩm</a>
+        </div>
+
+        <div class="table-dark-custom">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Ảnh</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số gói</th>
+                            <th>Khoảng giá</th>
+                            <th>Mô tả</th>
+                            <th>Trạng thái</th>
+                            <th>Nổi bật</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (products.length === 0) { %>
+                            <tr><td colspan="9" class="text-center text-muted py-4">Chưa có sản phẩm nào</td></tr>
+                        <% }%>
+                        <% products.forEach((p, idx) => { %>
+                        <tr>
+                            <td><%= idx + 1 %></td>
+                            <td>
+                                <% if (p.image) { %>
+                                    <img src="<%= p.image %>" alt="<%= p.name %>" style="width:48px;height:48px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.1)">
+                                <% } else { %>
+                                    <div style="width:48px;height:48px;border-radius:6px;background:rgba(124,58,237,0.15);display:flex;align-items:center;justify-content:center">
+                                        <i class="bi bi-image text-muted"></i>
+                                    </div>
+                                <% } %>
+                            </td>
+                            <td class="fw-semibold"><%= p.name %></td>
+                            <td>
+                                <% if (p.packages && p.packages.length > 0) { %>
+                                    <span class="badge bg-primary"><%= p.packages.length %> gói</span>
+                                <% } else { %>
+                                    <span class="text-muted">0 gói</span>
+                                <% }%>
+                            </td>
+                            <td>
+                                <% if (p.packages && p.packages.length > 0) { %>
+                                    <% const prices = p.packages.map(pk => pk.price); %>
+                                    <% const minP = Math.min(...prices); const maxP = Math.max(...prices); %>
+                                    <span class="text-success fw-bold">
+                                        <%= minP === maxP ? Number(minP).toLocaleString('vi-VN') + 'đ' : Number(minP).toLocaleString('vi-VN') + 'đ - ' + Number(maxP).toLocaleString('vi-VN') + 'đ' %>
+                                    </span>
+                                <% }else { %>
+                                    <span class="text-success fw-bold"><%= Number(p.price).toLocaleString('vi-VN') %>đ</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (p.description) { %>
+                                    <span title="<%= p.description %>" style="max-width:150px;display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><%= p.description %></span>
+                                <% } else { %>
+                                    <span class="text-muted">—</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (p.is_visible) { %>
+                                    <span class="badge badge-paid px-2 py-1">Hiển thị</span>
+                                <% }else { %>
+                                    <span class="badge badge-cancelled px-2 py-1">Ẩn</span>
+                                <% }%>
+                            </td>
+                            <td>
+                                <% if (p.is_featured) { %>
+                                    <span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b">⭐ Nổi bật</span>
+                                <% } else { %>
+                                    <span class="text-muted">—</span>
+                                <% }%>
+                            </td>
+                            <td>
+                                <a href="/admin/products/edit/<%= p.id %>" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                <form action="/admin/products/delete/<%= p.id %>" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

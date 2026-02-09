@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - AI Dev Tools cho lập trình viên
+    </title>
+    <meta name="description"
+        content="<%= settings.brand_description || 'Cung cấp Cursor Pro, Augment Code, Claude, GitHub Copilot và các AI coding assistant hàng đầu cho lập trình viên.' %>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/landing.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- ==================== HEADER ==================== -->
+    <nav class="navbar navbar-expand-lg navbar-landing">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <% if (settings.brand_logo) { %><img src="<%= settings.brand_logo %>" alt="Logo" style="height:36px"
+                        class="me-2">
+                    <% }%>
+                        <i class="bi bi-braces"></i>
+                        <%= settings.brand_name || 'Tobi Store' %>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list text-white fs-4"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item"><a class="nav-link" href="#home">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products">Sản phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero-section" id="home">
+        <div class="container position-relative">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="hero-title mb-4">
+                        Code nhanh hơn 10x với<br>
+                        <span class="gradient-text">
+                            <%= settings.brand_slogan || 'AI Dev Tools hàng đầu' %>
+                        </span>
+                    </h1>
+                    <p class="hero-subtitle mb-4">
+                        <%= settings.brand_description
+                            || 'Chuyên cung cấp Cursor Pro, Augment Code, Augment Pro, Claude, Augment Plus, GitHub Copilot — các AI coding assistant giúp lập trình viên tăng năng suất gấp nhiều lần.'
+                            %>
+                    </p>
+                    <a href="#products" class="btn-cta">
+                        <i class="bi bi-lightning-charge-fill"></i> Khám phá ngay
+                    </a>
+                </div>
+                <div class="col-lg-5 text-center mt-5 mt-lg-0">
+                    <div class="float-animation position-relative" style="font-size:180px;opacity:0.15;color:#7c3aed">
+                        <i class="bi bi-code-slash"></i>
+                        <i class="bi bi-terminal-fill"
+                            style="font-size:80px;position:absolute;top:10px;right:20px;opacity:0.6;color:#a855f7"></i>
+                        <i class="bi bi-lightning-charge-fill"
+                            style="font-size:60px;position:absolute;bottom:10px;left:30px;opacity:0.5;color:#ec4899"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PRODUCTS SECTION ==================== -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <h2 class="section-title">Các gói sản phẩm <span class="gradient-text">AI</span></h2>
+            <p class="section-subtitle">Chọn gói phù hợp với nhu cầu của bạn. Nâng cấp hoặc hủy bất cứ lúc nào.</p>
+
+            <div class="row g-4 justify-content-center">
+                <% products.forEach(product=> { %>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="product-card <%= product.is_featured ? 'featured' : '' %>">
+                            <div class="product-image-wrapper">
+                                <% if (product.image) { %>
+                                    <img src="<%= product.image %>" alt="<%= product.name %>">
+                                    <% } else { %>
+                                        <div class="product-image-placeholder">
+                                            <i class="bi bi-box-seam"></i>
+                                        </div>
+                                        <% } %>
+                            </div>
+
+                            <h3 class="product-name">
+                                <%= product.name %>
+                            </h3>
+
+                            <% if (!product.packages || product.packages.length===0) { %>
+                                <div class="price-range">
+                                    <%= Number(product.price || 0).toLocaleString('vi-VN') %>đ
+                                </div>
+                                <% } %>
+
+                                    <% if (product.description) { %>
+                                        <p class="product-description" title="<%= product.description %>">
+                                            <%= product.description %>
+                                        </p>
+                                        <% } %>
+
+                                            <% if (product.packages && product.packages.length> 0) { %>
+                                                <table class="package-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Gói</th>
+                                                            <th>Request</th>
+                                                            <th class="text-end">Giá</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% product.packages.forEach(pkg=> { %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= pkg.duration %>
+                                                                        <%= pkg.duration_unit %>
+                                                                </td>
+                                                                <td class="col-request">
+                                                                    <%= pkg.request_count || 'Vô Hạn' %>
+                                                                </td>
+                                                                <td class="col-price">
+                                                                    <%= Number(pkg.price).toLocaleString('vi-VN') %>đ
+                                                                </td>
+                                                            </tr>
+                                                            <% }) %>
+                                                    </tbody>
+                                                </table>
+                                                <% } %>
+
+                                                    <ul class="product-features">
+                                                        <% if (product.features) { %>
+                                                            <% product.features.split('\n').filter(f=>
+                                                                f.trim()).forEach(feature => { %>
+                                                                <li><i class="bi bi-check2"></i>
+                                                                    <%= feature.trim() %>
+                                                                </li>
+                                                                <% }) %>
+                                                                    <% } %>
+                                                    </ul>
+
+                                                    <a href="<%= settings.zalo_link || '#' %>" target="_blank"
+                                                        rel="noopener" class="btn-buy">
+                                                        <i class="bi bi-box-arrow-up-right"></i> Mua Ngay
+                                                    </a>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+
+            <% if (products.length===0) { %>
+                <div class="text-center py-5">
+                    <p class="text-muted fs-5">Sản phẩm đang được cập nhật. Vui lòng quay lại sau!</p>
+                </div>
+                <% }%>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer-section" id="contact">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-braces me-2" style="color:#a855f7"></i>
+                        <%= settings.brand_name || 'Tobi Store' %>
+                    </h5>
+                    <p class="text-muted">
+                        <%= settings.brand_description || '' %>
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="fw-bold mb-3">Liên hệ</h6>
+                    <ul class="list-unstyled">
+                        <% if (settings.contact_email) { %>
+                            <li class="mb-2"><i class="bi bi-envelope me-2"></i><a
+                                    href="mailto:<%= settings.contact_email %>">
+                                    <%= settings.contact_email %>
+                                </a></li>
+                            <% } %>
+                                <% if (settings.contact_phone) { %>
+                                    <li class="mb-2"><i class="bi bi-telephone me-2"></i><a
+                                            href="tel:<%= settings.contact_phone %>">
+                                            <%= settings.contact_phone %>
+                                        </a></li>
+                                    <% } %>
+                                        <% if (settings.zalo_link) { %>
+                                            <li class="mb-2"><i class="bi bi-chat-dots me-2"></i><a
+                                                    href="<%= settings.zalo_link %>" target="_blank">Chat Zalo</a></li>
+                                            <% } %>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="fw-bold mb-3">Kết nối</h6>
+                    <div class="d-flex gap-3">
+                        <% if (settings.facebook_link) { %><a href="<%= settings.facebook_link %>" target="_blank"
+                                class="fs-4"><i class="bi bi-facebook"></i></a>
+                            <% } %>
+                                <% if (settings.zalo_link) { %><a href="<%= settings.zalo_link %>" target="_blank"
+                                        class="fs-4"><i class="bi bi-chat-dots-fill"></i></a>
+                                    <% } %>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color:rgba(255,255,255,0.08)" class="my-4">
+            <p class="text-center text-muted mb-0">&copy; <%= new Date().getFullYear() %>
+                    <%= settings.brand_name || 'Tobi Store' %>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Nút Zalo nổi -->
+    <% if (settings.zalo_link) { %>
+        <a href="<%= settings.zalo_link %>" target="_blank" rel="noopener"
+            style="position:fixed;bottom:24px;right:24px;width:60px;height:60px;background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;box-shadow:0 4px 20px rgba(124,58,237,0.5);z-index:999;text-decoration:none;transition:transform 0.2s"
+            onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <i class="bi bi-chat-dots-fill"></i>
+        </a>
+        <% } %>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                // Smooth scroll
+                document.querySelectorAll('a[href^="#"]').forEach(a => {
+                    a.addEventListener('click', e => {
+                        e.preventDefault();
+                        const target = document.querySelector(a.getAttribute('href'));
+                        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                });
+            </script>
+</body>
+
+</html>

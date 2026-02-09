@@ -1,0 +1,371 @@
+/* ==================== LANDING PAGE CSS ==================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --primary: #7c3aed;
+    --primary-light: #a855f7;
+    --bg-dark: #0a0a1a;
+    --bg-card: rgba(255, 255, 255, 0.04);
+    --text-primary: #f1f5f9;
+    --text-muted: #94a3b8;
+    --gradient-1: linear-gradient(135deg, #7c3aed, #a855f7, #ec4899);
+    --gradient-2: linear-gradient(135deg, #0f172a, #1e1b4b);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* ==================== HEADER ==================== */
+.navbar-landing {
+    background: rgba(10, 10, 26, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 16px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar-landing .navbar-brand {
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--primary-light) !important;
+}
+
+.navbar-landing .nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.navbar-landing .nav-link:hover {
+    color: #fff !important;
+}
+
+/* ==================== HERO ==================== */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: radial-gradient(ellipse at 50% 0%, rgba(124, 58, 237, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+        var(--bg-dark);
+    padding-top: 80px;
+    position: relative;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237c3aed' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.hero-title .gradient-text {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 540px;
+}
+
+.btn-cta {
+    background: var(--gradient-1);
+    border: none;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+}
+
+.btn-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
+    color: #fff;
+}
+
+/* ==================== PRODUCTS ==================== */
+.products-section {
+    padding: 100px 0;
+    position: relative;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 60px;
+}
+
+.product-card {
+    background: #0f111a;
+    /* Darker background */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    border-color: var(--primary);
+}
+
+.product-card.featured {
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+}
+
+/* Khung ảnh sản phẩm */
+.product-image-wrapper {
+    width: 100%;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.product-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* or cover depending on preference */
+    display: block;
+}
+
+.product-image-placeholder {
+    font-size: 64px;
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.product-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #fff;
+    min-height: 48px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.price-range {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #22c55e;
+    /* Green color like reference */
+}
+
+.product-description {
+    font-size: 0.95rem;
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: 500;
+    min-height: 40px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Package Table Styles */
+.package-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.9rem;
+}
+
+.package-table th {
+    text-align: left;
+    padding: 8px;
+    color: #60a5fa;
+    /* Light blue header */
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.package-table td {
+    padding: 10px 8px;
+    color: #e2e8f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.package-table tr:last-child td {
+    border-bottom: none;
+}
+
+.package-table .col-price {
+    text-align: right;
+    color: #22c55e;
+    font-weight: 600;
+}
+
+.package-table .col-request {
+    color: #94a3b8;
+}
+
+.product-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    text-align: left;
+}
+
+.product-features li {
+    padding: 4px 0;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    line-height: 1.5;
+}
+
+.product-features li i {
+    color: #22c55e;
+    /* Green checkmark */
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.btn-buy {
+    display: block;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 1rem;
+    margin-top: auto;
+    text-align: center;
+    background: #00f2ea !important;
+    /* Cyan fallback */
+    background: linear-gradient(90deg, #06b6d4, #22c55e) !important;
+    /* Cyan to Green */
+    color: #000 !important;
+    border: none;
+}
+
+.btn-buy:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4);
+}
+
+.btn-buy i {
+    margin-right: 5px;
+}
+
+/* ==================== FOOTER ==================== */
+.footer-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 60px 0 30px;
+}
+
+.footer-section a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-section a:hover {
+    color: var(--primary-light);
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0)
+    }
+
+    50% {
+        transform: translateY(-10px)
+    }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .product-card {
+        padding: 28px 20px;
+    }
+
+    .product-price {
+        font-size: 1.8rem;
+    }
+}
