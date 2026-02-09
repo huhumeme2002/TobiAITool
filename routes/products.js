@@ -178,6 +178,9 @@ router.post('/delete-image/:id', isAuthenticated, (req, res) => {
             db.prepare('UPDATE products SET image = ? WHERE id = ?').run('', req.params.id);
         }
         res.json({ success: true });
+    } catch (err) {
+        console.error('Lỗi xóa ảnh:', err);
+        res.json({ success: false, message: 'Có lỗi xảy ra' });
     }
 });
 
