@@ -6,7 +6,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { isAuthenticated }= require('../middleware/auth');
+const { isAuthenticated } = require('../middleware/auth');
 const Product = require('../models/Product');
 const ProductPackage = require('../models/ProductPackage');
 
@@ -102,7 +102,7 @@ router.get('/edit/:id', isAuthenticated, (req, res) => {
 
 // POST /admin/products/edit/:id - Xử lý sửa sản phẩm
 router.post('/edit/:id', isAuthenticated, upload.single('image'), (req, res) => {
-    const { name, price, listed_price, cost, requests, duration, duration_unit, description, features, is_visible, is_featured, sort_order, existing_image }= req.body;
+    const { name, price, listed_price, cost, requests, duration, duration_unit, description, features, is_visible, is_featured, sort_order, existing_image } = req.body;
 
     if (!name) {
         req.flash('error', 'Vui lòng điền tên sản phẩm.');
@@ -160,7 +160,7 @@ router.post('/delete/:id', isAuthenticated, (req, res) => {
         Product.delete(req.params.id);
         req.flash('success', 'Đã xóa sản phẩm.');
         res.redirect('/admin/products');
-    }catch (err) {
+    } catch (err) {
         console.error('Lỗi xóa sản phẩm:', err);
         req.flash('error', 'Có lỗi xảy ra khi xóa sản phẩm.');
         res.redirect('/admin/products');
@@ -178,8 +178,18 @@ router.post('/delete-image/:id', isAuthenticated, (req, res) => {
             db.prepare('UPDATE products SET image = ? WHERE id = ?').run('', req.params.id);
         }
         res.json({ success: true });
-    }catch (err) {
-        console.error('Lỗi xóa ảnh:', err);
+    }
+});
+
+// POST /admin/products/update-order - Cập nhật thứ tự (AJAX)
+router.post('/update-order', isAuthenticated, (req, res) => {
+    const { id, sort_order } = req.body;
+    try {
+        const db = require('../config/database');
+        db.prepare('UPDATE products SET sort_order = ? WHERE id = ?').run(parseInt(sort_order) || 0, id);
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Lỗi cập nhật thứ tự:', err);
         res.json({ success: false, message: 'Có lỗi xảy ra' });
     }
 });
