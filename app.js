@@ -11,6 +11,7 @@ const compression = require('compression');
 const path = require('path');
 
 const app = express();
+app.set('trust proxy', 1); // Trust first proxy (Nginx) for secure cookies
 const PORT = process.env.PORT || 3000;
 
 // ==================== MIDDLEWARE ====================
