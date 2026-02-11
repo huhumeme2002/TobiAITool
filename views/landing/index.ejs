@@ -54,9 +54,14 @@
                             || 'Chuyên cung cấp Cursor Pro, Augment Code, Augment Pro, Claude, Augment Plus, GitHub Copilot — các AI coding assistant giúp lập trình viên tăng năng suất gấp nhiều lần.'
                             %>
                     </p>
-                    <a href="#products" class="btn-cta">
-                        <i class="bi bi-lightning-charge-fill"></i> Khám phá ngay
-                    </a>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="#products" class="btn-cta">
+                            <i class="bi bi-lightning-charge-fill"></i> Khám phá ngay
+                        </a>
+                        <a href="#transaction-proofs" class="btn-cta-secondary">
+                            <i class="bi bi-receipt-cutoff"></i> Check bill giao dịch
+                        </a>
+                    </div>
                 </div>
                 <div class="col-lg-5 text-center mt-5 mt-lg-0">
                     <div class="float-animation position-relative" style="font-size:180px;opacity:0.15;color:#7c3aed">
@@ -281,7 +286,7 @@
 
     <!-- ==================== TRANSACTION PROOFS SECTION ==================== -->
     <% if (transactionProofs && transactionProofs.length > 0) { %>
-    <section class="transaction-proofs-section">
+    <section class="transaction-proofs-section" id="transaction-proofs">
         <div class="container">
             <h2 class="section-title">Bằng chứng <span class="gradient-text">giao dịch</span></h2>
             <p class="section-subtitle">Khách hàng tin tưởng và đã mua hàng tại cửa hàng của chúng tôi</p>
