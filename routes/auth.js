@@ -29,28 +29,52 @@ router.post('/login', isNotAuthenticated, (req, res) => {
         return res.redirect('/admin/login');
     }
 
-    // Tìm user
-    const user = User.findByUsername(username);
-    if (!user) {
-        req.flash('error', 'Tên đăng nhập hoặc mật khẩu không đúng.');
-        return res.redirect('/admin/login');
+    try {
+        // Tìm user
+        const user = User.findByUsername(username);
+        if (!user) {
+            req.flash('error', 'Tên đăng nhập hoặc mật khẩu không đúng.');
+            return res.redirect('/admin/login');
+        }
+
+        // Kiểm tra mật khẩu
+        if (!User.verifyPassword(password, user.password)) {
+            req.flash('error', 'Tên đăng nhập hoặc mật khẩu không đúng.');
+            return res.redirect('/admin/login');
+        }
+
+        // Regenerate session để tránh session fixation
+        req.session.regenerate((err) => {
+            if (err) {
+                console.error('Session regenerate error:', err);
+                req.flash('error', 'Có lỗi xảy ra khi đăng nhập.');
+                return res.redirect('/admin/login');
+            }
+
+            // Lưu thông tin user vào session
+            req.session.user = {
+                id: user.id,
+                username: user.username,
+                display_name: user.display_name
+            };
+
+            // Save session trước khi redirect
+            req.session.save((err) => {
+                if (err) {
+                    console.error('Session save error:', err);
+                    req.flash('error', 'Có lỗi xảy ra khi đăng nhập.');
+                    return res.redirect('/admin/login');
+                }
+
+                req.flash('success', `Chào mừng ${user.display_name}!`);
+                res.redirect('/admin/dashboard');
+            });
+        });
+    } catch (err) {
+        console.error('Login error:', err);
+        req.flash('error', 'Có lỗi xảy ra khi đăng nhập.');
+        res.redirect('/admin/login');
     }
-
-    // Kiểm tra mật khẩu
-    if (!User.verifyPassword(password, user.password)) {
-        req.flash('error', 'Tên đăng nhập hoặc mật khẩu không đúng.');
-        return res.redirect('/admin/login');
-    }
-
-    // Lưu session
-    req.session.user = {
-        id: user.id,
-        username: user.username,
-        display_name: user.display_name
-    };
-
-    req.flash('success', `Chào mừng ${user.display_name}!`);
-    res.redirect('/admin/dashboard');
 });
 
 // GET /admin/logout - Đăng xuất
