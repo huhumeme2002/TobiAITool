@@ -233,10 +233,10 @@ if (existingOrders.count === 0) {
         const dateStr = date.toISOString().split('T')[0];
         const numOrders = Math.floor(Math.random() * 3) + 1;
         for (let j = 0; j < numOrders; j++) {
+            // Chỉ dùng 2 products đã tạo ở trên (id 1 và 2)
             const products = [
-                { id: 1, name: 'Gói Cơ bản', price: 199000 },
-                { id: 2, name: 'Gói Pro', price: 499000 },
-                { id: 3, name: 'Gói Enterprise', price: 1299000 }
+                { id: 1, name: 'Cursor Vô Hạn Request - Claude Opus', price: 20000 },
+                { id: 2, name: 'Gói Pro', price: 499000 }
             ];
             const p = products[Math.floor(Math.random() * products.length)];
             const cost = Math.floor(p.price * (0.2 + Math.random() * 0.3));
