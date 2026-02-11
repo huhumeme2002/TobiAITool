@@ -289,31 +289,17 @@ body {
 }
 
 .product-name {
-    font-size: 1.35rem;
-    font-weight: 800;
-    margin-bottom: 12px;
-    background: linear-gradient(135deg, #a855f7, #ec4899, #fbbf24);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #fff;
     min-height: 48px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
-    filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.5));
+    text-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
     letter-spacing: 0.3px;
-    animation: glow-pulse 3s ease-in-out infinite;
-}
-
-@keyframes glow-pulse {
-    0%, 100% {
-        filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.5));
-    }
-    50% {
-        filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.8)) drop-shadow(0 0 35px rgba(236, 72, 153, 0.4));
-    }
 }
 
 .price-range {
