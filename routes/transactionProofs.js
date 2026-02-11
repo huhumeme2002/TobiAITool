@@ -50,13 +50,7 @@ router.get('/new', isAuthenticated, (req, res) => {
 
 // POST /admin/transaction-proofs - Xử lý thêm bằng chứng
 router.post('/', isAuthenticated, upload.single('image'), (req, res) => {
-    const { customer_name, product_name, amount, transaction_date, is_visible, sort_order } = req.body;
-
-    // Validate
-    if (!customer_name || !product_name || !amount || !transaction_date) {
-        req.flash('error', 'Vui lòng điền đầy đủ thông tin bắt buộc.');
-        return res.redirect('/admin/transaction-proofs/new');
-    }
+    const { customer_name, amount, transaction_date, is_visible, sort_order } = req.body;
 
     if (!req.file) {
         req.flash('error', 'Vui lòng upload ảnh bằng chứng.');
@@ -66,11 +60,10 @@ router.post('/', isAuthenticated, upload.single('image'), (req, res) => {
     try {
         const imagePath = '/uploads/transaction-proofs/' + req.file.filename;
         TransactionProof.create({
-            customer_name: customer_name.trim(),
-            product_name: product_name.trim(),
+            image_path: imagePath,
+            customer_name: customer_name ? customer_name.trim() : '',
             amount: parseInt(amount) || 0,
-            transaction_date: transaction_date,
-            image: imagePath,
+            transaction_date: transaction_date || null,
             is_visible: is_visible ? 1 : 0,
             sort_order: parseInt(sort_order) || 0
         });
@@ -96,12 +89,7 @@ router.get('/:id/edit', isAuthenticated, (req, res) => {
 
 // POST /admin/transaction-proofs/:id - Xử lý cập nhật bằng chứng
 router.post('/:id', isAuthenticated, upload.single('image'), (req, res) => {
-    const { customer_name, product_name, amount, transaction_date, is_visible, sort_order, existing_image } = req.body;
-
-    if (!customer_name || !product_name || !amount || !transaction_date) {
-        req.flash('error', 'Vui lòng điền đầy đủ thông tin bắt buộc.');
-        return res.redirect(`/admin/transaction-proofs/${req.params.id}/edit`);
-    }
+    const { customer_name, amount, transaction_date, is_visible, sort_order, existing_image } = req.body;
 
     try {
         // Nếu upload ảnh mới thì dùng ảnh mới, không thì giữ ảnh cũ
@@ -116,11 +104,10 @@ router.post('/:id', isAuthenticated, upload.single('image'), (req, res) => {
         }
 
         TransactionProof.update(req.params.id, {
-            customer_name: customer_name.trim(),
-            product_name: product_name.trim(),
+            image_path: imagePath,
+            customer_name: customer_name ? customer_name.trim() : '',
             amount: parseInt(amount) || 0,
-            transaction_date: transaction_date,
-            image: imagePath,
+            transaction_date: transaction_date || null,
             is_visible: is_visible ? 1 : 0,
             sort_order: parseInt(sort_order) || 0
         });
@@ -138,8 +125,8 @@ router.post('/:id', isAuthenticated, upload.single('image'), (req, res) => {
 router.post('/:id/delete', isAuthenticated, (req, res) => {
     try {
         const proof = TransactionProof.findById(req.params.id);
-        if (proof && proof.image) {
-            const imgPath = path.join(__dirname, '..', proof.image);
+        if (proof && proof.image_path) {
+            const imgPath = path.join(__dirname, '..', proof.image_path);
             if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
         }
         TransactionProof.delete(req.params.id);

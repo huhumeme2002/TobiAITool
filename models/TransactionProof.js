@@ -22,8 +22,8 @@ const TransactionProof = {
     // Thêm bằng chứng mới
     create(data) {
         const stmt = db.prepare(`
-            INSERT INTO transaction_proofs (customer_name, product_name, amount, transaction_date, image, is_visible, sort_order)
-            VALUES (@customer_name, @product_name, @amount, @transaction_date, @image, @is_visible, @sort_order)
+            INSERT INTO transaction_proofs (image_path, customer_name, amount, transaction_date, is_visible, sort_order)
+            VALUES (@image_path, @customer_name, @amount, @transaction_date, @is_visible, @sort_order)
         `);
         return stmt.run(data);
     },
@@ -32,11 +32,10 @@ const TransactionProof = {
     update(id, data) {
         const stmt = db.prepare(`
             UPDATE transaction_proofs SET
+                image_path = @image_path,
                 customer_name = @customer_name,
-                product_name = @product_name,
                 amount = @amount,
                 transaction_date = @transaction_date,
-                image = @image,
                 is_visible = @is_visible,
                 sort_order = @sort_order,
                 updated_at = CURRENT_TIMESTAMP

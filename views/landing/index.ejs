@@ -289,9 +289,9 @@
             <div class="row g-4">
                 <% transactionProofs.slice(0, 8).forEach(proof => { %>
                     <div class="col-6 col-md-4 col-lg-3">
-                        <div class="proof-card" onclick="showProofModal('<%= proof.image_url %>', '<%= proof.customer_name || '' %>', '<%= proof.amount ? Number(proof.amount).toLocaleString('vi-VN') + 'đ' : '' %>', '<%= proof.transaction_date ? new Date(proof.transaction_date).toLocaleDateString('vi-VN') : '' %>')">
+                        <div class="proof-card" onclick="showProofModal('<%= proof.image_path %>', '<%= proof.customer_name || '' %>', '<%= proof.amount ? Number(proof.amount).toLocaleString('vi-VN') + 'đ' : '' %>', '<%= proof.transaction_date ? new Date(proof.transaction_date).toLocaleDateString('vi-VN') : '' %>')">
                             <div class="proof-image-wrapper">
-                                <img src="<%= proof.image_url %>" alt="Transaction proof" loading="lazy">
+                                <img src="<%= proof.image_path %>" alt="Transaction proof" loading="lazy">
                                 <div class="proof-overlay">
                                     <i class="bi bi-zoom-in"></i>
                                 </div>
