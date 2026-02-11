@@ -60,10 +60,10 @@
                                                         style="width: 60px">
                                                 </td>
                                                 <td>
-                                                    <% if (proof.image_url) { %>
-                                                        <img src="<%= proof.image_url %>" alt="Transaction proof"
+                                                    <% if (proof.image_path) { %>
+                                                        <img src="<%= proof.image_path %>" alt="Transaction proof"
                                                             style="width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.1);cursor:pointer"
-                                                            onclick="showImageModal('<%= proof.image_url %>')">
+                                                            onclick="showImageModal('<%= proof.image_path %>')">
                                                         <% } else { %>
                                                             <div
                                                                 style="width:80px;height:80px;border-radius:6px;background:rgba(124,58,237,0.15);display:flex;align-items:center;justify-content:center">
