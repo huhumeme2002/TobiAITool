@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload nhiều ảnh - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+    <style>
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .preview-item {
+            position: relative;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.02);
+        }
+        .preview-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(220, 38, 38, 0.9);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .preview-item .remove-btn:hover {
+            background: rgb(220, 38, 38);
+        }
+        .drop-zone {
+            border: 3px dashed rgba(124, 58, 237, 0.5);
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
+            background: rgba(124, 58, 237, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <%- include('../../partials/admin-sidebar') %>
+
+    <main class="admin-main">
+        <%- include('../../partials/flash-messages') %>
+
+        <div class="mb-4">
+            <a href="/admin/transaction-proofs" class="text-muted text-decoration-none"><i class="bi bi-arrow-left me-1"></i> Quay lại</a>
+            <h4 class="fw-bold mt-2"><i class="bi bi-images me-2"></i>Upload nhiều ảnh bằng chứng</h4>
+        </div>
+
+        <div class="form-card" style="max-width:1200px">
+            <form id="batchForm" action="/admin/transaction-proofs/batch" method="POST" enctype="multipart/form-data">
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold"><i class="bi bi-cloud-upload me-1"></i> Chọn nhiều ảnh</label>
+                    <div class="drop-zone" id="dropZone">
+                        <i class="bi bi-cloud-arrow-up" style="font-size: 48px; color: #7c3aed;"></i>
+                        <p class="mt-3 mb-2 fw-semibold">Kéo thả ảnh vào đây hoặc click để chọn</p>
+                        <p class="text-muted small mb-0">Hỗ trợ: JPG, PNG, GIF, WebP. Tối đa 5MB/ảnh</p>
+                    </div>
+                    <input type="file" name="images" id="fileInput" class="d-none" multiple accept="image/*">
+                </div>
+
+                <div id="previewContainer" class="preview-grid"></div>
+
+                <div class="row g-3 mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Thứ tự bắt đầu</label>
+                        <input type="number" name="start_sort_order" class="form-control" value="0" min="0">
+                        <small class="text-muted">Thứ tự hiển thị của ảnh đầu tiên</small>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-end">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="is_visible" id="is_visible" value="1" checked>
+                            <label class="form-check-label" for="is_visible">Hiển thị tất cả trên Landing Page</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+                        <i class="bi bi-upload me-1"></i> Upload <span id="fileCount">0</span> ảnh
+                    </button>
+                    <a href="/admin/transaction-proofs" class="btn btn-outline-secondary">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const submitBtn = document.getElementById('submitBtn');
+        const fileCount = document.getElementById('fileCount');
+        let selectedFiles = [];
+
+        // Click to select files
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        // Drag and drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            const newFiles = Array.from(files).filter(file => {
+                if (!file.type.startsWith('image/')) return false;
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`File ${file.name} quá lớn (>5MB)`);
+                    return false;
+                }
+                return true;
+            });
+
+            selectedFiles = [...selectedFiles, ...newFiles];
+            updatePreview();
+        }
+
+        function updatePreview() {
+            previewContainer.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const div = document.createElement('div');
+                    div.className = 'preview-item';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button type="button" class="remove-btn" onclick="removeFile(${index})">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    `;
+                    previewContainer.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            fileCount.textContent = selectedFiles.length;
+            submitBtn.disabled = selectedFiles.length === 0;
+
+            // Update file input
+            const dt = new DataTransfer();
+            selectedFiles.forEach(file => dt.items.add(file));
+            fileInput.files = dt.files;
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updatePreview();
+        }
+
+        // Form submit
+        document.getElementById('batchForm').addEventListener('submit', (e) => {
+            if (selectedFiles.length === 0) {
+                e.preventDefault();
+                alert('Vui lòng chọn ít nhất 1 ảnh');
+            }
+        });
+    </script>
+</body>
+</html>

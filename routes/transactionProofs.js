@@ -48,6 +48,45 @@ router.get('/new', isAuthenticated, (req, res) => {
     res.render('admin/transaction-proofs/form', { title: 'Thêm bằng chứng giao dịch', proof: null });
 });
 
+// GET /admin/transaction-proofs/batch - Form upload nhiều ảnh
+router.get('/batch', isAuthenticated, (req, res) => {
+    res.render('admin/transaction-proofs/batch', { title: 'Upload nhiều ảnh' });
+});
+
+// POST /admin/transaction-proofs/batch - Xử lý upload nhiều ảnh
+router.post('/batch', isAuthenticated, upload.array('images', 50), (req, res) => {
+    const { start_sort_order, is_visible } = req.body;
+
+    if (!req.files || req.files.length === 0) {
+        req.flash('error', 'Vui lòng chọn ít nhất 1 ảnh.');
+        return res.redirect('/admin/transaction-proofs/batch');
+    }
+
+    try {
+        let sortOrder = parseInt(start_sort_order) || 0;
+        const isVisibleValue = is_visible ? 1 : 0;
+
+        req.files.forEach(file => {
+            const imagePath = '/uploads/transaction-proofs/' + file.filename;
+            TransactionProof.create({
+                image_path: imagePath,
+                customer_name: '',
+                amount: 0,
+                transaction_date: null,
+                is_visible: isVisibleValue,
+                sort_order: sortOrder++
+            });
+        });
+
+        req.flash('success', `Đã upload thành công ${req.files.length} ảnh bằng chứng!`);
+        res.redirect('/admin/transaction-proofs');
+    } catch (err) {
+        console.error('Lỗi batch upload:', err);
+        req.flash('error', 'Có lỗi xảy ra khi upload ảnh.');
+        res.redirect('/admin/transaction-proofs/batch');
+    }
+});
+
 // POST /admin/transaction-proofs - Xử lý thêm bằng chứng
 router.post('/', isAuthenticated, upload.single('image'), (req, res) => {
     const { customer_name, amount, transaction_date, is_visible, sort_order } = req.body;
