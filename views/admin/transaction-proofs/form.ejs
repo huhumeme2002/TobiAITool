@@ -29,17 +29,8 @@
                         <input type="hidden" name="existing_image" value="<%= proof.image_path || '' %>">
                     <% } %>
                     <div id="imagePreview" class="mt-3" style="<%= (proof && proof.image_path) ? '' : 'display:none' %>">
-                        <div class="position-relative d-inline-block">
-                            <img id="previewImg" src="<%= (proof && proof.image_path) ? proof.image_path : '' %>"
-                                 alt="Preview" style="max-height:300px;border-radius:8px;border:1px solid rgba(255,255,255,0.1)">
-                            <% if (proof && proof.image_path) { %>
-                            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0"
-                                    style="transform:translate(30%,-30%);border-radius:50%;width:28px;height:28px;padding:0"
-                                    onclick="deleteImage(<%= proof.id %>)" title="Xóa ảnh">
-                                <i class="bi bi-x"></i>
-                            </button>
-                            <% } %>
-                        </div>
+                        <img id="previewImg" src="<%= (proof && proof.image_path) ? proof.image_path : '' %>"
+                             alt="Preview" style="max-height:300px;border-radius:8px;border:1px solid rgba(255,255,255,0.1)">
                     </div>
                 </div>
 
@@ -102,24 +93,6 @@
                 reader.readAsDataURL(file);
             }
         });
-
-        // Xóa ảnh (AJAX)
-        function deleteImage(proofId) {
-            if (!confirm('Bạn có chắc muốn xóa ảnh này?')) return;
-            fetch('/admin/transaction-proofs/delete-image/' + proofId, { method: 'POST' })
-                .then(r => r.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('imagePreview').style.display = 'none';
-                        document.getElementById('previewImg').src = '';
-                        const hidden = document.querySelector('input[name="existing_image"]');
-                        if (hidden) hidden.value = '';
-                    } else {
-                        alert('Lỗi: ' + (data.message || 'Không thể xóa ảnh'));
-                    }
-                })
-                .catch(err => alert('Lỗi kết nối'));
-        }
     </script>
 </body>
 </html>
