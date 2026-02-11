@@ -142,6 +142,21 @@ db.exec(`
     )
 `);
 
+// Bảng transaction_proofs - Bằng chứng giao dịch (bill/chuyển khoản)
+db.exec(`
+    CREATE TABLE IF NOT EXISTS transaction_proofs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        image_path TEXT NOT NULL,
+        customer_name TEXT DEFAULT '',
+        amount INTEGER DEFAULT 0,
+        transaction_date DATE DEFAULT NULL,
+        is_visible INTEGER NOT NULL DEFAULT 1,
+        sort_order INTEGER NOT NULL DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`);
+
 console.log('✅ Đã tạo xong các bảng.');
 
 // ==================== DỮ LIỆU MẪU ====================

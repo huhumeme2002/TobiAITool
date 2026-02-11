@@ -559,6 +559,103 @@ body {
     padding: 60px 0 30px;
 }
 
+/* ==================== TRANSACTION PROOFS SECTION ==================== */
+.transaction-proofs-section {
+    padding: 100px 0;
+    background: rgba(124, 58, 237, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.proof-card {
+    background: #0f111a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    cursor: pointer;
+    height: 100%;
+}
+
+.proof-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(124, 58, 237, 0.3);
+    border-color: var(--primary);
+}
+
+.proof-image-wrapper {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+}
+
+.proof-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.proof-card:hover .proof-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.proof-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(124, 58, 237, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.proof-card:hover .proof-overlay {
+    opacity: 1;
+}
+
+.proof-overlay i {
+    font-size: 48px;
+    color: #fff;
+}
+
+.proof-info {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.proof-customer {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.proof-customer i {
+    color: var(--primary-light);
+}
+
+.proof-amount {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #22c55e;
+}
+
+/* ==================== FOOTER ==================== */
+.footer-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 60px 0 30px;
+}
+
 .footer-heading {
     font-weight: 700;
     font-size: 1.1rem;
