@@ -118,6 +118,59 @@ body {
     color: #fff;
 }
 
+/* ==================== TRUST SECTION ==================== */
+.trust-section {
+    padding: 80px 0;
+    background: rgba(124, 58, 237, 0.03);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.trust-card {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.trust-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
+}
+
+.trust-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
+.trust-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.trust-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
 /* ==================== PRODUCTS ==================== */
 .products-section {
     padding: 100px 0;
@@ -168,26 +221,71 @@ body {
     width: 100%;
     height: 180px;
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible;
     margin-bottom: 20px;
     background: #000;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
 }
 
 .product-image-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* or cover depending on preference */
     display: block;
+    border-radius: 12px;
 }
 
 .product-image-placeholder {
     font-size: 64px;
     color: rgba(255, 255, 255, 0.1);
+}
+
+/* Product Badges */
+.product-badges {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 10;
+}
+
+.product-badges .badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    white-space: nowrap;
+}
+
+.badge-hot {
+    background: linear-gradient(135deg, #ff6b6b, #ff4757);
+    color: #fff;
+}
+
+.badge-premium {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: #fff;
+}
+
+.badge-unlimited {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #000;
+}
+
+.badge-best {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
 }
 
 .product-name {
@@ -207,7 +305,66 @@ body {
     font-weight: 700;
     margin-bottom: 16px;
     color: #22c55e;
-    /* Green color like reference */
+}
+
+/* Prominent Price Display */
+.price-highlight {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(16, 185, 129, 0.1));
+    border: 2px solid #22c55e;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.price-label {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.price-amount {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #22c55e;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.price-range-text {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+/* Trust Indicators */
+.trust-indicators {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.trust-item {
+    font-size: 0.8rem;
+    color: #e2e8f0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.trust-item i {
+    color: #22c55e;
+    font-size: 0.9rem;
 }
 
 .product-description {
@@ -287,30 +444,54 @@ body {
 
 .btn-buy {
     display: block;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 600;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-weight: 700;
     text-decoration: none;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 1rem;
     margin-top: auto;
     text-align: center;
-    background: #00f2ea !important;
-    /* Cyan fallback */
-    background: linear-gradient(90deg, #06b6d4, #22c55e) !important;
-    /* Cyan to Green */
-    color: #000 !important;
+    background: linear-gradient(135deg, #7c3aed, #a855f7, #ec4899) !important;
+    color: #fff !important;
     border: none;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(168, 85, 247, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-buy::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-buy:hover::before {
+    left: 100%;
 }
 
 .btn-buy:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.6), 0 0 60px rgba(168, 85, 247, 0.4);
+    color: #fff !important;
+}
+
+.btn-buy:active {
+    transform: translateY(-1px) scale(0.98);
 }
 
 .btn-buy i {
-    margin-right: 5px;
+    margin-right: 6px;
+    transition: transform 0.3s;
+}
+
+.btn-buy:hover i {
+    transform: translateX(2px);
 }
 
 /* ==================== FOOTER ==================== */
@@ -320,14 +501,89 @@ body {
     padding: 60px 0 30px;
 }
 
-.footer-section a {
+.footer-heading {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.footer-heading i {
+    color: var(--primary-light);
+}
+
+.footer-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.footer-social {
+    display: flex;
+    gap: 12px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.social-link:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+}
+
+.footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-list li {
+    margin-bottom: 12px;
+}
+
+.footer-list a {
     color: var(--text-muted);
     text-decoration: none;
     transition: color 0.2s;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
 }
 
-.footer-section a:hover {
+.footer-list a:hover {
     color: var(--primary-light);
+}
+
+.footer-list i {
+    color: var(--primary-light);
+    font-size: 0.9rem;
+}
+
+.footer-divider {
+    border-color: rgba(255, 255, 255, 0.08);
+    margin: 40px 0 20px;
+}
+
+.footer-copyright {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 0;
+    font-size: 0.9rem;
 }
 
 /* ==================== ANIMATIONS ==================== */
@@ -367,5 +623,76 @@ body {
 
     .product-price {
         font-size: 1.8rem;
+    }
+
+    .trust-section {
+        padding: 60px 0;
+    }
+
+    .trust-card {
+        padding: 25px 15px;
+        margin-bottom: 20px;
+    }
+
+    .trust-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+
+    .trust-title {
+        font-size: 1rem;
+    }
+
+    .trust-desc {
+        font-size: 0.85rem;
+    }
+
+    .footer-section {
+        padding: 40px 0 20px;
+    }
+
+    .footer-heading {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+
+    .footer-text {
+        font-size: 0.9rem;
+    }
+
+    .footer-list li {
+        margin-bottom: 10px;
+    }
+
+    .footer-list a {
+        font-size: 0.9rem;
+    }
+
+    .footer-divider {
+        margin: 30px 0 15px;
+    }
+
+    .price-amount {
+        font-size: 1.6rem;
+    }
+
+    .price-label {
+        font-size: 0.75rem;
+    }
+
+    .trust-indicators {
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .trust-item {
+        font-size: 0.75rem;
+    }
+
+    .product-badges .badge {
+        font-size: 0.7rem;
+        padding: 5px 10px;
     }
 }

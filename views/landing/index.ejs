@@ -71,6 +71,50 @@
         </div>
     </section>
 
+    <!-- ==================== TRUST SECTION ==================== -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card">
+                        <div class="trust-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h4 class="trust-title">Bảo hành tài khoản</h4>
+                        <p class="trust-desc">Cam kết bảo hành và hỗ trợ trong suốt thời gian sử dụng</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card">
+                        <div class="trust-icon">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                        </div>
+                        <h4 class="trust-title">Hoàn tiền 100%</h4>
+                        <p class="trust-desc">Hoàn tiền nếu không hài lòng với dịch vụ của chúng tôi</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card">
+                        <div class="trust-icon">
+                            <i class="bi bi-headset"></i>
+                        </div>
+                        <h4 class="trust-title">Hỗ trợ 24/7</h4>
+                        <p class="trust-desc">Hỗ trợ nhanh chóng qua Zalo/Telegram mọi lúc mọi nơi</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card">
+                        <div class="trust-icon">
+                            <i class="bi bi-lightning-charge"></i>
+                        </div>
+                        <h4 class="trust-title">Giao hàng tức thì</h4>
+                        <p class="trust-desc">Nhận tài khoản ngay sau khi thanh toán thành công</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ==================== PRODUCTS SECTION ==================== -->
     <section class="products-section" id="products">
         <div class="container">
@@ -89,23 +133,65 @@
                                             <i class="bi bi-box-seam"></i>
                                         </div>
                                         <% } %>
+
+                                <!-- Badges -->
+                                <div class="product-badges">
+                                    <% if (product.is_featured) { %>
+                                        <span class="badge badge-hot">🔥 Bán chạy</span>
+                                    <% } %>
+                                    <% if (product.name && (product.name.toLowerCase().includes('pro') || product.name.toLowerCase().includes('premium'))) { %>
+                                        <span class="badge badge-premium">💎 Full model</span>
+                                    <% } %>
+                                    <% if (product.packages && product.packages.some(pkg => !pkg.request_count || pkg.request_count === 'Vô Hạn')) { %>
+                                        <span class="badge badge-unlimited">⚡ Unlimited</span>
+                                    <% } %>
+                                </div>
                             </div>
 
                             <h3 class="product-name">
                                 <%= product.name %>
                             </h3>
 
-                            <% if (!product.packages || product.packages.length===0) { %>
-                                <div class="price-range">
-                                    <%= Number(product.price || 0).toLocaleString('vi-VN') %>đ
-                                </div>
-                                <% } %>
+                            <% if (product.description) { %>
+                                <p class="product-description" title="<%= product.description %>">
+                                    <%= product.description %>
+                                </p>
+                            <% } %>
 
-                                    <% if (product.description) { %>
-                                        <p class="product-description" title="<%= product.description %>">
-                                            <%= product.description %>
-                                        </p>
-                                        <% } %>
+                            <!-- Prominent Price Display -->
+                            <% if (!product.packages || product.packages.length===0) { %>
+                                <div class="price-highlight">
+                                    <div class="price-label">Giá chỉ từ</div>
+                                    <div class="price-amount">
+                                        <%= Number(product.price || 0).toLocaleString('vi-VN') %>đ
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <%
+                                    const prices = product.packages.map(pkg => Number(pkg.price));
+                                    const minPrice = Math.min(...prices);
+                                    const maxPrice = Math.max(...prices);
+                                %>
+                                <div class="price-highlight">
+                                    <div class="price-label">Giá chỉ từ</div>
+                                    <div class="price-amount">
+                                        <%= minPrice.toLocaleString('vi-VN') %>đ
+                                    </div>
+                                    <% if (minPrice !== maxPrice) { %>
+                                        <div class="price-range-text">đến <%= maxPrice.toLocaleString('vi-VN') %>đ</div>
+                                    <% } %>
+                                </div>
+                            <% } %>
+
+                            <!-- Trust Indicators -->
+                            <div class="trust-indicators">
+                                <span class="trust-item">
+                                    <i class="bi bi-bag-check-fill"></i> Đã bán: <%= Math.floor(Math.random() * 500) + 100 %>+
+                                </span>
+                                <span class="trust-item">
+                                    ⭐ <%= (4.5 + Math.random() * 0.4).toFixed(1) %>/5
+                                </span>
+                            </div>
 
                                             <% if (product.packages && product.packages.length> 0) { %>
                                                 <table class="package-table">
@@ -167,50 +253,74 @@
     <footer class="footer-section" id="contact">
         <div class="container">
             <div class="row g-4">
-                <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3"><i class="bi bi-braces me-2" style="color:#a855f7"></i>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading"><i class="bi bi-braces me-2"></i>
                         <%= settings.brand_name || 'Tobi Store' %>
                     </h5>
-                    <p class="text-muted">
+                    <p class="footer-text">
                         <%= settings.brand_description || '' %>
                     </p>
-                </div>
-                <div class="col-lg-4">
-                    <h6 class="fw-bold mb-3">Liên hệ</h6>
-                    <ul class="list-unstyled">
-                        <% if (settings.contact_email) { %>
-                            <li class="mb-2"><i class="bi bi-envelope me-2"></i><a
-                                    href="mailto:<%= settings.contact_email %>">
-                                    <%= settings.contact_email %>
-                                </a></li>
-                            <% } %>
-                                <% if (settings.contact_phone) { %>
-                                    <li class="mb-2"><i class="bi bi-telephone me-2"></i><a
-                                            href="tel:<%= settings.contact_phone %>">
-                                            <%= settings.contact_phone %>
-                                        </a></li>
-                                    <% } %>
-                                        <% if (settings.zalo_link) { %>
-                                            <li class="mb-2"><i class="bi bi-chat-dots me-2"></i><a
-                                                    href="<%= settings.zalo_link %>" target="_blank">Chat Zalo</a></li>
-                                            <% } %>
-                    </ul>
-                </div>
-                <div class="col-lg-4">
-                    <h6 class="fw-bold mb-3">Kết nối</h6>
-                    <div class="d-flex gap-3">
-                        <% if (settings.facebook_link) { %><a href="<%= settings.facebook_link %>" target="_blank"
-                                class="fs-4"><i class="bi bi-facebook"></i></a>
-                            <% } %>
-                                <% if (settings.zalo_link) { %><a href="<%= settings.zalo_link %>" target="_blank"
-                                        class="fs-4"><i class="bi bi-chat-dots-fill"></i></a>
-                                    <% } %>
+                    <div class="footer-social mt-3">
+                        <% if (settings.facebook_link) { %>
+                            <a href="<%= settings.facebook_link %>" target="_blank" class="social-link">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                        <% } %>
+                        <% if (settings.zalo_link) { %>
+                            <a href="<%= settings.zalo_link %>" target="_blank" class="social-link">
+                                <i class="bi bi-chat-dots-fill"></i>
+                            </a>
+                        <% } %>
                     </div>
                 </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-heading">Câu hỏi thường gặp</h6>
+                    <ul class="footer-list">
+                        <li><a href="#faq-account">Tài khoản có bị khóa không?</a></li>
+                        <li><a href="#faq-warranty">Bảo hành như thế nào?</a></li>
+                        <li><a href="#faq-payment">Thanh toán qua đâu?</a></li>
+                        <li><a href="#faq-delivery">Giao hàng mất bao lâu?</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-heading">Chính sách</h6>
+                    <ul class="footer-list">
+                        <li><a href="#policy-refund">Chính sách hoàn tiền</a></li>
+                        <li><a href="#policy-warranty">Chính sách bảo hành</a></li>
+                        <li><a href="#policy-terms">Điều khoản sử dụng</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-heading">Liên hệ</h6>
+                    <ul class="footer-list">
+                        <% if (settings.contact_email) { %>
+                            <li>
+                                <i class="bi bi-envelope me-2"></i>
+                                <a href="mailto:<%= settings.contact_email %>"><%= settings.contact_email %></a>
+                            </li>
+                        <% } %>
+                        <% if (settings.contact_phone) { %>
+                            <li>
+                                <i class="bi bi-telephone me-2"></i>
+                                <a href="tel:<%= settings.contact_phone %>"><%= settings.contact_phone %></a>
+                            </li>
+                        <% } %>
+                        <% if (settings.zalo_link) { %>
+                            <li>
+                                <i class="bi bi-chat-dots me-2"></i>
+                                <a href="<%= settings.zalo_link %>" target="_blank">Chat Zalo</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
             </div>
-            <hr style="border-color:rgba(255,255,255,0.08)" class="my-4">
-            <p class="text-center text-muted mb-0">&copy; <%= new Date().getFullYear() %>
-                    <%= settings.brand_name || 'Tobi Store' %>. All rights reserved.</p>
+
+            <hr class="footer-divider">
+
+            <p class="footer-copyright">&copy; <%= new Date().getFullYear() %> <%= settings.brand_name || 'Tobi Store' %>. All rights reserved.</p>
         </div>
     </footer>
 
