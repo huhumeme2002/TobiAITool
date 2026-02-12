@@ -914,11 +914,23 @@ body {
     width: 100%;
     max-height: 85vh;
     overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
     box-shadow: 0 20px 60px rgba(220, 38, 38, 0.6),
                 0 0 100px rgba(255, 215, 0, 0.4),
                 inset 0 0 60px rgba(255, 215, 0, 0.1);
     animation: slideUpBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.promo-popup::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.promo-popup {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 @keyframes slideUpBounce {
