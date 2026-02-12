@@ -503,18 +503,14 @@
                     popup.style.opacity = '0';
                     setTimeout(() => {
                         popup.style.display = 'none';
-                        sessionStorage.setItem('promoPopupClosed', 'true');
                     }, 300);
                 }
 
-                // Show popup on page load (once per session, reappears on F5)
+                // Show popup on page load (always show, no storage)
                 window.addEventListener('load', () => {
-                    const popupClosed = sessionStorage.getItem('promoPopupClosed');
-                    if (!popupClosed) {
-                        setTimeout(() => {
-                            document.getElementById('promoPopup').style.display = 'flex';
-                        }, 1000);
-                    }
+                    setTimeout(() => {
+                        document.getElementById('promoPopup').style.display = 'flex';
+                    }, 1000);
                 });
 
                 // Close popup when clicking outside
