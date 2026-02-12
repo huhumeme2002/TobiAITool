@@ -421,6 +421,62 @@
                 </div>
             </div>
 
+            <!-- Promotion Popup -->
+            <div id="promoPopup" class="promo-popup-overlay" style="display: none;">
+                <div class="promo-popup">
+                    <button class="promo-close" onclick="closePromoPopup()">
+                        <i class="bi bi-x"></i>
+                    </button>
+
+                    <div class="promo-header">
+                        <div class="promo-badge">🎉 Khuyến mãi đặc biệt</div>
+                        <h2 class="promo-title">Ưu đãi khủng!</h2>
+                        <p class="promo-subtitle">Nhận ngay quà tặng giá trị</p>
+                    </div>
+
+                    <div class="promo-body">
+                        <div class="promo-condition">
+                            <div class="promo-condition-label">Áp dụng cho đơn hàng từ</div>
+                            <div class="promo-condition-value">200.000đ</div>
+                        </div>
+
+                        <div class="promo-gifts">
+                            <h3 class="promo-gifts-title">🎁 Quà tặng kèm theo</h3>
+
+                            <div class="promo-gift-item">
+                                <div class="promo-gift-icon">🚀</div>
+                                <div class="promo-gift-info">
+                                    <div class="promo-gift-name">Antigravity 1 năm</div>
+                                    <p class="promo-gift-desc">Truy cập không giới hạn các tính năng premium</p>
+                                </div>
+                            </div>
+
+                            <div class="promo-gift-item">
+                                <div class="promo-gift-icon">💎</div>
+                                <div class="promo-gift-info">
+                                    <div class="promo-gift-name">Gemini Pro 1 năm</div>
+                                    <p class="promo-gift-desc">AI model mạnh mẽ từ Google</p>
+                                </div>
+                            </div>
+
+                            <div class="promo-gift-item">
+                                <div class="promo-gift-icon">☁️</div>
+                                <div class="promo-gift-info">
+                                    <div class="promo-gift-name">2TB Google Drive</div>
+                                    <p class="promo-gift-desc">Lưu trữ đám mây dung lượng lớn</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="#products" class="promo-cta" onclick="closePromoPopup()">
+                            <i class="bi bi-lightning-charge-fill me-2"></i>Mua ngay để nhận ưu đãi
+                        </a>
+
+                        <p class="promo-note">* Chương trình có thể kết thúc bất cứ lúc nào</p>
+                    </div>
+                </div>
+            </div>
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
             <script>
                 // Smooth scroll
@@ -442,6 +498,33 @@
                     document.getElementById('proofModalInfo').innerHTML = infoHtml;
                     new bootstrap.Modal(document.getElementById('proofModal')).show();
                 }
+
+                // Promotion popup
+                function closePromoPopup() {
+                    const popup = document.getElementById('promoPopup');
+                    popup.style.opacity = '0';
+                    setTimeout(() => {
+                        popup.style.display = 'none';
+                        localStorage.setItem('promoPopupShown', 'true');
+                    }, 300);
+                }
+
+                // Show popup on page load (only once per session)
+                window.addEventListener('load', () => {
+                    const hasSeenPopup = localStorage.getItem('promoPopupShown');
+                    if (!hasSeenPopup) {
+                        setTimeout(() => {
+                            document.getElementById('promoPopup').style.display = 'flex';
+                        }, 1000);
+                    }
+                });
+
+                // Close popup when clicking outside
+                document.getElementById('promoPopup')?.addEventListener('click', (e) => {
+                    if (e.target.id === 'promoPopup') {
+                        closePromoPopup();
+                    }
+                });
             </script>
 </body>
 
