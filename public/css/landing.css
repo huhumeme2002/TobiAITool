@@ -909,12 +909,13 @@ body {
 .promo-popup {
     background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
     border: 2px solid var(--primary);
-    border-radius: 24px;
-    max-width: 600px;
+    border-radius: 20px;
+    max-width: 480px;
     width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
     position: relative;
     box-shadow: 0 20px 60px rgba(124, 58, 237, 0.5), 0 0 100px rgba(168, 85, 247, 0.3);
-    overflow: hidden;
     animation: slideUp 0.4s ease-out;
 }
 
@@ -971,7 +972,7 @@ body {
 
 .promo-header {
     background: linear-gradient(135deg, #7c3aed, #a855f7, #ec4899);
-    padding: 32px 24px;
+    padding: 24px 20px;
     text-align: center;
     position: relative;
 }
@@ -991,21 +992,21 @@ body {
 }
 
 .promo-title {
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 900;
     color: #fff;
-    margin: 0 0 8px;
+    margin: 0 0 6px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .promo-subtitle {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.9);
     margin: 0;
 }
 
 .promo-body {
-    padding: 32px 24px;
+    padding: 24px 20px;
     position: relative;
     z-index: 1;
 }
@@ -1013,20 +1014,20 @@ body {
 .promo-condition {
     background: rgba(124, 58, 237, 0.15);
     border: 2px solid var(--primary);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 24px;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
 .promo-condition-label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .promo-condition-value {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 900;
     background: var(--gradient-1);
     -webkit-background-clip: text;
@@ -1035,26 +1036,26 @@ body {
 }
 
 .promo-gifts {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .promo-gifts-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #fff;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     text-align: center;
 }
 
 .promo-gift-item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px;
+    gap: 12px;
+    padding: 12px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    margin-bottom: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
     transition: all 0.3s;
 }
 
@@ -1065,14 +1066,14 @@ body {
 }
 
 .promo-gift-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     background: linear-gradient(135deg, #7c3aed, #a855f7);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 20px;
     flex-shrink: 0;
 }
 
@@ -1081,14 +1082,14 @@ body {
 }
 
 .promo-gift-name {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: #fff;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .promo-gift-desc {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     margin: 0;
 }
@@ -1096,11 +1097,11 @@ body {
 .promo-cta {
     display: block;
     width: 100%;
-    padding: 16px;
+    padding: 14px;
     background: var(--gradient-1);
     border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
+    border-radius: 10px;
+    font-size: 1rem;
     font-weight: 700;
     color: #fff;
     text-decoration: none;
@@ -1117,9 +1118,9 @@ body {
 
 .promo-note {
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
-    margin-top: 16px;
+    margin-top: 12px;
 }
 
 @media (max-width: 768px) {

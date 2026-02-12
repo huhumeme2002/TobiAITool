@@ -505,14 +505,14 @@
                     popup.style.opacity = '0';
                     setTimeout(() => {
                         popup.style.display = 'none';
-                        localStorage.setItem('promoPopupShown', 'true');
+                        sessionStorage.setItem('promoPopupClosed', 'true');
                     }, 300);
                 }
 
-                // Show popup on page load (only once per session)
+                // Show popup on page load (once per session, reappears on F5)
                 window.addEventListener('load', () => {
-                    const hasSeenPopup = localStorage.getItem('promoPopupShown');
-                    if (!hasSeenPopup) {
+                    const popupClosed = sessionStorage.getItem('promoPopupClosed');
+                    if (!popupClosed) {
                         setTimeout(() => {
                             document.getElementById('promoPopup').style.display = 'flex';
                         }, 1000);
