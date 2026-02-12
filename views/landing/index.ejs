@@ -50,9 +50,11 @@
                         </span>
                     </h1>
                     <p class="hero-subtitle mb-4">
-                        <%= settings.brand_description
-                            || 'Chuyên cung cấp Cursor Pro, Augment Code, Augment Pro, Claude, Augment Plus, GitHub Copilot — các AI coding assistant giúp lập trình viên tăng năng suất gấp nhiều lần.'
-                            %>
+                        <% if (settings.brand_description) { %>
+                            <%= settings.brand_description %>
+                        <% } else { %>
+                            Chuyên cung cấp <span class="product-highlight">Cursor Pro</span>, <span class="product-highlight">Augment Code</span>, <span class="product-highlight">Augment Pro</span>, <span class="product-highlight">Claude</span>, <span class="product-highlight">Augment Plus</span>, <span class="product-highlight">GitHub Copilot</span> — các AI coding assistant giúp lập trình viên tăng năng suất gấp nhiều lần.
+                        <% } %>
                     </p>
                     <div class="d-flex gap-3 flex-wrap">
                         <a href="#products" class="btn-cta">

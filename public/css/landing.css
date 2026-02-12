@@ -96,6 +96,18 @@ body {
     max-width: 540px;
 }
 
+.product-highlight {
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+    position: relative;
+    padding: 0 2px;
+}
+
 .btn-cta {
     background: var(--gradient-1);
     border: none;
