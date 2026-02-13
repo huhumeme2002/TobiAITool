@@ -1,0 +1,473 @@
+/* ==================== GUIDE PAGE CSS ==================== */
+
+.guide-wrapper {
+    min-height: 100vh;
+    background: var(--bg-dark);
+    padding-top: 80px;
+}
+
+/* ==================== SIDEBAR ==================== */
+.guide-sidebar {
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 2rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.guide-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.guide-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.guide-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(124, 58, 237, 0.3);
+    border-radius: 3px;
+}
+
+.guide-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(124, 58, 237, 0.5);
+}
+
+.sidebar-content {
+    position: sticky;
+    top: 2rem;
+}
+
+.sidebar-title {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-nav .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.sidebar-nav .nav-item i {
+    font-size: 1.1rem;
+    opacity: 0.7;
+}
+
+.sidebar-nav .nav-item:hover {
+    background: rgba(124, 58, 237, 0.1);
+    color: var(--primary-light);
+    transform: translateX(4px);
+}
+
+.sidebar-nav .nav-item.active {
+    background: rgba(124, 58, 237, 0.15);
+    color: var(--primary-light);
+    border-left: 3px solid var(--primary);
+}
+
+/* ==================== MAIN CONTENT ==================== */
+.guide-content {
+    padding: 2rem 3rem;
+    max-width: 900px;
+}
+
+.content-wrapper {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.guide-section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 100px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(124, 58, 237, 0.2);
+}
+
+/* ==================== ALERT BOXES ==================== */
+.alert-info,
+.alert-warning,
+.alert-success {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.alert-info {
+    background: rgba(59, 130, 246, 0.1);
+    border-left: 4px solid #3b82f6;
+    color: #93c5fd;
+}
+
+.alert-warning {
+    background: rgba(251, 146, 60, 0.1);
+    border-left: 4px solid #fb923c;
+    color: #fdba74;
+}
+
+.alert-success {
+    background: rgba(34, 197, 94, 0.1);
+    border-left: 4px solid #22c55e;
+    color: #86efac;
+}
+
+.alert-info i,
+.alert-warning i,
+.alert-success i {
+    font-size: 1.25rem;
+    margin-top: 2px;
+}
+
+/* ==================== STEP CARDS ==================== */
+.step-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.step-card:hover {
+    border-color: rgba(124, 58, 237, 0.3);
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);
+    transform: translateY(-2px);
+}
+
+.step-number {
+    position: absolute;
+    top: -15px;
+    left: 2rem;
+    background: var(--gradient-1);
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.step-card h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+.step-card h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-light);
+    margin-bottom: 0.75rem;
+}
+
+.step-card p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.step-card ol,
+.step-card ul {
+    color: var(--text-muted);
+    line-height: 1.8;
+    padding-left: 1.5rem;
+}
+
+.step-card li {
+    margin-bottom: 0.5rem;
+}
+
+.step-card a {
+    color: var(--primary-light);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.step-card a:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+/* ==================== CODE BLOCKS ==================== */
+pre {
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+}
+
+pre code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+code {
+    background: rgba(124, 58, 237, 0.15);
+    color: var(--primary-light);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9em;
+}
+
+pre code {
+    background: transparent;
+    padding: 0;
+}
+
+kbd {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.85em;
+    color: var(--text-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== CONFIG BOX ==================== */
+.config-box {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.config-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.config-item:last-child {
+    border-bottom: none;
+}
+
+.config-label {
+    font-weight: 600;
+    color: var(--primary-light);
+    min-width: 120px;
+}
+
+.config-value {
+    color: var(--text-muted);
+    flex: 1;
+}
+
+.config-value code {
+    background: rgba(124, 58, 237, 0.2);
+}
+
+/* ==================== SUPPORT CARD ==================== */
+.support-card {
+    background: var(--gradient-2);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.support-card i {
+    color: var(--primary-light);
+}
+
+.support-card h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.support-card p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+}
+
+.btn-support {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gradient-1);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+}
+
+.btn-support:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+    color: white;
+}
+
+/* ==================== MOBILE SIDEBAR TOGGLE ==================== */
+.sidebar-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 56px;
+    height: 56px;
+    background: var(--gradient-1);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s;
+}
+
+.sidebar-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 991px) {
+    .guide-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        z-index: 1050;
+        background: rgba(10, 10, 26, 0.98);
+        backdrop-filter: blur(20px);
+        transition: left 0.3s;
+        padding-top: 5rem;
+    }
+
+    .guide-sidebar.show {
+        left: 0;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .guide-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .section-heading {
+        font-size: 1.6rem;
+    }
+
+    .step-card {
+        padding: 1.5rem;
+    }
+
+    .step-number {
+        left: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .section-heading {
+        font-size: 1.4rem;
+    }
+
+    .step-card h3 {
+        font-size: 1.2rem;
+    }
+
+    pre {
+        padding: 1rem !important;
+    }
+
+    pre code {
+        font-size: 0.8rem;
+    }
+
+    .config-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .config-label {
+        min-width: auto;
+    }
+}
+
+/* ==================== SMOOTH SCROLLING ==================== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ==================== SELECTION ==================== */
+::selection {
+    background: rgba(124, 58, 237, 0.3);
+    color: var(--text-primary);
+}

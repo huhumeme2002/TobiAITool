@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - <%= settings.brand_name || 'AI Store' %></title>
+    <meta name="description" content="Hướng dẫn chi tiết cách sử dụng Cursor, Augment Code và Claude Code với API key không giới hạn">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="/css/landing.css" rel="stylesheet">
+    <link href="/css/guide.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- ==================== HEADER ==================== -->
+    <nav class="navbar navbar-expand-lg navbar-landing">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <% if (settings.brand_logo) { %>
+                    <img src="<%= settings.brand_logo %>" alt="Logo" style="height:36px" class="me-2">
+                <% } %>
+                <i class="bi bi-braces"></i>
+                <%= settings.brand_name || 'AI Store' %>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list text-white fs-4"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item"><a class="nav-link" href="/">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/huongdan">Hướng dẫn</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#contact">Liên hệ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== GUIDE CONTENT ==================== -->
+    <div class="guide-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar -->
+                <aside class="col-lg-3 guide-sidebar" id="guideSidebar">
+                    <div class="sidebar-content">
+                        <h5 class="sidebar-title">
+                            <i class="bi bi-book me-2"></i>Mục lục
+                        </h5>
+                        <nav class="sidebar-nav">
+                            <a href="#intro" class="nav-item active">
+                                <i class="bi bi-info-circle"></i>
+                                Giới thiệu
+                            </a>
+                            <a href="#cursor" class="nav-item">
+                                <i class="bi bi-cursor"></i>
+                                Cursor
+                            </a>
+                            <a href="#augment" class="nav-item">
+                                <i class="bi bi-lightning"></i>
+                                Augment Code
+                            </a>
+                            <a href="#claude-code" class="nav-item">
+                                <i class="bi bi-terminal"></i>
+                                Claude Code
+                            </a>
+                            <a href="#check-usage" class="nav-item">
+                                <i class="bi bi-speedometer2"></i>
+                                Kiểm tra & Cài đặt
+                            </a>
+                        </nav>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="col-lg-9 guide-content">
+                    <div class="content-wrapper">
+                        <!-- Intro Section -->
+                        <section id="intro" class="guide-section">
+                            <h1 class="section-title">
+                                <i class="bi bi-rocket-takeoff me-2"></i>
+                                Hướng dẫn sử dụng AI Dev Tools
+                            </h1>
+                            <div class="alert-info">
+                                <i class="bi bi-info-circle-fill me-2"></i>
+                                <div>
+                                    <strong>Giới hạn sử dụng:</strong> Gói này cung cấp <strong>100 prompt/ngày</strong> để tránh việc share key API cho nhiều người. Lượng request sẽ được reset vào <strong>7:00 sáng</strong> hàng ngày.
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Cursor Section -->
+                        <section id="cursor" class="guide-section">
+                            <h2 class="section-heading">
+                                <i class="bi bi-cursor me-2"></i>
+                                Hướng dẫn sử dụng Cursor
+                            </h2>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 1</div>
+                                <h3>Cài đặt Cursor phiên bản cũ hơn 2.4.0</h3>
+                                <p>Tải và cài đặt Cursor phiên bản dưới 2.4.0 (xóa phiên bản hiện tại nếu có).</p>
+                                <div class="alert-warning">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    <strong>Lưu ý:</strong> Người dùng Windows cần chạy Cursor với quyền quản trị viên.
+                                </div>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 2</div>
+                                <h3>Cài đặt Extension</h3>
+                                <ol>
+                                    <li>Tải file extension từ link shop cung cấp</li>
+                                    <li>Mở Command Palette: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></li>
+                                    <li>Gõ và chọn: <code>Install from VSIX</code></li>
+                                    <li>Chọn file extension vừa tải về</li>
+                                </ol>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 3</div>
+                                <h3>Cấu hình Extension</h3>
+                                <ol>
+                                    <li>Chọn biểu tượng extension trên thanh sidebar</li>
+                                    <li>Nhập API key shop cung cấp</li>
+                                    <li>Bấm <strong>Sign In</strong></li>
+                                    <li>Kéo xuống dưới và cấu hình như sau:</li>
+                                </ol>
+
+                                <div class="config-box">
+                                    <div class="config-item">
+                                        <span class="config-label">Tên:</span>
+                                        <span class="config-value">Đặt tên tùy ý</span>
+                                    </div>
+                                    <div class="config-item">
+                                        <span class="config-label">Base URL:</span>
+                                        <span class="config-value"><code>http://zeno360.click/v1</code></span>
+                                    </div>
+                                    <div class="config-item">
+                                        <span class="config-label">API Key:</span>
+                                        <span class="config-value">Key API shop cấp</span>
+                                    </div>
+                                    <div class="config-item">
+                                        <span class="config-label">Model:</span>
+                                        <span class="config-value"><code>claude-opus-4-6</code> (chữ "c" không in hoa)</span>
+                                    </div>
+                                </div>
+
+                                <p class="mt-3">Sau đó: <strong>Set Default → ClaudeCode → Save</strong></p>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 4</div>
+                                <h3>Kích hoạt</h3>
+                                <ol>
+                                    <li>Bấm <strong>Active</strong> để kích hoạt</li>
+                                    <li>Bấm <strong>Start Forward</strong></li>
+                                    <li>Terminal hiện lên là đã hoàn tất</li>
+                                </ol>
+                            </div>
+                        </section>
+
+                        <!-- Augment Section -->
+                        <section id="augment" class="guide-section">
+                            <h2 class="section-heading">
+                                <i class="bi bi-lightning me-2"></i>
+                                Hướng dẫn sử dụng Augment Code
+                            </h2>
+
+                            <div class="alert-info">
+                                <i class="bi bi-info-circle-fill me-2"></i>
+                                <div>
+                                    <strong>Yêu cầu:</strong> Cài đặt extension Augment gốc từ VSCode Marketplace trước khi cài extension của shop.
+                                </div>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 1</div>
+                                <h3>Cài đặt Extension</h3>
+                                <ol>
+                                    <li>Tải file extension từ link shop cung cấp</li>
+                                    <li>Mở Command Palette: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></li>
+                                    <li>Gõ và chọn: <code>Install from VSIX</code></li>
+                                    <li>Chọn file extension vừa tải về</li>
+                                </ol>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 2</div>
+                                <h3>Cấu hình Extension</h3>
+                                <ol>
+                                    <li>Chọn biểu tượng Augment trên thanh sidebar</li>
+                                    <li>Nhập API key shop cung cấp</li>
+                                    <li>Bấm <strong>Sign In</strong></li>
+                                    <li>Kéo xuống dưới và cấu hình:</li>
+                                </ol>
+
+                                <div class="config-box">
+                                    <div class="config-item">
+                                        <span class="config-label">Tên:</span>
+                                        <span class="config-value">Đặt tên tùy ý</span>
+                                    </div>
+                                    <div class="config-item">
+                                        <span class="config-label">Base URL:</span>
+                                        <span class="config-value"><code>http://zeno360.click/v1</code></span>
+                                    </div>
+                                    <div class="config-item">
+                                        <span class="config-label">API Key:</span>
+                                        <span class="config-value">Key API shop cấp</span>
+                                    </div>
+                                    <div class="config-item">
+                                        <span class="config-label">Model:</span>
+                                        <span class="config-value"><code>claude-opus-4-6</code> (chữ "c" không in hoa)</span>
+                                    </div>
+                                </div>
+
+                                <p class="mt-3">Sau đó: <strong>Set Default → ClaudeCode → Save</strong></p>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 3</div>
+                                <h3>Kích hoạt</h3>
+                                <p>Bấm <strong>Active</strong> và Augment sẽ tự động đăng nhập.</p>
+                                <div class="alert-warning">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    <strong>Lưu ý:</strong> Người dùng Windows cần chạy Cursor/VSCode với quyền quản trị viên.
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Claude Code Section -->
+                        <section id="claude-code" class="guide-section">
+                            <h2 class="section-heading">
+                                <i class="bi bi-terminal me-2"></i>
+                                Hướng dẫn sử dụng Claude Code
+                            </h2>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 1</div>
+                                <h3>Cài đặt các thư viện cần thiết</h3>
+
+                                <h4 class="mt-4">Cài đặt Node.js</h4>
+                                <p>Tải và cài đặt Node.js từ trang chủ: <a href="https://nodejs.org" target="_blank">nodejs.org</a></p>
+
+                                <h4 class="mt-4">Cài đặt Bun</h4>
+                                <p><strong>MacOS / Linux:</strong></p>
+                                <pre><code class="language-bash">curl -fsSL https://bun.sh/install | bash</code></pre>
+
+                                <p><strong>Windows:</strong></p>
+                                <pre><code class="language-powershell">powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 2</div>
+                                <h3>Chạy lệnh cài đặt</h3>
+                                <p>Mở terminal và chạy lệnh sau:</p>
+                                <pre><code class="language-bash">bunx zeno360-claude-installer</code></pre>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 3</div>
+                                <h3>Nhập API Key</h3>
+                                <p>Sau khi chạy lệnh, nhập API key shop cung cấp khi được yêu cầu.</p>
+                                <div class="alert-success">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    <strong>Thành công!</strong> Nếu hiện thông báo hoàn tất, bạn đã cài đặt thành công.
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Check Usage Section -->
+                        <section id="check-usage" class="guide-section">
+                            <h2 class="section-heading">
+                                <i class="bi bi-speedometer2 me-2"></i>
+                                Kiểm tra lượng prompt & Cài đặt
+                            </h2>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 1</div>
+                                <h3>Truy cập trang quản lý</h3>
+                                <p>Truy cập: <a href="http://zeno360.click/user" target="_blank"><code>http://zeno360.click/user</code></a></p>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 2</div>
+                                <h3>Đăng nhập</h3>
+                                <p>Nhập API key shop cung cấp để đăng nhập.</p>
+                            </div>
+
+                            <div class="step-card">
+                                <div class="step-number">Bước 3</div>
+                                <h3>Quản lý cài đặt</h3>
+                                <ul>
+                                    <li><strong>Kiểm tra lượng prompt còn lại:</strong> Xem tại dashboard</li>
+                                    <li><strong>Đổi server:</strong> Tại mục "Tăng cường sức mạnh cho model của bạn" (nếu gặp lỗi hoặc quá tải)</li>
+                                    <li><strong>Đổi model AI:</strong> Tại phần "Model AI"</li>
+                                </ul>
+
+                                <div class="alert-warning mt-3">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    <div>
+                                        <strong>Lưu ý quan trọng:</strong>
+                                        <ul class="mb-0 mt-2">
+                                            <li>Server default chỉ hỗ trợ <strong>Claude Opus 4.6</strong></li>
+                                            <li>Augment không có thinking, <strong>tuyệt đối không</strong> chọn server thinking cho Augment</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Support Section -->
+                        <section class="guide-section">
+                            <div class="support-card">
+                                <i class="bi bi-headset fs-1 mb-3"></i>
+                                <h3>Cần hỗ trợ?</h3>
+                                <p>Nếu gặp vấn đề trong quá trình cài đặt hoặc sử dụng, vui lòng liên hệ với chúng tôi.</p>
+                                <% if (settings.zalo_link) { %>
+                                    <a href="<%= settings.zalo_link %>" target="_blank" class="btn-support">
+                                        <i class="bi bi-chat-dots me-2"></i>Liên hệ hỗ trợ
+                                    </a>
+                                <% } %>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle d-lg-none" id="sidebarToggle">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-powershell.min.js"></script>
+    <script src="/js/guide.js"></script>
+</body>
+
+</html>

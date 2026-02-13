@@ -20,5 +20,14 @@ router.get('/', (req, res) => {
     });
 });
 
+// GET /huongdan - Trang hướng dẫn sử dụng
+router.get('/huongdan', (req, res) => {
+    const settings = Setting.getAll();
+    res.render('landing/guide', {
+        title: 'Hướng dẫn sử dụng',
+        settings
+    });
+});
+
 module.exports = router;
 
