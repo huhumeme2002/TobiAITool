@@ -80,6 +80,10 @@
                                 <i class="bi bi-speedometer2"></i>
                                 Kiểm tra & Cài đặt
                             </a>
+                            <a href="#prompt-calculation" class="nav-item">
+                                <i class="bi bi-calculator"></i>
+                                Cách tính prompt
+                            </a>
                         </nav>
                     </div>
                 </aside>
@@ -96,7 +100,7 @@
                             <div class="alert-info">
                                 <i class="bi bi-info-circle-fill me-2"></i>
                                 <div>
-                                    <strong>Giới hạn sử dụng:</strong> Gói này cung cấp <strong>100 prompt/ngày</strong> để tránh việc share key API cho nhiều người. Lượng request sẽ được reset vào <strong>7:00 sáng</strong> hàng ngày.
+                                    <strong>Giới hạn sử dụng:</strong> Gói này cung cấp <strong>150 prompt/ngày</strong> để tránh việc share key API cho nhiều người. Lượng request sẽ được reset vào <strong>7:00 sáng</strong> hàng ngày.
                                 </div>
                             </div>
                         </section>
@@ -330,6 +334,42 @@
                                             <li>Augment không có thinking, <strong>tuyệt đối không</strong> chọn server thinking cho Augment</li>
                                         </ul>
                                     </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Prompt Calculation Section -->
+                        <section id="prompt-calculation" class="guide-section">
+                            <h2 class="section-heading">
+                                <i class="bi bi-calculator me-2"></i>
+                                Cách tính prompt
+                            </h2>
+
+                            <div class="step-card">
+                                <h3><img src="/uploads/logos/cursor.jpg" alt="Cursor" class="nav-icon me-2" style="width: 24px; height: 24px;">Cursor</h3>
+                                <p>Mỗi prompt sử dụng sẽ trừ <strong>1 prompt</strong> từ hạn mức của bạn.</p>
+                            </div>
+
+                            <div class="step-card">
+                                <h3><img src="/uploads/logos/augment.png" alt="Augment" class="nav-icon me-2" style="width: 24px; height: 24px;">Augment Code</h3>
+                                <ul>
+                                    <li><strong>Index code base:</strong> Mất <strong>2 prompt</strong></li>
+                                    <li><strong>Prompt enhance:</strong> Mất <strong>1 prompt</strong></li>
+                                </ul>
+                            </div>
+
+                            <div class="step-card">
+                                <h3><img src="/uploads/logos/claude-code.png" alt="Claude Code" class="nav-icon me-2" style="width: 24px; height: 24px;">Claude Code</h3>
+                                <ul>
+                                    <li><strong>Prompt chạy trên 2 phút:</strong> Tính <strong>2 prompt</strong></li>
+                                    <li><strong>Prompt dưới 2 phút:</strong> Chỉ tính <strong>1 prompt</strong></li>
+                                </ul>
+                            </div>
+
+                            <div class="alert-info">
+                                <i class="bi bi-info-circle-fill me-2"></i>
+                                <div>
+                                    <strong>Lưu ý:</strong> Hãy sử dụng prompt một cách hợp lý để tối ưu hóa hạn mức 150 prompt/ngày của bạn.
                                 </div>
                             </div>
                         </section>
