@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
 const Order = require('../models/Order');
+const FixedCost = require('../models/FixedCost');
 
 // GET /admin/reports - Trang báo cáo
 router.get('/', isAuthenticated, (req, res) => {
@@ -19,9 +20,20 @@ router.get('/', isAuthenticated, (req, res) => {
     const stats = Order.getStatsByDateRange(startDate, endDate);
     const aggregate = Order.getAggregateByDateRange(startDate, endDate);
 
-    // Tính biên lợi nhuận
+    // Lấy tổng chi phí cố định trong khoảng thời gian
+    const fixedCostsTotal = FixedCost.getTotalByDateRange(startDate, endDate);
+
+    // Tính lợi nhuận ròng = lợi nhuận gộp - chi phí cố định
+    const netProfit = aggregate.total_profit - fixedCostsTotal;
+
+    // Tính biên lợi nhuận gộp
     const profitMargin = aggregate.total_revenue > 0
         ? ((aggregate.total_profit / aggregate.total_revenue) * 100).toFixed(1)
+        : 0;
+
+    // Tính biên lợi nhuận ròng
+    const netProfitMargin = aggregate.total_revenue > 0
+        ? ((netProfit / aggregate.total_revenue) * 100).toFixed(1)
         : 0;
 
     // Giá trị đơn hàng trung bình
@@ -52,7 +64,10 @@ router.get('/', isAuthenticated, (req, res) => {
         startDate, endDate, viewMode,
         stats: chartData,
         aggregate,
+        fixedCostsTotal,
+        netProfit,
         profitMargin,
+        netProfitMargin,
         avgOrderValue,
         orders: ordersResult.rows,
         totalOrders: ordersResult.total,

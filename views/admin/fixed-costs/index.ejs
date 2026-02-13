@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - Admin
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../../partials/admin-sidebar') %>
+
+        <main class="admin-main">
+            <%- include('../../partials/flash-messages') %>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-wallet2 me-2"></i>Quản lý chi phí cố định</h4>
+                        <p class="text-muted mb-0">Tổng: <%= fixedCosts.length %> chi phí</p>
+                    </div>
+                    <a href="/admin/fixed-costs/new" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> Thêm chi phí cố định</a>
+                </div>
+
+                <div class="table-dark-custom">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên chi phí</th>
+                                    <th>Số tiền</th>
+                                    <th>Danh mục</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (fixedCosts.length===0) { %>
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-4">Chưa có chi phí cố định nào</td>
+                                    </tr>
+                                    <% }%>
+                                        <% fixedCosts.forEach((fc, idx)=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= idx + 1 %>
+                                                </td>
+                                                <td class="fw-semibold">
+                                                    <%= fc.name %>
+                                                    <% if (fc.notes) { %>
+                                                        <br><small class="text-muted"><%= fc.notes %></small>
+                                                    <% } %>
+                                                </td>
+                                                <td class="text-danger fw-bold">
+                                                    <%= Number(fc.amount).toLocaleString('vi-VN') %>đ
+                                                </td>
+                                                <td>
+                                                    <% if (fc.category) { %>
+                                                        <span class="badge bg-secondary"><%= fc.category %></span>
+                                                    <% } else { %>
+                                                        <span class="text-muted">—</span>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(fc.start_date).toLocaleDateString('vi-VN') %>
+                                                </td>
+                                                <td>
+                                                    <% if (fc.end_date) { %>
+                                                        <%= new Date(fc.end_date).toLocaleDateString('vi-VN') %>
+                                                    <% } else { %>
+                                                        <span class="text-muted">Không giới hạn</span>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <% if (fc.is_active) { %>
+                                                        <span class="badge badge-paid px-2 py-1">Đang hoạt động</span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-cancelled px-2 py-1">Tạm dừng</span>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <a href="/admin/fixed-costs/<%= fc.id %>/edit"
+                                                        class="btn btn-sm btn-outline-primary me-1"><i
+                                                            class="bi bi-pencil"></i></a>
+                                                    <form action="/admin/fixed-costs/<%= fc.id %>/delete" method="POST"
+                                                        class="d-inline"
+                                                        onsubmit="return confirm('Bạn có chắc muốn xóa chi phí này?')">
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

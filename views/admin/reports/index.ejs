@@ -56,32 +56,34 @@
             </div>
             <div class="col-md-4 col-xl-2">
                 <div class="stat-card text-center">
-                    <div class="stat-label">Chi phí</div>
+                    <div class="stat-label">Chi phí hàng</div>
                     <div class="stat-value text-warning" style="font-size:20px"><%= Number(aggregate.total_cost).toLocaleString('vi-VN') %>đ</div>
                 </div>
             </div>
             <div class="col-md-4 col-xl-2">
                 <div class="stat-card text-center">
-                    <div class="stat-label">Lợi nhuận</div>
+                    <div class="stat-label">LN gộp</div>
                     <div class="stat-value" style="font-size:20px;color:#a855f7"><%= Number(aggregate.total_profit).toLocaleString('vi-VN') %>đ</div>
                 </div>
             </div>
             <div class="col-md-4 col-xl-2">
                 <div class="stat-card text-center">
-                    <div class="stat-label">Biên LN</div>
-                    <div class="stat-value text-info" style="font-size:20px"><%= profitMargin %>%</div>
+                    <div class="stat-label">Chi phí cố định</div>
+                    <div class="stat-value text-danger" style="font-size:20px"><%= Number(fixedCostsTotal).toLocaleString('vi-VN') %>đ</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xl-2">
+                <div class="stat-card text-center">
+                    <div class="stat-label">LN ròng</div>
+                    <div class="stat-value" style="font-size:20px;color:#10b981"><%= Number(netProfit).toLocaleString('vi-VN') %>đ</div>
+                    <small class="text-muted" style="font-size:11px">Biên: <%= netProfitMargin %>%</small>
                 </div>
             </div>
             <div class="col-md-4 col-xl-2">
                 <div class="stat-card text-center">
                     <div class="stat-label">Số đơn</div>
                     <div class="stat-value" style="font-size:20px"><%= aggregate.total_orders %></div>
-                </div>
-            </div>
-            <div class="col-md-4 col-xl-2">
-                <div class="stat-card text-center">
-                    <div class="stat-label">TB/đơn</div>
-                    <div class="stat-value" style="font-size:20px"><%= Number(avgOrderValue).toLocaleString('vi-VN') %>đ</div>
+                    <small class="text-muted" style="font-size:11px">TB: <%= Number(avgOrderValue).toLocaleString('vi-VN') %>đ</small>
                 </div>
             </div>
         </div>

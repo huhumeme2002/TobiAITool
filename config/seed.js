@@ -157,6 +157,22 @@ db.exec(`
     )
 `);
 
+// Bảng fixed_costs - Quản lý chi phí cố định
+db.exec(`
+    CREATE TABLE IF NOT EXISTS fixed_costs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        amount INTEGER NOT NULL DEFAULT 0,
+        category TEXT DEFAULT '',
+        start_date TEXT NOT NULL,
+        end_date TEXT DEFAULT NULL,
+        is_active INTEGER DEFAULT 1,
+        notes TEXT DEFAULT '',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`);
+
 console.log('✅ Đã tạo xong các bảng.');
 
 // ==================== DỮ LIỆU MẪU ====================

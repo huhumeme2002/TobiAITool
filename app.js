@@ -76,6 +76,7 @@ const orderRoutes = require('./routes/orders');
 const reportRoutes = require('./routes/reports');
 const settingsRoutes = require('./routes/settings');
 const transactionProofsRoutes = require('./routes/transactionProofs');
+const fixedCostsRoutes = require('./routes/fixedCosts');
 
 app.use('/admin', authRoutes);
 app.use('/admin/dashboard', dashboardRoutes);
@@ -84,6 +85,7 @@ app.use('/admin/orders', orderRoutes);
 app.use('/admin/reports', reportRoutes);
 app.use('/admin/settings', settingsRoutes);
 app.use('/admin/transaction-proofs', transactionProofsRoutes);
+app.use('/admin/fixed-costs', fixedCostsRoutes);
 
 // ==================== XỬ LÝ LỖI ====================
 
