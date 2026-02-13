@@ -290,6 +290,26 @@
     color: white !important;
 }
 
+/* Guide Images */
+.guide-image {
+    margin: 1.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.guide-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.guide-image:hover img {
+    transform: scale(1.02);
+}
+
 /* ==================== CODE BLOCKS ==================== */
 pre {
     background: rgba(15, 23, 42, 0.8) !important;
