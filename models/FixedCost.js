@@ -64,41 +64,29 @@ const FixedCost = {
     },
 
     // Tính tổng chi phí cố định theo khoảng thời gian
-    // amount là tổng chi phí cho khoảng [start_date, end_date]
-    // Nếu báo cáo bao trùm hoàn toàn → lấy nguyên amount
-    // Nếu chỉ overlap một phần → prorate theo tỷ lệ ngày overlap / tổng ngày chi phí
+    // Nếu khoảng báo cáo có overlap với khoảng chi phí → lấy nguyên amount
+    // Vì amount đã là tổng chi phí thực tế cho khoảng [start_date, end_date]
     getTotalByDateRange(startDate, endDate) {
         const fixedCosts = db.prepare('SELECT * FROM fixed_costs WHERE is_active = 1').all();
 
-        const DAY_MS = 1000 * 60 * 60 * 24;
         let total = 0;
         const start = new Date(startDate);
         const end = new Date(endDate);
 
         for (const cost of fixedCosts) {
             const costStart = new Date(cost.start_date);
-            // Nếu không có end_date → chi phí ongoing, dùng end của báo cáo
-            const costEnd = cost.end_date ? new Date(cost.end_date) : end;
+            const costEnd = cost.end_date ? new Date(cost.end_date) : null;
 
-            // Tính overlap
-            const overlapStart = costStart > start ? costStart : start;
-            const overlapEnd = costEnd < end ? costEnd : end;
+            // Kiểm tra có overlap không: chi phí bắt đầu trước/trong khoảng báo cáo
+            // VÀ chi phí kết thúc sau/trong khoảng báo cáo (hoặc không có end_date)
+            const hasOverlap = costStart <= end && (!costEnd || costEnd >= start);
 
-            if (overlapStart > overlapEnd) continue;
-
-            const totalCostDays = Math.round((costEnd - costStart) / DAY_MS) + 1;
-            const overlapDays = Math.round((overlapEnd - overlapStart) / DAY_MS) + 1;
-
-            // Nếu overlap bao trùm toàn bộ khoảng chi phí → lấy nguyên amount
-            if (overlapDays >= totalCostDays) {
+            if (hasOverlap) {
                 total += cost.amount;
-            } else {
-                // Prorate theo tỷ lệ
-                total += (cost.amount / totalCostDays) * overlapDays;
             }
         }
 
-        return Math.round(total);
+        return total;
     }
 };
 
