@@ -63,35 +63,42 @@ const FixedCost = {
         return db.prepare('SELECT COUNT(*) as count FROM fixed_costs WHERE is_active = 1').get().count;
     },
 
-    // Tính tổng chi phí cố định theo khoảng thời gian (prorate)
+    // Tính tổng chi phí cố định theo khoảng thời gian
+    // amount là tổng chi phí cho khoảng [start_date, end_date]
+    // Nếu báo cáo bao trùm hoàn toàn → lấy nguyên amount
+    // Nếu chỉ overlap một phần → prorate theo tỷ lệ ngày overlap / tổng ngày chi phí
     getTotalByDateRange(startDate, endDate) {
-        // Lấy tất cả chi phí cố định đang hoạt động
         const fixedCosts = db.prepare('SELECT * FROM fixed_costs WHERE is_active = 1').all();
 
-        let totalProrated = 0;
+        const DAY_MS = 1000 * 60 * 60 * 24;
+        let total = 0;
         const start = new Date(startDate);
         const end = new Date(endDate);
 
         for (const cost of fixedCosts) {
             const costStart = new Date(cost.start_date);
-            const costEnd = cost.end_date ? new Date(cost.end_date) : null;
+            // Nếu không có end_date → chi phí ongoing, dùng end của báo cáo
+            const costEnd = cost.end_date ? new Date(cost.end_date) : end;
 
-            // Tính overlap giữa [startDate, endDate] và [cost.start_date, cost.end_date]
+            // Tính overlap
             const overlapStart = costStart > start ? costStart : start;
-            const overlapEnd = costEnd && costEnd < end ? costEnd : end;
+            const overlapEnd = costEnd < end ? costEnd : end;
 
-            // Nếu có overlap
-            if (overlapStart <= overlapEnd && (!costEnd || costEnd >= start) && costStart <= end) {
-                // Tính số ngày overlap
-                const daysOverlap = Math.ceil((overlapEnd - overlapStart) / (1000 * 60 * 60 * 24)) + 1;
+            if (overlapStart > overlapEnd) continue;
 
-                // Prorate: (amount / 30) * số ngày overlap
-                const proratedAmount = (cost.amount / 30) * daysOverlap;
-                totalProrated += proratedAmount;
+            const totalCostDays = Math.round((costEnd - costStart) / DAY_MS) + 1;
+            const overlapDays = Math.round((overlapEnd - overlapStart) / DAY_MS) + 1;
+
+            // Nếu overlap bao trùm toàn bộ khoảng chi phí → lấy nguyên amount
+            if (overlapDays >= totalCostDays) {
+                total += cost.amount;
+            } else {
+                // Prorate theo tỷ lệ
+                total += (cost.amount / totalCostDays) * overlapDays;
             }
         }
 
-        return Math.round(totalProrated);
+        return Math.round(total);
     }
 };
 
