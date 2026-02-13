@@ -56,6 +56,13 @@
                                 <img src="/uploads/logos/cursor.jpg" alt="Cursor" class="nav-icon">
                                 Cursor
                             </a>
+                            <div class="nav-subitems">
+                                <a href="#cursor-step1" class="nav-subitem">Bước 1: Cài đặt Cursor</a>
+                                <a href="#cursor-step2" class="nav-subitem">Bước 2: Cài Extension</a>
+                                <a href="#cursor-step3" class="nav-subitem">Bước 3: Mở Extension</a>
+                                <a href="#cursor-step4" class="nav-subitem">Bước 4: Cấu hình</a>
+                                <a href="#cursor-step5" class="nav-subitem">Bước 5: Kích hoạt</a>
+                            </div>
                             <a href="#augment" class="nav-item">
                                 <img src="/uploads/logos/augment.png" alt="Augment" class="nav-icon">
                                 Augment Code
@@ -64,6 +71,11 @@
                                 <img src="/uploads/logos/claude-code.png" alt="Claude Code" class="nav-icon">
                                 Claude Code
                             </a>
+                            <div class="nav-subitems">
+                                <a href="#claude-step1" class="nav-subitem">Bước 1: Cài thư viện</a>
+                                <a href="#claude-step2" class="nav-subitem">Bước 2: Chạy lệnh</a>
+                                <a href="#claude-step3" class="nav-subitem">Bước 3: Nhập API Key</a>
+                            </div>
                             <a href="#check-usage" class="nav-item">
                                 <i class="bi bi-speedometer2"></i>
                                 Kiểm tra & Cài đặt
@@ -98,7 +110,7 @@
                                 </h2>
                             </div>
 
-                            <div class="step-card">
+                            <div class="step-card" id="cursor-step1">
                                 <div class="step-number">Bước 1</div>
                                 <h3>Cài đặt Cursor phiên bản cũ hơn 2.4.0</h3>
                                 <p>Tải và cài đặt Cursor phiên bản 2.3.41 (xóa phiên bản hiện tại nếu có).</p>
@@ -113,7 +125,7 @@
                                 </div>
                             </div>
 
-                            <div class="step-card">
+                            <div class="step-card" id="cursor-step2">
                                 <div class="step-number">Bước 2</div>
                                 <h3>Cài đặt Extension</h3>
                                 <p>
@@ -132,7 +144,7 @@
                                 </div>
                             </div>
 
-                            <div class="step-card">
+                            <div class="step-card" id="cursor-step3">
                                 <div class="step-number">Bước 3</div>
                                 <h3>Mở Extension</h3>
                                 <p>Chọn biểu tượng extension trên thanh sidebar</p>
@@ -141,7 +153,7 @@
                                 </div>
                             </div>
 
-                            <div class="step-card">
+                            <div class="step-card" id="cursor-step4">
                                 <div class="step-number">Bước 4</div>
                                 <h3>Cấu hình Extension</h3>
 
@@ -183,7 +195,7 @@
                                 <p class="mt-3">Sau đó: Chọn <strong>Claude Code</strong> từ dropdown và bấm <strong>Save</strong></p>
                             </div>
 
-                            <div class="step-card">
+                            <div class="step-card" id="cursor-step5">
                                 <div class="step-number">Bước 5</div>
                                 <h3>Kích hoạt</h3>
                                 <ol>
@@ -245,7 +257,7 @@
                                 </h2>
                             </div>
 
-                            <div class="step-card">
+                            <div class="step-card" id="claude-step1">
                                 <div class="step-number">Bước 1</div>
                                 <h3>Cài đặt các thư viện cần thiết</h3>
 
@@ -260,14 +272,14 @@
                                 <pre><code class="language-powershell">powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
                             </div>
 
-                            <div class="step-card">
+                            <div class="step-card" id="claude-step2">
                                 <div class="step-number">Bước 2</div>
                                 <h3>Chạy lệnh cài đặt</h3>
                                 <p>Mở terminal và chạy lệnh sau:</p>
                                 <pre><code class="language-bash">bunx zeno360-claude-installer</code></pre>
                             </div>
 
-                            <div class="step-card">
+                            <div class="step-card" id="claude-step3">
                                 <div class="step-number">Bước 3</div>
                                 <h3>Nhập API Key</h3>
                                 <p>Sau khi chạy lệnh, nhập API key shop cung cấp khi được yêu cầu.</p>

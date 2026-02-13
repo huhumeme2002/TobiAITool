@@ -91,6 +91,36 @@
     border-left: 3px solid var(--primary);
 }
 
+/* Navigation Subitems */
+.nav-subitems {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-left: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.nav-subitem {
+    padding: 0.5rem 0.75rem;
+    color: rgba(148, 163, 184, 0.8);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+.nav-subitem:hover {
+    background: rgba(124, 58, 237, 0.08);
+    color: var(--primary-light);
+    transform: translateX(2px);
+}
+
+.nav-subitem.active {
+    background: rgba(124, 58, 237, 0.1);
+    color: var(--primary-light);
+}
+
 /* ==================== MAIN CONTENT ==================== */
 .guide-content {
     padding: 2rem 3rem;
