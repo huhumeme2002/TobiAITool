@@ -110,6 +110,33 @@
     scroll-margin-top: 100px;
 }
 
+/* ==================== PRODUCT HEADER WITH LOGO ==================== */
+.product-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(124, 58, 237, 0.2);
+}
+
+.product-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 12px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.product-header .section-heading {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    flex: 1;
+}
+
 .section-title {
     font-size: 2.5rem;
     font-weight: 800;
@@ -458,6 +485,17 @@ kbd {
 
     .config-label {
         min-width: auto;
+    }
+
+    .product-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .product-logo {
+        width: 48px;
+        height: 48px;
     }
 }
 
