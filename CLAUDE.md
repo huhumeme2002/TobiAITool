@@ -40,13 +40,14 @@ npm start
 
 ### Database Schema
 
-The application uses SQLite with 5 main tables:
+The application uses SQLite with 6 main tables:
 
 1. **users** - Admin accounts (bcrypt hashed passwords)
 2. **products** - AI product catalog with pricing, cost, and visibility flags
 3. **product_packages** - Time-based pricing tiers for products (1 day, 7 days, 1 month, etc.)
 4. **orders** - Sales records with customer info, pricing (listed_price, actual_price, cost, profit)
 5. **settings** - Key-value store for site configuration (brand name, contact info, Zalo link, etc.)
+6. **transaction_proofs** - Uploaded payment screenshots/bills for orders
 
 **Key relationships:**
 - Products have multiple packages (1:N via product_id foreign key)
@@ -66,6 +67,7 @@ models/                   # Data access layer (no ORM, uses better-sqlite3 prepa
   ProductPackage.js
   Order.js
   Setting.js
+  TransactionProof.js
 routes/                   # Express route handlers
   landing.js              # Public homepage
   auth.js                 # Login/logout
@@ -74,6 +76,7 @@ routes/                   # Express route handlers
   orders.js               # Order management + filtering
   reports.js              # Financial reports + CSV/Excel export
   settings.js             # Site configuration
+  transactionProofs.js    # Transaction proof/bill upload management
 middleware/
   auth.js                 # isAuthenticated, isNotAuthenticated guards
 helpers/
@@ -84,6 +87,7 @@ views/                    # EJS templates
   partials/               # Reusable components (sidebar, flash messages)
 public/                   # Static assets (CSS)
 uploads/products/         # Product images (created by multer)
+uploads/transaction-proofs/ # Uploaded payment screenshots
 data/                     # SQLite database file location
 ```
 
