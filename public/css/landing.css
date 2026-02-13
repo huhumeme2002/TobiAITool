@@ -383,9 +383,9 @@ body {
     font-weight: 800;
     margin-bottom: 12px;
     color: #fff;
-    min-height: 52px;
+    min-height: 78px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-shadow: 0 2px 12px rgba(124, 58, 237, 0.5), 0 0 30px rgba(168, 85, 247, 0.3);
