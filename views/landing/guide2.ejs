@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - <%= settings.brand_name || 'AI Store' %></title>
+    <meta name="description" content="Hướng dẫn chi tiết cách sử dụng Cursor-Unlimited">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="/css/landing.css" rel="stylesheet">
+    <link href="/css/guide.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- ==================== HEADER ==================== -->
+    <nav class="navbar navbar-expand-lg navbar-landing">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <% if (settings.brand_logo) { %>
+                    <img src="<%= settings.brand_logo %>" alt="Logo" style="height:36px" class="me-2">
+                <% } %>
+                <i class="bi bi-braces"></i>
+                <%= settings.brand_name || 'AI Store' %>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list text-white fs-4"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item"><a class="nav-link" href="/">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#contact">Liên hệ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== GUIDE CONTENT ==================== -->
+    <div class="guide-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar -->
+                <aside class="col-lg-3 guide-sidebar" id="guideSidebar">
+                    <div class="sidebar-content">
+                        <h5 class="sidebar-title">
+                            <i class="bi bi-book me-2"></i>Mục lục
+                        </h5>
+                        <nav class="sidebar-nav">
+                            <a href="#intro" class="nav-item active">
+                                <i class="bi bi-info-circle"></i>
+                                Giới thiệu
+                            </a>
+                            <a href="#step1" class="nav-item">
+                                <i class="bi bi-puzzle"></i>
+                                Bước 1: Cài đặt Extension
+                            </a>
+                            <a href="#step2" class="nav-item">
+                                <i class="bi bi-box-arrow-in-down"></i>
+                                Bước 2: Cài đặt Extension
+                            </a>
+                            <a href="#step3" class="nav-item">
+                                <i class="bi bi-key"></i>
+                                Bước 3: Nhập Activation Code
+                            </a>
+                            <a href="#step4" class="nav-item">
+                                <i class="bi bi-shield-check"></i>
+                                Bước 4: Activate
+                            </a>
+                            <a href="#step5" class="nav-item">
+                                <i class="bi bi-play-circle"></i>
+                                Bước 5: Bật API-worker
+                            </a>
+                            <a href="#linux" class="nav-item">
+                                <i class="bi bi-terminal"></i>
+                                Cài đặt cho Linux
+                            </a>
+                        </nav>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="col-lg-9 guide-content">
+                    <div class="content-wrapper">
+                        <!-- Intro Section -->
+                        <section id="intro" class="guide-section">
+                            <div class="product-header">
+                                <img src="/uploads/logos/cursor.jpg" alt="Cursor Logo" class="product-logo">
+                                <h1 class="section-title">
+                                    <i class="bi bi-rocket-takeoff me-2"></i>
+                                    Hướng dẫn sử dụng Cursor-Unlimited
+                                </h1>
+                            </div>
+                            <div class="alert-warning">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                <div>
+                                    <strong>Lưu ý quan trọng:</strong> Cursor phiên bản mới đang phát sinh lỗi. Khách mua hàng vui lòng xóa Cursor nếu phiên bản hiện tại lớn hơn <strong>2.4.5</strong> và cài về phiên bản <strong>2.3.8</strong> cho ổn định.
+                                    <br>
+                                    <a href="https://cursorhistory.com/versions/2.3.8" target="_blank" class="download-link mt-2 d-inline-block">
+                                        <i class="bi bi-download me-2"></i>Tải phiên bản 2.3.8 tại đây
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Step 1: Install Extension -->
+                        <section id="step1" class="guide-section">
+                            <div class="step-card">
+                                <div class="step-number">Bước 1</div>
+                                <h3>Cài đặt Extension</h3>
+                                <p>Cài đặt chi tiết phiên bản extension <strong>1.0.46</strong>:</p>
+                                <p>
+                                    <a href="https://drive.google.com/file/d/1cYA9FRtsQrJ6Sq_P3drzY1HxgaFstArY/view?usp=sharing" target="_blank" class="download-link">
+                                        <i class="bi bi-download me-2"></i>Bấm vào đây để tải Extension
+                                    </a>
+                                </p>
+                                <div class="alert-info mt-3">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    <div>
+                                        <strong>Note:</strong> Extension update thường xuyên do Cursor cũng hay update, nên nếu có lỗi gì hãy vào đây check xem có update extension không. Nếu không thì báo admin lỗi.
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 2: Install Extension -->
+                        <section id="step2" class="guide-section">
+                            <div class="step-card">
+                                <div class="step-number">Bước 2</div>
+                                <h3>Cài đặt Extension</h3>
+                                <ol>
+                                    <li>Tải file extension từ link trên</li>
+                                    <li>Mở Command Palette: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></li>
+                                    <li>Gõ và chọn: <code>Install from VSIX</code></li>
+                                    <li>Chọn file extension vừa tải về</li>
+                                </ol>
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/vsix.png" alt="Hướng dẫn cài đặt VSIX" />
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Step 3: Nhập Activation Code -->
+                        <section id="step3" class="guide-section">
+                            <div class="step-card">
+                                <div class="step-number">Bước 3</div>
+                                <h3>Nhập Activation Code</h3>
+                                <p>Chọn biểu tượng Extension trên thanh sidebar (dạng hình tròn với chữ CursorPool):</p>
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/anh1.png" alt="Mở Extension CursorPool" />
+                                </div>
+                                <p class="mt-3">Nhập activation code vào ô "Enter activation code" và bấm <strong>Login</strong>:</p>
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/anh2.png" alt="Nhập Activation Code" />
+                                </div>
+                                <div class="alert-info mt-3">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    <div>
+                                        <strong>Lưu ý:</strong> Định dạng activation code thường sẽ là:<br>
+                                        <code>743DFED8-8092-4471-xxx-BA1BEE1B4B08</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Step 4: Activate -->
+                        <section id="step4" class="guide-section">
+                            <div class="step-card">
+                                <div class="step-number">Bước 4</div>
+                                <h3>Log out và Activate</h3>
+                                <p>Log out khỏi tài khoản Cursor trên IDE nếu đã đăng nhập trước, sau đó bấm <strong>Activate</strong>.</p>
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/ảnh 3 .png" alt="Activate Cursor" />
+                                </div>
+                                <div class="alert-warning mt-3">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    <div>
+                                        <strong>Windows:</strong> Cần chạy Cursor với quyền <strong>quản trị viên (Run as Administrator)</strong> trước khi active.
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 5: Enable API-worker -->
+                        <section id="step5" class="guide-section">
+                            <div class="step-card">
+                                <div class="step-number">Bước 5</div>
+                                <h3>Bật API-worker</h3>
+                                <p>Bấm vào bật <strong>API-worker</strong>.</p>
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/ảnh 4 .png" alt="Bật API-worker" />
+                                </div>
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/ảnh 5.png" alt="API-worker thành công" />
+                                </div>
+                                <div class="alert-success mt-3">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    <strong>Thành công!</strong> Khi terminal hiện thông báo thành công, bạn đã hoàn tất cài đặt.
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Linux Installation -->
+                        <section id="linux" class="guide-section">
+                            <div class="step-card">
+                                <h3><i class="bi bi-terminal me-2"></i>Cách cài đặt cho Linux</h3>
+                                <p>Thực hiện các lệnh sau trong terminal:</p>
+                                <pre><code class="language-bash"># Vào thư mục người dùng
+cd ~
+
+# Nếu trước đó đã giải nén, hãy xóa thư mục cũ để tránh xung đột
+rm -rf ~/squashfs-root
+
+# Thêm quyền chạy, tự chỉnh đường dẫn tới cursor
+# (kéo file cursor vào terminal sẽ thấy đường dẫn)
+chmod +x ~/Tải\ về/cursor.AppImage
+
+# Giải nén cursor, cũng tự chỉnh đường dẫn
+# (kéo vào terminal để có đường dẫn chính xác)
+~/Tải\ về/cursor.AppImage --appimage-extract
+
+# Sau này dùng cách này để khởi động
+~/squashfs-root/AppRun</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Support Section -->
+                        <section class="guide-section">
+                            <div class="support-card">
+                                <i class="bi bi-headset fs-1 mb-3"></i>
+                                <h3>Cần hỗ trợ?</h3>
+                                <p>Nếu gặp vấn đề trong quá trình cài đặt hoặc sử dụng, vui lòng liên hệ với chúng tôi.</p>
+                                <% if (settings.zalo_link) { %>
+                                    <a href="<%= settings.zalo_link %>" target="_blank" class="btn-support">
+                                        <i class="bi bi-chat-dots me-2"></i>Liên hệ hỗ trợ
+                                    </a>
+                                <% } %>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle d-lg-none" id="sidebarToggle">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="/js/guide.js"></script>
+</body>
+
+</html>
