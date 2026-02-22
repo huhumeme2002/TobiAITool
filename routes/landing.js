@@ -56,5 +56,14 @@ router.get('/huongdan2', (req, res) => {
     });
 });
 
+// GET /huongdan3 - Hướng dẫn cài đặt tool shop
+router.get('/huongdan3', (req, res) => {
+    const settings = Setting.getAll();
+    res.render('landing/guide3', {
+        title: 'Hướng dẫn cài đặt Codex Activator',
+        settings
+    });
+});
+
 module.exports = router;
 

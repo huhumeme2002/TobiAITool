@@ -4,17 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an AI product store application - a Vietnamese e-commerce platform for selling AI development tools (Cursor Pro, Augment Code, Claude, etc.). It consists of a public landing page and an admin dashboard for managing products, orders, and financial reports.
+This repository is a Vietnamese AI product store:
+- Public landing page for selling AI development tools/packages
+- Admin dashboard for product/order operations and financial reporting
 
-**Tech Stack:**
-- Backend: Node.js + Express.js
-- Database: SQLite (better-sqlite3) with WAL mode
-- View Engine: EJS templates
-- Session: express-session with connect-flash for messages
-- File Upload: multer (for product images)
-- Validation: express-validator
-- Export: json2csv and exceljs for report exports (CSV/Excel)
-- Security: helmet, bcryptjs for password hashing
+Stack and runtime model:
+- Node.js + Express (server-rendered, no frontend SPA build step)
+- EJS templates for UI
+- SQLite via `better-sqlite3` (synchronous queries)
+- Session auth via `express-session` + `connect-flash`
+- File uploads via `multer`
 
 ## Development Commands
 
@@ -22,135 +21,138 @@ This is an AI product store application - a Vietnamese e-commerce platform for s
 # Install dependencies
 npm install
 
-# Initialize database with sample data (run once)
+# Create/update schema + seed default data
 npm run seed
 
-# Development mode (with auto-reload)
+# Run in development (nodemon)
 npm run dev
 
-# Production mode
+# Run in production mode
 npm start
 ```
 
-**Default credentials:** admin / admin123
+Current command gaps (important):
+- No build script (`npm run build` is not defined)
+- No lint script (`npm run lint` is not defined)
+- No test script (`npm test` is not defined)
+- No in-repo app test suite currently, so “run a single test” is not applicable yet
 
-**Access URLs:**
-- Landing Page: http://localhost:3000
-- Admin Panel: http://localhost:3000/admin
+## Environment and Local Defaults
 
-## Architecture
+From `.env.example`:
+- `PORT` (default `3000`)
+- `NODE_ENV` (`development`/`production`)
+- `SESSION_SECRET`
+- `COOKIE_SECURE` (set `false` when local HTTP)
+- `DB_PATH` (default `./data/database.sqlite`)
 
-### Database Schema
+Operational defaults:
+- Default admin credentials after seed: `admin / admin123`
+- Landing page: `http://localhost:3000`
+- Admin: `http://localhost:3000/admin`
 
-The application uses SQLite with 7 main tables:
+## Big-Picture Architecture
 
-1. **users** - Admin accounts (bcrypt hashed passwords)
-2. **products** - AI product catalog with pricing, cost, and visibility flags
-3. **product_packages** - Time-based pricing tiers for products (1 day, 7 days, 1 month, etc.)
-4. **orders** - Sales records with customer info, pricing (listed_price, actual_price, cost, profit)
-5. **settings** - Key-value store for site configuration (brand name, contact info, Zalo link, etc.)
-6. **transaction_proofs** - Uploaded payment screenshots/bills for orders
-7. **fixed_costs** - Recurring business expenses (name, amount, category, start/end dates, is_active flag)
+### 1) App bootstrap and middleware (`app.js`)
+- Loads env config, sets `trust proxy = 1`
+- Applies `helmet` (with CSP disabled for inline Chart.js usage)
+- Applies compression, JSON/urlencoded body parsing
+- Serves static assets from `/public` and uploaded files from `/uploads`
+- Configures EJS views
+- Configures session + flash + `res.locals` (`success_msg`, `error_msg`, `user`)
+- Mounts route modules by bounded domains
 
-**Key relationships:**
-- Products have multiple packages (1:N via product_id foreign key)
-- Orders reference products but store denormalized product_name for historical accuracy
-- Foreign keys are enabled with CASCADE delete for product_packages
+### 2) Route-first MVC (thin controllers, model-driven SQL)
+Route modules in `routes/` handle:
+- Admin auth/session flow
+- CRUD for products, orders, transaction proofs, fixed costs
+- Financial reporting and CSV/Excel export
+- Landing page rendering
 
-### Application Structure
+Model modules in `models/`:
+- Use synchronous `better-sqlite3` prepared statements
+- Encapsulate SQL access and basic domain queries
+- Return plain objects used directly by EJS views
 
-```
-app.js                    # Main entry point, middleware setup, route registration
-config/
-  database.js             # SQLite connection with WAL mode
-  seed.js                 # Database initialization script
-models/                   # Data access layer (no ORM, uses better-sqlite3 prepared statements)
-  User.js
-  Product.js
-  ProductPackage.js
-  Order.js
-  Setting.js
-  TransactionProof.js
-  FixedCost.js
-routes/                   # Express route handlers
-  landing.js              # Public homepage
-  auth.js                 # Login/logout
-  dashboard.js            # Admin overview with charts
-  products.js             # Product CRUD + image upload
-  orders.js               # Order management + filtering
-  reports.js              # Financial reports + CSV/Excel export
-  settings.js             # Site configuration
-  transactionProofs.js    # Transaction proof/bill upload management
-  fixedCosts.js           # Fixed cost CRUD management
-middleware/
-  auth.js                 # isAuthenticated, isNotAuthenticated guards
-helpers/
-  format.js               # Number/date formatting utilities
-views/                    # EJS templates
-  landing/index.ejs       # Public product catalog
-  admin/                  # Admin panel views
-  partials/               # Reusable components (sidebar, flash messages)
-public/                   # Static assets (CSS)
-uploads/products/         # Product images (created by multer)
-uploads/transaction-proofs/ # Uploaded payment screenshots
-data/                     # SQLite database file location
-```
+### 3) Main route domains
+- Public:
+  - `routes/landing.js`: `/`, `/tonghop`, `/huongdan`, `/huongdan1`, `/huongdan2`, `/huongdan3`
+- Admin:
+  - `routes/auth.js`: login/logout under `/admin`
+  - `routes/dashboard.js`: `/admin/dashboard`
+  - `routes/products.js`: `/admin/products`
+  - `routes/orders.js`: `/admin/orders`
+  - `routes/reports.js`: `/admin/reports`
+  - `routes/settings.js`: `/admin/settings`
+  - `routes/transactionProofs.js`: `/admin/transaction-proofs`
+  - `routes/fixedCosts.js`: `/admin/fixed-costs`
 
-**Route Mounting (in app.js):**
-- `/` - Landing page (public)
-- `/admin` - Auth routes (login/logout)
-- `/admin/dashboard` - Dashboard
-- `/admin/products` - Products CRUD
-- `/admin/orders` - Orders management
-- `/admin/reports` - Financial reports
-- `/admin/settings` - Site settings
-- `/admin/transaction-proofs` - Payment proof uploads
-- `/admin/fixed-costs` - Fixed cost management
+All admin business routes are guarded with `isAuthenticated` middleware (`middleware/auth.js`). The inverse `isNotAuthenticated` guard redirects already-logged-in users away from the login page.
 
-### Key Patterns
+### 4) Data model relationships and invariants
+Core tables:
+- `users`
+- `products`
+- `product_packages` (FK `product_id` → `products.id`, `ON DELETE CASCADE`)
+- `orders` (FK `product_id` → `products.id`, `ON DELETE SET NULL`)
+- `settings` (key-value)
+- `transaction_proofs`
+- `fixed_costs`
 
-**Model Layer:**
-- All models use synchronous better-sqlite3 API (no async/await needed)
-- Prepared statements for SQL injection protection
-- Transactions for multi-step operations (e.g., ProductPackage.saveAll)
-- Models return raw objects, not class instances
+Important business semantics:
+- Order economics:
+  - `listed_price`: niêm yết
+  - `actual_price`: thực thu
+  - `cost`: giá vốn
+  - `profit = actual_price - cost`
+- Revenue/cost/profit metrics in dashboard/reports are computed from `status = 'paid'`
+- Fixed costs are subtracted to produce net profit in dashboard/reports
 
-**Route Layer:**
-- All admin routes protected with `isAuthenticated` middleware
-- Flash messages for user feedback (success/error)
-- Form validation happens in route handlers
-- AJAX endpoints return JSON (e.g., `/api/product/:id`, `/update-order`)
+### 5) Critical product-package workflow
+When creating/updating products:
+- Route helper `savePackagesFromBody()` (in `routes/products.js`) parses package arrays from form data
+- `ProductPackage.saveAll(productId, packages)` replaces package rows in a DB transaction
 
-**Product-Package Relationship:**
-- Products can have 0 or more packages (time-based pricing tiers)
-- When displaying products, use `Product.getVisibleWithPackages()` or `Product.getAllWithPackages()`
-- Packages are saved in bulk via `ProductPackage.saveAll()` which deletes old packages and inserts new ones in a transaction
-- Package data includes: package_name, duration, duration_unit, request_count, price, listed_price, cost, sort_order
+This delete-and-reinsert pattern is the canonical package update mechanism in current code.
 
-**Order Financial Fields:**
-- `listed_price`: Original/display price
-- `actual_price`: Price customer actually paid (may differ due to discounts)
-- `cost`: Cost of goods sold
-- `profit`: Calculated as actual_price - cost
-- Reports filter by `status = 'paid'` to exclude pending orders from revenue calculations
+### 6) File upload architecture
+- Product images: `uploads/products/` (5MB limit)
+- Transaction proof images: `uploads/transaction-proofs/` (5MB limit)
+- Brand logo uploads (settings): `uploads/` (2MB limit)
 
-**Image Upload:**
-- Product images stored in `uploads/products/`
-- Multer handles upload with file size limit (5MB) and type validation (jpg, png, gif, webp, svg)
-- Old images are deleted when updating or deleting products
-- Image paths stored as `/uploads/products/filename.ext` in database
+Routes handle old-file cleanup on update/delete.
 
-**Settings System:**
-- Key-value pairs stored in settings table
-- Common keys: brand_name, brand_slogan, brand_description, brand_logo, zalo_link, contact_email, contact_phone, facebook_link
-- Retrieved via `Setting.getAll()` which returns an object with keys as properties
+### 7) Reporting flow
+`routes/reports.js`:
+- Aggregates orders by date range (`day/week/month` grouping)
+- Computes gross and net margins
+- Exports order data to CSV (`json2csv`) or Excel (`exceljs`)
 
-## Important Notes
+`models/FixedCost.getTotalByDateRange()` uses overlap logic:
+- Any active fixed-cost record whose effective range overlaps the report range contributes full `amount`.
 
-- Database file is created at `data/database.sqlite` (configurable via DB_PATH env var)
-- Session secret should be changed in production (SESSION_SECRET env var)
-- The app uses `trust proxy` setting for secure cookies behind reverse proxies
-- CSP is disabled in helmet config to allow inline scripts for Chart.js
-- All admin routes require authentication - redirect to `/admin/login` if not authenticated
-- Vietnamese language is used throughout the UI and flash messages
-- When modifying products, always handle the packages relationship properly using the helper function `savePackagesFromBody()` in products.js
+## Seed and Schema Evolution Notes
+
+`config/seed.js` both initializes schema and performs incremental `ALTER TABLE` additions (wrapped in `try/catch`), then inserts default admin/settings/sample data when absent. It is intended to be rerunnable.
+
+Database connection (`config/database.js`):
+- Ensures `data/` directory exists
+- Uses SQLite WAL mode + foreign keys pragma
+
+## UI / Localization Conventions
+
+- UI copy and flash messages are Vietnamese
+- Admin and landing are Bootstrap-based EJS templates with some inline JavaScript (including Chart.js)
+- No layout engine — each EJS view is self-contained with full HTML boilerplate; partials are included manually via `<%- include(...) %>`
+- Currency formatting uses inline `.toLocaleString('vi-VN')` directly in templates (the `helpers/format.js` file exists but is unused dead code)
+- `transaction_proofs` has `sort_order` and `is_visible` fields controlling landing page display
+
+## Utility Scripts
+
+- `change_admin.js` — standalone script to reset admin credentials directly via DB. Edit credentials at the top of the file, then run `node change_admin.js`.
+- `DEPLOY.md` — VPS deployment guide covering aaPanel, PM2, Nginx reverse proxy, and Let's Encrypt SSL.
+
+## Repository Instruction Files
+
+- Existing repository guidance file: this `CLAUDE.md`
+- No `.cursorrules`, `.cursor/rules/`, or `.github/copilot-instructions.md` files were found in this repo
