@@ -1,0 +1,528 @@
+/* ==================== CLAUDE CODE POPUP ==================== */
+.claude-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    opacity: 0;
+    animation: claudeFadeIn 0.4s forwards;
+    box-sizing: border-box;
+}
+
+@keyframes claudeFadeIn {
+    to { opacity: 1; }
+}
+
+.claude-popup {
+    background: linear-gradient(135deg, #0a0a1a 0%, #1e1b4b 100%);
+    border: 2px solid #7c3aed;
+    border-radius: 14px;
+    width: min(82vw, 420px);
+    max-width: calc(100vw - 20px);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3),
+                0 0 50px rgba(124, 58, 237, 0.1),
+                inset 0 0 30px rgba(124, 58, 237, 0.05);
+    animation: claudeSlideUp 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), claudePulseAttention 2s ease-in-out 1s;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 20px);
+}
+
+.claude-popup,
+.claude-popup * {
+    box-sizing: border-box;
+}
+
+@keyframes claudePulseAttention {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+@keyframes claudeSlideUp {
+    0% {
+        transform: translateY(100px) scale(0.8);
+        opacity: 0;
+    }
+    60% {
+        transform: translateY(-10px) scale(1.02);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Sparkle effect */
+.claude-popup::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+    animation: claudeSparkle 3s ease-in-out infinite;
+    pointer-events: none;
+    border-radius: 18px;
+}
+
+@keyframes claudeSparkle {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.7; }
+}
+
+/* Purple border glow */
+.claude-popup::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, #7c3aed, #a855f7, #7c3aed, #a855f7);
+    border-radius: 22px;
+    z-index: -1;
+    animation: claudeBorderGlow 3s linear infinite;
+    background-size: 300% 300%;
+    opacity: 0.7;
+}
+
+@keyframes claudeBorderGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.claude-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #a855f7;
+    color: #fff;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.claude-close:hover {
+    background: rgba(124, 58, 237, 0.6);
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.6);
+}
+
+.claude-header {
+    padding: 12px;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.5);
+    overflow: hidden;
+    width: 100%;
+    flex: 0 0 auto;
+}
+
+.claude-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(124, 58, 237, 0.5);
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.3);
+    animation: claudePulse 2s ease-in-out infinite;
+}
+
+@keyframes claudePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 8px 32px rgba(124, 58, 237, 0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 8px 40px rgba(124, 58, 237, 0.5); }
+}
+
+.claude-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0 0 10px;
+    color: white;
+    text-shadow: 0 1px 6px rgba(124, 58, 237, 0.3);
+    letter-spacing: -0.5px;
+    line-height: 1.3;
+}
+
+.claude-subtitle {
+    font-size: 0.9rem;
+    color: #d8b4fe;
+    margin: 0;
+    font-weight: 600;
+}
+
+.claude-body {
+    padding: 10px;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 0;
+    flex: 1 1 auto;
+}
+
+.performance-comparison {
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+}
+
+.performance-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(124, 58, 237, 0.5);
+}
+
+.performance-bar {
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cursor-bar {
+    height: 100%;
+    width: 10%;
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    border-radius: 20px;
+    position: relative;
+}
+
+.claude-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #7c3aed, #a855f7);
+    border-radius: 20px;
+    position: relative;
+    animation: growBar 1.5s ease-out forwards;
+    transform-origin: left;
+}
+
+@keyframes growBar {
+    0% { transform: scaleX(0.1); }
+    100% { transform: scaleX(1); }
+}
+
+.performance-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.tool-name {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cursor-name {
+    color: #60a5fa;
+}
+
+.claude-name {
+    color: #a855f7;
+}
+
+.tool-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.performance-value {
+    font-weight: 700;
+    flex: 0 0 auto;
+}
+
+.cursor-value {
+    color: #60a5fa;
+}
+
+.claude-value {
+    color: #a855f7;
+}
+
+.benefits-list {
+    margin-bottom: 24px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 8px;
+    padding: 6px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.benefit-item:hover {
+    background: rgba(124, 58, 237, 0.1);
+    border-color: rgba(124, 58, 237, 0.4);
+    transform: translateX(5px);
+}
+
+.benefit-icon {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.benefit-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.benefit-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.benefit-desc {
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    margin: 0;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
+    width: 100%;
+    max-width: 100%;
+}
+
+.claude-cta {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s;
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    animation: ctaPulse 2s infinite;
+}
+
+@keyframes ctaPulse {
+    0%, 100% { box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3); }
+    50% { box-shadow: 0 4px 20px rgba(124, 58, 237, 0.5); }
+}
+
+.claude-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.6);
+    color: #fff;
+}
+
+.claude-note {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Floating particles animation */
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(124, 58, 237, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: floatParticle 15s linear infinite;
+}
+
+.particle:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    width: 6px;
+    height: 6px;
+    animation-duration: 20s;
+    animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+    top: 60%;
+    left: 80%;
+    width: 10px;
+    height: 10px;
+    animation-duration: 25s;
+    animation-delay: 2s;
+}
+
+.particle:nth-child(3) {
+    top: 30%;
+    left: 60%;
+    width: 5px;
+    height: 5px;
+    animation-duration: 18s;
+    animation-delay: 4s;
+}
+
+.particle:nth-child(4) {
+    top: 70%;
+    left: 30%;
+    width: 8px;
+    height: 8px;
+    animation-duration: 22s;
+    animation-delay: 6s;
+}
+
+.particle:nth-child(5) {
+    top: 40%;
+    left: 90%;
+    width: 7px;
+    height: 7px;
+    animation-duration: 19s;
+    animation-delay: 8s;
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translate(0, 0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-100px, -100px);
+        opacity: 0;
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+    .claude-popup {
+        width: calc(100vw - 20px);
+        max-width: calc(100vw - 20px);
+        margin: 0 auto;
+    }
+    
+    .claude-title {
+        font-size: 1.2rem;
+    }
+    
+    .claude-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .claude-logo {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .performance-title {
+        font-size: 1rem;
+    }
+    
+    .benefit-item {
+        padding: 8px;
+        gap: 8px;
+    }
+    
+    .benefit-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+    
+    .benefit-title {
+        font-size: 0.85rem;
+    }
+    
+    .benefit-desc {
+        font-size: 0.75rem;
+    }
+    
+    .claude-body {
+        padding: 10px;
+    }
+    
+    .performance-comparison {
+        padding: 10px;
+    }
+}

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - AI Dev Tools cho lập trình viên
+    </title>
+    <meta name="description"
+        content="<%= settings.brand_description || 'Cung cấp Cursor Pro, Augment Code, Claude, GitHub Copilot và các AI coding assistant hàng đầu cho lập trình viên.' %>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/landing.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- ==================== HEADER ==================== -->
+    <nav class="navbar navbar-expand-lg navbar-landing">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <% if (settings.brand_logo) { %><img src="<%= settings.brand_logo %>" alt="Logo" style="height:36px"
+                        class="me-2">
+                    <% }%>
+                        <i class="bi bi-braces"></i>
+                        <%= settings.brand_name || 'Tobi Store' %>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list text-white fs-4"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item"><a class="nav-link" href="#home">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products">Sản phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero-section" id="home">
+        <div class="container position-relative">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="hero-title mb-4">
+                        Sử dụng không giới hạn request AI xịn với<br>
+                        <span class="gradient-text">
+                            <%= settings.brand_slogan || 'AI Dev Tools hàng đầu' %>
+                        </span>
+                    </h1>
+                    <p class="hero-subtitle mb-4">
+                        <% if (settings.brand_description) { %>
+                            <%= settings.brand_description %>
+                        <% } else { %>
+                            Chuyên cung cấp <span class="product-highlight">Cursor Pro</span>, <span class="product-highlight">Augment Code</span>, <span class="product-highlight">Augment Pro</span>, <span class="product-highlight">Claude</span>, <span class="product-highlight">Augment Plus</span>, <span class="product-highlight">GitHub Copilot</span> — các AI coding assistant giúp lập trình viên tăng năng suất gấp nhiều lần.
+                        <% } %>
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="#products" class="btn-cta">
+                            <i class="bi bi-lightning-charge-fill"></i> Khám phá ngay
+                        </a>
+                        <a href="#transaction-proofs" class="btn-cta-secondary">
+                            <i class="bi bi-receipt-cutoff"></i> Check bill giao dịch
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center mt-5 mt-lg-0">
+                    <div class="float-animation position-relative" style="font-size:180px;opacity:0.15;color:#7c3aed">
+                        <i class="bi bi-code-slash"></i>
+                        <i class="bi bi-terminal-fill"
+                            style="font-size:80px;position:absolute;top:10px;right:20px;opacity:0.6;color:#a855f7"></i>
+                        <i class="bi bi-lightning-charge-fill"
+                            style="font-size:60px;position:absolute;bottom:10px;left:30px;opacity:0.5;color:#ec4899"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== BRANDS SECTION ==================== -->
+    <section class="brands-section">
+        <div class="container">
+            <p class="brands-label text-center mb-4">Các sản phẩm AI hàng đầu chúng tôi cung cấp</p>
+            <div class="brands-grid">
+                <div class="brand-item">
+                    <img src="/uploads/products/cursor-logo.jpg" alt="Cursor">
+                </div>
+                <div class="brand-item">
+                    <img src="/uploads/products/augment-logo.png" alt="Augment Code">
+                </div>
+                <div class="brand-item">
+                    <img src="/uploads/products/windsurf-logo.png" alt="Windsurf">
+                </div>
+                <div class="brand-item">
+                    <img src="/uploads/products/claude-logo.png" alt="Claude">
+                </div>
+                <div class="brand-item">
+                    <img src="/uploads/products/gemini-logo.png" alt="Google Gemini">
+                </div>
+                <div class="brand-item">
+                    <img src="/uploads/products/chatgpt-logo.png" alt="ChatGPT">
+                </div>
+                <div class="brand-item">
+                    <img src="/uploads/products/codex-logo.png" alt="Codex">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TRUST SECTION ==================== -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card">
+                        <div class="trust-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h4 class="trust-title">Bảo hành tài khoản</h4>
+                        <p class="trust-desc">Cam kết bảo hành và hỗ trợ trong suốt thời gian sử dụng</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card">
+                        <div class="trust-icon">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                        </div>
+                        <h4 class="trust-title">Hoàn tiền 100%</h4>
+                        <p class="trust-desc">Hoàn tiền nếu không hài lòng với dịch vụ của chúng tôi</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card">
+                        <div class="trust-icon">
+                            <i class="bi bi-headset"></i>
+                        </div>
+                        <h4 class="trust-title">Hỗ trợ 24/7</h4>
+                        <p class="trust-desc">Hỗ trợ nhanh chóng qua Zalo/Telegram mọi lúc mọi nơi</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card">
+                        <div class="trust-icon">
+                            <i class="bi bi-lightning-charge"></i>
+                        </div>
+                        <h4 class="trust-title">Giao hàng tức thì</h4>
+                        <p class="trust-desc">Nhận tài khoản ngay sau khi thanh toán thành công</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PRODUCTS SECTION ==================== -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <h2 class="section-title">Các gói sản phẩm <span class="gradient-text">AI</span></h2>
+            <p class="section-subtitle">Chọn gói phù hợp với nhu cầu của bạn. Nâng cấp hoặc hủy bất cứ lúc nào.</p>
+
+            <div class="row g-4 justify-content-center">
+                <% products.forEach(product=> { %>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="product-card <%= product.is_featured ? 'featured' : '' %>">
+                            <div class="product-image-wrapper">
+                                <% if (product.image) { %>
+                                    <img src="<%= product.image %>" alt="<%= product.name %>">
+                                    <% } else { %>
+                                        <div class="product-image-placeholder">
+                                            <i class="bi bi-box-seam"></i>
+                                        </div>
+                                        <% } %>
+
+                                <!-- Badges -->
+                                <div class="product-badges">
+                                    <% if (product.is_featured) { %>
+                                        <span class="badge badge-hot">🔥 Bán chạy</span>
+                                    <% } %>
+                                    <% if (product.name && (product.name.toLowerCase().includes('pro') || product.name.toLowerCase().includes('premium'))) { %>
+                                        <span class="badge badge-premium">💎 Full model</span>
+                                    <% } %>
+                                    <% if (product.packages && product.packages.some(pkg => !pkg.request_count || pkg.request_count === 'Vô Hạn')) { %>
+                                        <span class="badge badge-unlimited">⚡ Unlimited</span>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <h3 class="product-name">
+                                <%= product.name %>
+                            </h3>
+
+                            <% if (product.description) { %>
+                                <p class="product-description" title="<%= product.description %>">
+                                    <%= product.description %>
+                                </p>
+                            <% } %>
+
+                            <!-- Prominent Price Display -->
+                            <% if (!product.packages || product.packages.length===0) { %>
+                                <div class="price-highlight">
+                                    <div class="price-label">Giá chỉ từ</div>
+                                    <div class="price-amount">
+                                        <%= Number(product.price || 0).toLocaleString('vi-VN') %>đ
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <%
+                                    const prices = product.packages.map(pkg => Number(pkg.price));
+                                    const minPrice = Math.min(...prices);
+                                    const maxPrice = Math.max(...prices);
+                                %>
+                                <div class="price-highlight">
+                                    <div class="price-label">Giá chỉ từ</div>
+                                    <div class="price-amount">
+                                        <%= minPrice.toLocaleString('vi-VN') %>đ
+                                    </div>
+                                    <% if (minPrice !== maxPrice) { %>
+                                        <div class="price-range-text">đến <%= maxPrice.toLocaleString('vi-VN') %>đ</div>
+                                    <% } %>
+                                </div>
+                            <% } %>
+
+                            <!-- Trust Indicators -->
+                            <div class="trust-indicators">
+                                <span class="trust-item">
+                                    <i class="bi bi-bag-check-fill"></i> Đã bán: <%= Math.floor(Math.random() * 500) + 100 %>+
+                                </span>
+                                <span class="trust-item">
+                                    ⭐ <%= (4.5 + Math.random() * 0.4).toFixed(1) %>/5
+                                </span>
+                            </div>
+
+                                            <% if (product.packages && product.packages.length> 0) { %>
+                                                <table class="package-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Gói</th>
+                                                            <th>Request</th>
+                                                            <th class="text-end">Giá</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% product.packages.forEach(pkg=> { %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= pkg.duration %>
+                                                                        <%= pkg.duration_unit %>
+                                                                </td>
+                                                                <td class="col-request">
+                                                                    <%= pkg.request_count || 'Vô Hạn' %>
+                                                                </td>
+                                                                <td class="col-price">
+                                                                    <%= Number(pkg.price).toLocaleString('vi-VN') %>đ
+                                                                </td>
+                                                            </tr>
+                                                            <% }) %>
+                                                    </tbody>
+                                                </table>
+                                                <% } %>
+
+                                                    <ul class="product-features">
+                                                        <% if (product.features) { %>
+                                                            <% product.features.split('\n').filter(f=>
+                                                                f.trim()).forEach(feature => { %>
+                                                                <li><i class="bi bi-check2"></i>
+                                                                    <%= feature.trim() %>
+                                                                </li>
+                                                                <% }) %>
+                                                                    <% } %>
+                                                    </ul>
+
+                                                    <a href="<%= settings.zalo_link || '#' %>" target="_blank"
+                                                        rel="noopener" class="btn-buy">
+                                                        <i class="bi bi-box-arrow-up-right"></i> Mua Ngay
+                                                    </a>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+
+            <% if (products.length===0) { %>
+                <div class="text-center py-5">
+                    <p class="text-muted fs-5">Sản phẩm đang được cập nhật. Vui lòng quay lại sau!</p>
+                </div>
+                <% }%>
+        </div>
+    </section>
+
+    <!-- ==================== TRANSACTION PROOFS SECTION ==================== -->
+    <% if (transactionProofs && transactionProofs.length > 0) { %>
+    <section class="transaction-proofs-section" id="transaction-proofs">
+        <div class="container">
+            <h2 class="section-title">Bằng chứng <span class="gradient-text">giao dịch</span></h2>
+            <p class="section-subtitle">Khách hàng tin tưởng và đã mua hàng tại cửa hàng của chúng tôi</p>
+
+            <div class="row g-4">
+                <% transactionProofs.forEach(proof => { %>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="proof-card" onclick="showProofModal('<%= proof.image_path %>', '<%= proof.customer_name || '' %>', '<%= proof.amount ? Number(proof.amount).toLocaleString('vi-VN') + 'đ' : '' %>', '<%= proof.transaction_date ? new Date(proof.transaction_date).toLocaleDateString('vi-VN') : '' %>')">
+                            <div class="proof-image-wrapper">
+                                <img src="<%= proof.image_path %>" alt="Transaction proof" loading="lazy">
+                                <div class="proof-overlay">
+                                    <i class="bi bi-zoom-in"></i>
+                                </div>
+                            </div>
+                            <% if (proof.customer_name || proof.amount) { %>
+                            <div class="proof-info">
+                                <% if (proof.customer_name) { %>
+                                    <div class="proof-customer"><i class="bi bi-person-fill"></i> <%= proof.customer_name %></div>
+                                <% } %>
+                                <% if (proof.amount) { %>
+                                    <div class="proof-amount"><%= Number(proof.amount).toLocaleString('vi-VN') %>đ</div>
+                                <% } %>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+    <% } %>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer-section" id="contact">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading"><i class="bi bi-braces me-2"></i>
+                        <%= settings.brand_name || 'Tobi Store' %>
+                    </h5>
+                    <p class="footer-text">
+                        <%= settings.brand_description || '' %>
+                    </p>
+                    <div class="footer-social mt-3">
+                        <% if (settings.facebook_link) { %>
+                            <a href="<%= settings.facebook_link %>" target="_blank" class="social-link">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                        <% } %>
+                        <% if (settings.zalo_link) { %>
+                            <a href="<%= settings.zalo_link %>" target="_blank" class="social-link">
+                                <i class="bi bi-chat-dots-fill"></i>
+                            </a>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-heading">Câu hỏi thường gặp</h6>
+                    <ul class="footer-list">
+                        <li><a href="#faq-account">Tài khoản có bị khóa không?</a></li>
+                        <li><a href="#faq-warranty">Bảo hành như thế nào?</a></li>
+                        <li><a href="#faq-payment">Thanh toán qua đâu?</a></li>
+                        <li><a href="#faq-delivery">Giao hàng mất bao lâu?</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-heading">Chính sách</h6>
+                    <ul class="footer-list">
+                        <li><a href="#policy-refund">Chính sách hoàn tiền</a></li>
+                        <li><a href="#policy-warranty">Chính sách bảo hành</a></li>
+                        <li><a href="#policy-terms">Điều khoản sử dụng</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-heading">Liên hệ</h6>
+                    <ul class="footer-list">
+                        <% if (settings.contact_email) { %>
+                            <li>
+                                <i class="bi bi-envelope me-2"></i>
+                                <a href="mailto:<%= settings.contact_email %>"><%= settings.contact_email %></a>
+                            </li>
+                        <% } %>
+                        <% if (settings.contact_phone) { %>
+                            <li>
+                                <i class="bi bi-telephone me-2"></i>
+                                <a href="tel:<%= settings.contact_phone %>"><%= settings.contact_phone %></a>
+                            </li>
+                        <% } %>
+                        <% if (settings.zalo_link) { %>
+                            <li>
+                                <i class="bi bi-chat-dots me-2"></i>
+                                <a href="<%= settings.zalo_link %>" target="_blank">Chat Zalo</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="footer-divider">
+
+            <p class="footer-copyright">&copy; <%= new Date().getFullYear() %> <%= settings.brand_name || 'Tobi Store' %>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Nút Zalo nổi -->
+    <% if (settings.zalo_link) { %>
+        <a href="<%= settings.zalo_link %>" target="_blank" rel="noopener"
+            style="position:fixed;bottom:24px;right:24px;width:60px;height:60px;background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;box-shadow:0 4px 20px rgba(124,58,237,0.5);z-index:999;text-decoration:none;transition:transform 0.2s"
+            onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <i class="bi bi-chat-dots-fill"></i>
+        </a>
+        <% } %>
+
+            <!-- Transaction Proof Modal -->
+            <div class="modal fade" id="proofModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content" style="background:#1e293b;border:1px solid rgba(255,255,255,0.1)">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title" style="color:#fff">Bằng chứng giao dịch</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center mb-3">
+                                <img id="proofModalImage" src="" alt="Transaction proof" style="max-width:100%;border-radius:8px">
+                            </div>
+                            <div id="proofModalInfo" style="color:#e2e8f0"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promotion Popup - Tet Theme -->
+            <div id="promoPopup" class="promo-popup-overlay" style="display: none;">
+                <div class="promo-popup">
+                    <button class="promo-close" onclick="closePromoPopup()">×</button>
+
+                    <div class="promo-header">
+                        <div class="promo-badge">🧧 Lì Xì Tết 2026</div>
+                        <h2 class="promo-title">🎊 CHÚC MỪNG NĂM MỚI 🎊</h2>
+                        <p class="promo-subtitle">Mở lì xì nhận quà khủng!</p>
+                    </div>
+
+                    <div class="promo-body">
+                        <div class="promo-condition">
+                            <div class="promo-condition-label">🌼 Mua từ 200K nhận ngay 🌼</div>
+                            <div class="promo-condition-value">3 QUÀ TẶNG</div>
+                        </div>
+
+                        <div class="promo-gifts">
+                            <h3 class="promo-gifts-title">🎁 Lì xì may mắn gồm có</h3>
+
+                            <div class="promo-gift-item">
+                                <div class="promo-gift-icon">🚀</div>
+                                <div class="promo-gift-info">
+                                    <div class="promo-gift-name">Antigravity 1 năm</div>
+                                    <p class="promo-gift-desc">Truy cập không giới hạn các tính năng premium</p>
+                                </div>
+                            </div>
+
+                            <div class="promo-gift-item">
+                                <div class="promo-gift-icon">💎</div>
+                                <div class="promo-gift-info">
+                                    <div class="promo-gift-name">Gemini Pro 1 năm</div>
+                                    <p class="promo-gift-desc">AI model mạnh mẽ từ Google</p>
+                                </div>
+                            </div>
+
+                            <div class="promo-gift-item">
+                                <div class="promo-gift-icon">☁️</div>
+                                <div class="promo-gift-info">
+                                    <div class="promo-gift-name">2TB Google Drive</div>
+                                    <p class="promo-gift-desc">Lưu trữ đám mây dung lượng lớn</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="#products" class="promo-cta" onclick="closePromoPopup()">
+                            🧨 Mua ngay nhận lì xì 🧨
+                        </a>
+
+                        <p class="promo-note">🌸 Số lượng có hạn - Nhanh tay kẻo lỡ! 🌸</p>
+                    </div>
+                </div>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                // Smooth scroll
+                document.querySelectorAll('a[href^="#"]').forEach(a => {
+                    a.addEventListener('click', e => {
+                        e.preventDefault();
+                        const target = document.querySelector(a.getAttribute('href'));
+                        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                });
+
+                // Show transaction proof modal
+                function showProofModal(imageUrl, customerName, amount, date) {
+                    document.getElementById('proofModalImage').src = imageUrl;
+                    let infoHtml = '';
+                    if (customerName) infoHtml += '<p class="mb-2"><i class="bi bi-person-fill me-2"></i><strong>Khách hàng:</strong> ' + customerName + '</p>';
+                    if (amount) infoHtml += '<p class="mb-2"><i class="bi bi-cash-coin me-2"></i><strong>Số tiền:</strong> <span style="color:#22c55e">' + amount + '</span></p>';
+                    if (date) infoHtml += '<p class="mb-0"><i class="bi bi-calendar-check me-2"></i><strong>Ngày giao dịch:</strong> ' + date + '</p>';
+                    document.getElementById('proofModalInfo').innerHTML = infoHtml;
+                    new bootstrap.Modal(document.getElementById('proofModal')).show();
+                }
+
+                // Promotion popup
+                function closePromoPopup() {
+                    const popup = document.getElementById('promoPopup');
+                    popup.style.opacity = '0';
+                    setTimeout(() => {
+                        popup.style.display = 'none';
+                    }, 300);
+                }
+
+                // Show popup on page load (always show, no storage)
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        document.getElementById('promoPopup').style.display = 'flex';
+                    }, 500);
+                });
+
+                // Close popup when clicking outside
+                document.getElementById('promoPopup')?.addEventListener('click', (e) => {
+                    if (e.target.id === 'promoPopup') {
+                        closePromoPopup();
+                    }
+                });
+            </script>
+</body>
+
+</html>

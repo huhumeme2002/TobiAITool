@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+    <style>
+        /* Fix màu chữ trong bảng packages - màu đen trên nền trắng */
+        #packagesTable input,
+        #packagesTable select,
+        .pkg-input {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ced4da !important;
+            -webkit-text-fill-color: #000000 !important;
+        }
+        #packagesTable input::placeholder,
+        .pkg-input::placeholder {
+            color: #6c757d !important;
+            -webkit-text-fill-color: #6c757d !important;
+            opacity: 1 !important;
+        }
+        #packagesTable input:focus,
+        #packagesTable select:focus,
+        .pkg-input:focus {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            -webkit-text-fill-color: #000000 !important;
+            border-color: #7c3aed !important;
+            box-shadow: 0 0 0 2px rgba(124,58,237,0.3) !important;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../../partials/admin-sidebar') %>
+
+    <main class="admin-main">
+        <%- include('../../partials/flash-messages') %>
+
+        <div class="mb-4">
+            <a href="/admin/products" class="text-muted text-decoration-none"><i class="bi bi-arrow-left me-1"></i> Quay lại</a>
+            <h4 class="fw-bold mt-2"><%= product ? 'Sửa sản phẩm' : 'Thêm sản phẩm mới' %></h4>
+        </div>
+
+        <div class="form-card" style="max-width:900px">
+            <form action="/admin/products/<%= product ? 'edit/' + product.id : 'create' %>" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label">Tên sản phẩm <span class="text-danger">*</span></label>
+                    <input type="text" name="name" class="form-control" value="<%= product ? product.name : '' %>" required placeholder="VD: Cursor Vô Hạn Request - Claude Opus">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Mô tả ngắn</label>
+                    <textarea name="description" class="form-control" rows="2" placeholder="VD: Sử dụng không giới hạn request và auto completion"><%= product ? product.description : '' %></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="bi bi-list-check me-1"></i> Tính năng nổi bật</label>
+                    <textarea name="features" class="form-control" rows="3" placeholder="VD: Sử dụng được claude 4.5 OPUS & SONNET&#10;Sử dụng được gemini 3 pro&#10;Sử dụng được gpt 5.2"><%= product ? (product.features || '') : '' %></textarea>
+                    <small class="text-muted">Mỗi dòng là một tính năng, hiển thị dưới dạng danh sách trên card sản phẩm.</small>
+                </div>
+
+                <!-- Upload ảnh sản phẩm -->
+                <div class="mb-3">
+                    <label class="form-label"><i class="bi bi-image me-1"></i> Ảnh sản phẩm</label>
+                    <input type="file" name="image" class="form-control" id="imageInput" accept="image/*">
+                    <small class="text-muted">Chấp nhận: JPG, PNG, GIF, WebP, SVG. Tối đa 5MB.</small>
+                    <% if (product) { %>
+                        <input type="hidden" name="existing_image" value="<%= product.image || '' %>">
+                    <% } %>
+                    <div id="imagePreview" class="mt-2" style="<%= (product && product.image) ? '' : 'display:none' %>">
+                        <div class="position-relative d-inline-block">
+                            <img id="previewImg" src="<%= (product && product.image) ? product.image : '' %>"
+                                 alt="Preview" style="max-height:150px;border-radius:8px;border:1px solid rgba(255,255,255,0.1)">
+                            <% if (product && product.image) { %>
+                            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                                    style="transform:translate(30%,-30%);border-radius:50%;width:28px;height:28px;padding:0"
+                                    onclick="deleteImage(<%= product.id %>)" title="Xóa ảnh">
+                                <i class="bi bi-x"></i>
+                            </button>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden fields cho các trường cũ (giữ tương thích) -->
+                <input type="hidden" name="price" value="<%= product ? product.price : 0 %>">
+                <input type="hidden" name="listed_price" value="<%= product ? product.listed_price : 0 %>">
+                <input type="hidden" name="cost" value="<%= product ? product.cost : 0 %>">
+                <input type="hidden" name="requests" value="<%= product ? product.requests : 0 %>">
+                <input type="hidden" name="duration" value="<%= product ? product.duration : 0 %>">
+                <input type="hidden" name="duration_unit" value="<%= product ? product.duration_unit : 'ngày' %>">
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Thứ tự hiển thị</label>
+                        <input type="number" name="sort_order" class="form-control" value="<%= product ? product.sort_order : 0 %>" min="0">
+                    </div>
+                </div>
+
+                <!-- ==================== PACKAGES ==================== -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <label class="form-label mb-0 fw-bold"><i class="bi bi-box-seam me-1"></i> Các gói theo thời hạn</label>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addPackageRow()">
+                            <i class="bi bi-plus-lg me-1"></i> Thêm gói
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm mb-0" id="packagesTable">
+                            <thead>
+                                <tr>
+                                    <th style="min-width:120px">Tên gói <span class="text-danger">*</span></th>
+                                    <th style="min-width:70px">Thời hạn</th>
+                                    <th style="min-width:80px">Đơn vị</th>
+                                    <th style="min-width:100px">Request</th>
+                                    <th style="min-width:110px">Giá bán (VNĐ)</th>
+                                    <th style="min-width:110px">Giá niêm yết</th>
+                                    <th style="min-width:100px">Chi phí vốn</th>
+                                    <th style="width:50px"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="packagesBody">
+                                <% if (product && product.packages && product.packages.length > 0) { %>
+                                    <% product.packages.forEach((pkg, idx) => { %>
+                                    <tr>
+                                        <td><input type="text" name="pkg_name" class="form-control form-control-sm pkg-input" value="<%= pkg.package_name %>" required></td>
+                                        <td><input type="number" name="pkg_duration" class="form-control form-control-sm pkg-input" value="<%= pkg.duration %>" min="1"></td>
+                                        <td>
+                                            <select name="pkg_duration_unit" class="form-select form-select-sm pkg-input">
+                                                <option value="ngày" <%= pkg.duration_unit === 'ngày' ? 'selected' : '' %>>Ngày</option>
+                                                <option value="tháng" <%= pkg.duration_unit === 'tháng' ? 'selected' : '' %>>Tháng</option>
+                                                <option value="năm" <%= pkg.duration_unit === 'năm' ? 'selected' : '' %>>Năm</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" name="pkg_request_count" class="form-control form-control-sm pkg-input" value="<%= pkg.request_count %>" placeholder="VD: Vô Hạn"></td>
+                                        <td><input type="number" name="pkg_price" class="form-control form-control-sm pkg-input" value="<%= pkg.price %>" min="0"></td>
+                                        <td><input type="number" name="pkg_listed_price" class="form-control form-control-sm pkg-input" value="<%= pkg.listed_price %>" min="0"></td>
+                                        <td><input type="number" name="pkg_cost" class="form-control form-control-sm pkg-input" value="<%= pkg.cost %>" min="0"></td>
+                                        <td>
+                                            <input type="hidden" name="pkg_sort_order" value="<%= idx + 1 %>">
+                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove()"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                <% }%>
+                            </tbody>
+                        </table>
+                    </div>
+                    <small class="text-muted">Mỗi gói là một mức giá theo thời hạn sử dụng (1 ngày, 7 ngày, 1 tháng, 3 tháng, 1 năm...)</small>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-auto">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="is_visible" id="is_visible" value="1" <%= (!product || product.is_visible) ? 'checked' : '' %>>
+                            <label class="form-check-label" for="is_visible">Hiển thị trên Landing Page</label>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="is_featured" id="is_featured" value="1" <%= (product && product.is_featured) ? 'checked' : '' %>>
+                            <label class="form-check-label" for="is_featured">⭐ Đánh dấu nổi bật</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-lg me-1"></i> <%= product ? 'Cập nhật' : 'Thêm mới' %></button>
+                    <a href="/admin/products" class="btn btn-outline-secondary">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Preview ảnh khi chọn file
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const img = document.getElementById('previewImg');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    img.src = ev.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Xóa ảnh sản phẩm (AJAX)
+        function deleteImage(productId) {
+            if (!confirm('Bạn có chắc muốn xóa ảnh này?')) return;
+            fetch('/admin/products/delete-image/' + productId, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('imagePreview').style.display = 'none';
+                        document.getElementById('previewImg').src = '';
+                        const hidden = document.querySelector('input[name="existing_image"]');
+                        if (hidden) hidden.value = '';
+                    }
+                });
+        }
+
+        // Thêm dòng package mới
+        function addPackageRow() {
+            const tbody = document.getElementById('packagesBody');
+            const rowCount = tbody.querySelectorAll('tr').length + 1;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" name="pkg_name" class="form-control form-control-sm pkg-input" placeholder="VD: 1 tháng" required></td>
+                <td><input type="number" name="pkg_duration" class="form-control form-control-sm pkg-input" value="1" min="1"></td>
+                <td>
+                    <select name="pkg_duration_unit" class="form-select form-select-sm pkg-input">
+                        <option value="ngày">Ngày</option>
+                        <option value="tháng">Tháng</option>
+                        <option value="năm">Năm</option>
+                    </select>
+                </td>
+                <td><input type="text" name="pkg_request_count" class="form-control form-control-sm pkg-input" placeholder="VD: Vô Hạn"></td>
+                <td><input type="number" name="pkg_price" class="form-control form-control-sm pkg-input" value="0" min="0"></td>
+                <td><input type="number" name="pkg_listed_price" class="form-control form-control-sm pkg-input" value="0" min="0"></td>
+                <td><input type="number" name="pkg_cost" class="form-control form-control-sm pkg-input" value="0" min="0"></td>
+                <td>
+                    <input type="hidden" name="pkg_sort_order" value="${rowCount}">
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove()"><i class="bi bi-trash"></i></button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        }
+    </script>
+</body>
+</html>

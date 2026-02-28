@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - Admin
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../../partials/admin-sidebar') %>
+        <main class="admin-main">
+            <%- include('../../partials/flash-messages') %>
+                <div class="mb-4">
+                    <a href="/admin/orders" class="text-muted text-decoration-none"><i
+                            class="bi bi-arrow-left me-1"></i> Quay lại</a>
+                    <h4 class="fw-bold mt-2">
+                        <%= order ? 'Sửa đơn hàng #' + order.id : 'Thêm đơn hàng mới' %>
+                    </h4>
+                </div>
+                <div class="form-card" style="max-width:750px">
+                    <form action="/admin/orders/<%= order ? 'edit/' + order.id : 'create' %>" method="POST">
+
+                        <!-- Khách hàng -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-5">
+                                <label class="form-label">Tên khách hàng <span class="text-danger">*</span></label>
+                                <input type="text" name="customer_name" class="form-control"
+                                    value="<%= order ? order.customer_name : '' %>" required
+                                    placeholder="Nhập tên khách hàng">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="text" name="customer_phone" class="form-control"
+                                    value="<%= order ? order.customer_phone : '' %>" placeholder="0912...">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="customer_email" class="form-control"
+                                    value="<%= order ? order.customer_email : '' %>" placeholder="email@...">
+                            </div>
+                        </div>
+
+                        <!-- Sản phẩm + Gói + Giá niêm yết -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-5">
+                                <label class="form-label">Sản phẩm <span class="text-danger">*</span></label>
+                                <select name="product_id" id="product_id" class="form-select" required>
+                                    <option value="">-- Chọn sản phẩm --</option>
+                                    <% products.forEach(p=> { %>
+                                        <option value="<%= p.id %>" <%=order && order.product_id==p.id ? 'selected' : ''
+                                            %>><%= p.name %> - <%= Number(p.price).toLocaleString('vi-VN') %>đ</option>
+                                        <% }) %>
+                                </select>
+                            </div>
+                            <div class="col-md-4" id="package_col" style="display:none">
+                                <label class="form-label">Gói (Package)</label>
+                                <select id="package_select" class="form-select">
+                                    <option value="">-- Chọn gói --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Giá niêm yết</label>
+                                <input type="text" id="listed_price_display" class="form-control"
+                                    value="<%= order ? Number(order.listed_price).toLocaleString('vi-VN') + 'đ' : '' %>"
+                                    readonly style="opacity:0.7">
+                            </div>
+                        </div>
+
+                        <!-- Giá bán + Chi phí vốn + Lợi nhuận -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Giá bán thực tế (VNĐ) <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" name="actual_price" id="actual_price" class="form-control"
+                                    value="<%= order ? order.actual_price : '' %>" required min="0">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Chi phí vốn (VNĐ) <span class="text-danger">*</span></label>
+                                <input type="number" name="cost" id="cost" class="form-control"
+                                    value="<%= order ? order.cost : '' %>" required min="0">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Lợi nhuận</label>
+                                <input type="text" id="profit_display" class="form-control fw-bold"
+                                    value="<%= order ? Number(order.profit).toLocaleString('vi-VN') + 'đ' : '0đ' %>"
+                                    readonly style="color:#a855f7;opacity:0.9">
+                            </div>
+                        </div>
+
+                        <!-- Ngày bán + Trạng thái -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Ngày bán <span class="text-danger">*</span></label>
+                                <input type="date" name="sale_date" class="form-control"
+                                    value="<%= order ? order.sale_date : new Date().toISOString().split('T')[0] %>"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Trạng thái</label>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" id="status_toggle" <%=(!order ||
+                                        order.status==='paid' ) ? 'checked' : '' %>>
+                                    <label class="form-check-label" for="status_toggle" id="status_label">
+                                        <%= (!order || order.status==='paid' ) ? '✅ Đã thanh toán' : (order &&
+                                            order.status==='pending' ? '⏳ Chưa thanh toán' : '❌ Đã hủy' ) %>
+                                    </label>
+                                </div>
+                                <input type="hidden" name="status" id="status_value"
+                                    value="<%= order ? order.status : 'paid' %>">
+                            </div>
+                        </div>
+
+                        <!-- Ghi chú -->
+                        <div class="mb-4">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea name="notes" class="form-control" rows="2"
+                                placeholder="Ghi chú thêm (tùy chọn)"><%= order ? order.notes : '' %></textarea>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-lg me-1"></i>
+                                <%= order ? 'Cập nhật' : 'Thêm đơn hàng' %>
+                            </button>
+                            <a href="/admin/orders" class="btn btn-outline-secondary">Hủy</a>
+                        </div>
+                    </form>
+                </div>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Auto-fill khi chọn sản phẩm
+            function loadProductInfo(productId, resetPrices) {
+                const packageCol = document.getElementById('package_col');
+                const packageSelect = document.getElementById('package_select');
+
+                if (!productId) {
+                    if (resetPrices) {
+                        document.getElementById('listed_price_display').value = '';
+                        document.getElementById('actual_price').value = '';
+                        document.getElementById('cost').value = '';
+                    }
+                    packageCol.style.display = 'none';
+                    calcProfit();
+                    return;
+                }
+
+                fetch('/admin/orders/api/product/' + productId)
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.error) return;
+
+                        if (data.packages && data.packages.length > 0) {
+                            // Có packages
+                            packageCol.style.display = 'block';
+                            packageSelect.innerHTML = '<option value="">-- Chọn gói --</option>';
+                            data.packages.forEach(pkg => {
+                                const opt = document.createElement('option');
+                                opt.value = pkg.id;
+                                opt.dataset.price = pkg.price;
+                                opt.dataset.listed = pkg.listed_price || pkg.price;
+                                opt.dataset.cost = pkg.cost;
+                                opt.textContent = `${pkg.package_name} - ${Number(pkg.price).toLocaleString('vi-VN')}đ`;
+                                packageSelect.appendChild(opt);
+                            });
+
+                            // Reset giá nếu cần (khi user switch product)
+                            if (resetPrices) {
+                                document.getElementById('listed_price_display').value = '';
+                                document.getElementById('actual_price').value = '';
+                                document.getElementById('cost').value = '';
+                            }
+                        } else {
+                            // Không có packages
+                            packageCol.style.display = 'none';
+                            if (resetPrices) {
+                                document.getElementById('listed_price_display').value = Number(data.listed_price).toLocaleString('vi-VN') + 'đ';
+                                document.getElementById('actual_price').value = data.price;
+                                document.getElementById('cost').value = data.cost;
+                            }
+                        }
+                        if (resetPrices) calcProfit();
+                    });
+            }
+
+            // Event listener
+            document.getElementById('product_id').addEventListener('change', function () {
+                loadProductInfo(this.value, true);
+            });
+
+            // Initial load (cho Edit mode)
+            const initialProductId = document.getElementById('product_id').value;
+            if (initialProductId) {
+                loadProductInfo(initialProductId, false);
+            }
+
+            // Xử lý khi chọn package
+            document.getElementById('package_select').addEventListener('change', function () {
+                const opt = this.options[this.selectedIndex];
+                if (opt.value) {
+                    document.getElementById('listed_price_display').value = Number(opt.dataset.listed).toLocaleString('vi-VN') + 'đ';
+                    document.getElementById('actual_price').value = opt.dataset.price;
+                    document.getElementById('cost').value = opt.dataset.cost;
+                    calcProfit();
+                }
+            });
+
+            // Tính lợi nhuận realtime
+            function calcProfit() {
+                const ap = parseInt(document.getElementById('actual_price').value) || 0;
+                const c = parseInt(document.getElementById('cost').value) || 0;
+                const profit = ap - c;
+                const el = document.getElementById('profit_display');
+                el.value = Number(profit).toLocaleString('vi-VN') + 'đ';
+                el.style.color = profit >= 0 ? '#a855f7' : '#ef4444';
+            }
+            document.getElementById('actual_price').addEventListener('input', calcProfit);
+            document.getElementById('cost').addEventListener('input', calcProfit);
+
+            // Toggle trạng thái
+            document.getElementById('status_toggle').addEventListener('change', function () {
+                const label = document.getElementById('status_label');
+                const hidden = document.getElementById('status_value');
+                if (this.checked) {
+                    label.textContent = '✅ Đã thanh toán';
+                    hidden.value = 'paid';
+                } else {
+                    label.textContent = '⏳ Chưa thanh toán';
+                    hidden.value = 'pending';
+                }
+            });
+        </script>
+</body>
+
+</html>

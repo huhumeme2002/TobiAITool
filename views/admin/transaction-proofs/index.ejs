@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - Admin
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../../partials/admin-sidebar') %>
+
+        <main class="admin-main">
+            <%- include('../../partials/flash-messages') %>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-receipt-cutoff me-2"></i>Quản lý bằng chứng giao dịch</h4>
+                        <p class="text-muted mb-0">Tổng: <%= proofs.length %> bằng chứng</p>
+                    </div>
+                    <div>
+                        <a href="/admin/transaction-proofs/batch" class="btn btn-success me-2"><i class="bi bi-images me-1"></i> Upload nhiều ảnh</a>
+                        <a href="/admin/transaction-proofs/new" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> Thêm bằng chứng</a>
+                    </div>
+                </div>
+
+                <div class="table-dark-custom">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th style="width:80px">Vị trí</th>
+                                    <th>Ảnh</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Số tiền</th>
+                                    <th>Ngày giao dịch</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (proofs.length===0) { %>
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-4">Chưa có bằng chứng giao dịch nào</td>
+                                    </tr>
+                                    <% }%>
+                                        <% proofs.forEach((proof, idx)=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= idx + 1 %>
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                        class="form-control form-control-sm text-center"
+                                                        value="<%= proof.sort_order %>"
+                                                        onchange="updateSortOrder(<%= proof.id %>, this.value)"
+                                                        style="width: 60px">
+                                                </td>
+                                                <td>
+                                                    <% if (proof.image_path) { %>
+                                                        <img src="<%= proof.image_path %>" alt="Transaction proof"
+                                                            style="width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.1);cursor:pointer"
+                                                            onclick="showImageModal('<%= proof.image_path %>')">
+                                                        <% } else { %>
+                                                            <div
+                                                                style="width:80px;height:80px;border-radius:6px;background:rgba(124,58,237,0.15);display:flex;align-items:center;justify-content:center">
+                                                                <i class="bi bi-image text-muted"></i>
+                                                            </div>
+                                                            <% } %>
+                                                </td>
+                                                <td class="fw-semibold">
+                                                    <%= proof.customer_name || '—' %>
+                                                </td>
+                                                <td>
+                                                    <span class="text-success fw-bold">
+                                                        <%= Number(proof.amount || 0).toLocaleString('vi-VN') %>đ
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <%= proof.transaction_date ? new Date(proof.transaction_date).toLocaleDateString('vi-VN') : '—' %>
+                                                </td>
+                                                <td>
+                                                    <% if (proof.is_visible) { %>
+                                                        <span class="badge badge-paid px-2 py-1">Hiển thị</span>
+                                                        <% }else { %>
+                                                            <span class="badge badge-cancelled px-2 py-1">Ẩn</span>
+                                                            <% }%>
+                                                </td>
+                                                <td>
+                                                    <a href="/admin/transaction-proofs/edit/<%= proof.id %>"
+                                                        class="btn btn-sm btn-outline-primary me-1"><i
+                                                            class="bi bi-pencil"></i></a>
+                                                    <form action="/admin/transaction-proofs/<%= proof.id %>/delete" method="POST"
+                                                        class="d-inline"
+                                                        onsubmit="return confirm('Bạn có chắc muốn xóa bằng chứng này?')">
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </main>
+
+        <!-- Image Modal -->
+        <div class="modal fade" id="imageModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content" style="background:var(--bg-card);border:1px solid var(--border-color)">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title">Bằng chứng giao dịch</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img id="modalImage" src="" alt="Transaction proof" style="max-width:100%;border-radius:8px">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function updateSortOrder(id, order) {
+                fetch('/admin/transaction-proofs/update-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, sort_order: order })
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (!data.success) alert('Lỗi: ' + data.message);
+                        else {
+                            const input = document.activeElement;
+                            if (input) {
+                                input.style.borderColor = '#198754';
+                                setTimeout(() => input.style.borderColor = '', 1000);
+                            }
+                        }
+                    })
+                    .catch(err => alert('Lỗi kết nối'));
+            }
+
+            function showImageModal(imageUrl) {
+                document.getElementById('modalImage').src = imageUrl;
+                new bootstrap.Modal(document.getElementById('imageModal')).show();
+            }
+        </script>
+</body>
+
+</html>
