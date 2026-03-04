@@ -60,10 +60,11 @@
                                 Cursor
                             </a>
                             <div class="nav-subitems">
-                                <a href="#cursor-step1" class="nav-subitem">Bước 1: Cài Extension</a>
-                                <a href="#cursor-step2" class="nav-subitem">Bước 2: Mở Extension</a>
-                                <a href="#cursor-step3" class="nav-subitem">Bước 3: Cấu hình</a>
-                                <a href="#cursor-step4" class="nav-subitem">Bước 4: Kích hoạt</a>
+                                <a href="#cursor-step1" class="nav-subitem">Bước 1: Cài đặt Cursor</a>
+                                <a href="#cursor-step2" class="nav-subitem">Bước 2: Cài Extension</a>
+                                <a href="#cursor-step3" class="nav-subitem">Bước 3: Mở Extension</a>
+                                <a href="#cursor-step4" class="nav-subitem">Bước 4: Cấu hình</a>
+                                <a href="#cursor-step5" class="nav-subitem">Bước 5: Kích hoạt</a>
                             </div>
                             <a href="#augment" class="nav-item">
                                 <img src="/uploads/logos/augment.png" alt="Augment" class="nav-icon">
@@ -119,9 +120,24 @@
                                 </h2>
                             </div>
 
-
                             <div class="step-card" id="cursor-step1">
                                 <div class="step-number">Bước 1</div>
+                                <h3>Cài đặt Cursor phiên bản cũ hơn 2.4.0</h3>
+                                <p>Tải và cài đặt Cursor phiên bản 2.3.41 (xóa phiên bản hiện tại nếu có).</p>
+                                <p>
+                                    <a href="https://cursorhistory.com/versions/2.3.41" target="_blank"
+                                        class="download-link">
+                                        <i class="bi bi-download me-2"></i>Tải Cursor 2.3.41
+                                    </a>
+                                </p>
+                                <div class="alert-info">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    <strong>Ghi chú:</strong> Log tài khoản bất kỳ
+                                </div>
+                            </div>
+
+                            <div class="step-card" id="cursor-step2">
+                                <div class="step-number">Bước 2</div>
                                 <h3>Cài đặt Extension</h3>
                                 <p>
                                     <a href="https://drive.google.com/file/d/1O8evGISTEnmcVqs6UiZ4VZv050mzFZLH/view?usp=sharing"
@@ -140,8 +156,8 @@
                                 </div>
                             </div>
 
-                            <div class="step-card" id="cursor-step2">
-                                <div class="step-number">Bước 2</div>
+                            <div class="step-card" id="cursor-step3">
+                                <div class="step-number">Bước 3</div>
                                 <h3>Mở Extension</h3>
                                 <p>Chọn biểu tượng extension trên thanh sidebar</p>
                                 <div class="guide-image">
@@ -149,20 +165,54 @@
                                 </div>
                             </div>
 
-                            <div class="step-card" id="cursor-step3">
-                                <div class="step-number">Bước 3</div>
+                            <div class="step-card" id="cursor-step4">
+                                <div class="step-number">Bước 4</div>
                                 <h3>Cấu hình Extension</h3>
 
-                                <h4>Nhập API Key và Sign In</h4>
+                                <h4>Bước 1: Nhập API Key và Sign In</h4>
                                 <p>Nhập API key shop cung cấp vào ô "Enter your activation code" và bấm <strong>Sign
                                         In</strong></p>
                                 <div class="guide-image">
                                     <img src="/uploads/guide/nhap-code.png" alt="Nhập API key và Sign In" />
                                 </div>
+
+                                <h4>Bước 2: Kích hoạt Custom Endpoint</h4>
+                                <p>Kéo xuống dưới, bấm <strong>Add Endpoint</strong> và bật <strong>Enable Custom
+                                        Endpoint</strong></p>
+
+                                <h4>Bước 3: Cấu hình Endpoint</h4>
+                                <p>Điền thông tin cấu hình như sau:</p>
+
+                                <div class="config-box">
+                                    <div class="config-item">
+                                        <span class="config-label">Tên:</span>
+                                        <span class="config-value">Đặt tên tùy ý (ví dụ: X)</span>
+                                    </div>
+                                    <div class="config-item">
+                                        <span class="config-label">Base URL:</span>
+                                        <span class="config-value"><code>http://zeno360.click/v1</code></span>
+                                    </div>
+                                    <div class="config-item">
+                                        <span class="config-label">API Key:</span>
+                                        <span class="config-value">Key API shop cấp (ẩn dạng dấu chấm)</span>
+                                    </div>
+                                    <div class="config-item">
+                                        <span class="config-label">Model:</span>
+                                        <span class="config-value"><code>claude-opus-4-6</code> (chữ "c" không in
+                                            hoa)</span>
+                                    </div>
+                                </div>
+
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/config.png" alt="Cấu hình Endpoint" />
+                                </div>
+
+                                <p class="mt-3">Sau đó: Chọn <strong>Claude Code</strong> từ dropdown và bấm
+                                    <strong>Save</strong></p>
                             </div>
 
-                            <div class="step-card" id="cursor-step4">
-                                <div class="step-number">Bước 4</div>
+                            <div class="step-card" id="cursor-step5">
+                                <div class="step-number">Bước 5</div>
                                 <h3>Kích hoạt</h3>
                                 <ol>
                                     <li>Bấm <strong>Active</strong> để kích hoạt</li>
@@ -266,7 +316,8 @@
                                 <div class="step-number">Bước 4</div>
                                 <h3>Cấu hình Claude Code với giao diện</h3>
                                 <p>Tìm extension <strong>Claude Code</strong> trong VSCode và bấm vào biểu tượng
-                                    <strong>Configure</strong> ở góc trên bên phải để cho phép kết nối MCP server.</p>
+                                    <strong>Configure</strong> ở góc trên bên phải để cho phép kết nối MCP server.
+                                </p>
                                 <div class="guide-image">
                                     <img src="/uploads/guide/claude3.png"
                                         alt="Tìm extension Claude Code trong VSCode" />
