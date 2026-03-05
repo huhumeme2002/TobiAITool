@@ -77,6 +77,8 @@ const reportRoutes = require('./routes/reports');
 const settingsRoutes = require('./routes/settings');
 const transactionProofsRoutes = require('./routes/transactionProofs');
 const fixedCostsRoutes = require('./routes/fixedCosts');
+const checkoutRoutes = require('./routes/checkout');
+const webhookRoutes = require('./routes/webhook');
 
 app.use('/admin', authRoutes);
 app.use('/admin/dashboard', dashboardRoutes);
@@ -86,6 +88,10 @@ app.use('/admin/reports', reportRoutes);
 app.use('/admin/settings', settingsRoutes);
 app.use('/admin/transaction-proofs', transactionProofsRoutes);
 app.use('/admin/fixed-costs', fixedCostsRoutes);
+
+// Checkout & Payment
+app.use('/checkout', checkoutRoutes);
+app.use('/api/sepay', webhookRoutes);
 
 // ==================== XỬ LÝ LỖI ====================
 

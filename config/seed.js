@@ -47,49 +47,49 @@ db.exec(`
 // Thêm cột image nếu bảng đã tồn tại nhưng chưa có cột image
 try {
     db.exec(`ALTER TABLE products ADD COLUMN image TEXT DEFAULT ''`);
-}catch (e) {
+} catch (e) {
     // Cột đã tồn tại, bỏ qua
 }
 
 // Thêm cột features nếu bảng đã tồn tại nhưng chưa có cột features
 try {
     db.exec(`ALTER TABLE products ADD COLUMN features TEXT DEFAULT ''`);
-}catch (e) {
+} catch (e) {
     // Cột đã tồn tại, bỏ qua
 }
 
 // Thêm cột cost (chi phí vốn) vào products
 try {
     db.exec(`ALTER TABLE products ADD COLUMN cost INTEGER NOT NULL DEFAULT 0`);
-}catch (e) {
+} catch (e) {
     // Cột đã tồn tại, bỏ qua
 }
 
 // Thêm cột listed_price (giá niêm yết) vào products
 try {
     db.exec(`ALTER TABLE products ADD COLUMN listed_price INTEGER NOT NULL DEFAULT 0`);
-}catch (e) {
+} catch (e) {
     // Cột đã tồn tại, bỏ qua
 }
 
 // Cập nhật listed_price = price cho các sản phẩm cũ chưa có listed_price
 try {
     db.exec(`UPDATE products SET listed_price = price WHERE listed_price = 0 AND price > 0`);
-}catch (e) {
+} catch (e) {
     // Bỏ qua
 }
 
 // Thêm cột package_id vào orders
 try {
     db.exec(`ALTER TABLE orders ADD COLUMN package_id INTEGER DEFAULT NULL`);
-}catch (e) {
+} catch (e) {
     // Cột đã tồn tại, bỏ qua
 }
 
 // Thêm cột package_name vào orders
 try {
     db.exec(`ALTER TABLE orders ADD COLUMN package_name TEXT DEFAULT ''`);
-}catch (e) {
+} catch (e) {
     // Cột đã tồn tại, bỏ qua
 }
 
@@ -172,6 +172,42 @@ db.exec(`
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
 `);
+
+// Bảng sepay_transactions - Giao dịch từ Sepay webhook
+db.exec(`
+    CREATE TABLE IF NOT EXISTS sepay_transactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        sepay_id INTEGER,
+        gateway TEXT DEFAULT '',
+        transaction_date TEXT DEFAULT '',
+        account_number TEXT DEFAULT '',
+        transfer_type TEXT DEFAULT '',
+        transfer_amount INTEGER DEFAULT 0,
+        accumulated INTEGER DEFAULT 0,
+        code TEXT DEFAULT '',
+        content TEXT DEFAULT '',
+        reference_number TEXT DEFAULT '',
+        description TEXT DEFAULT '',
+        order_id INTEGER DEFAULT NULL,
+        processed INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL
+    )
+`);
+
+// Thêm cột order_code vào orders (mã đơn hàng cho thanh toán online)
+try {
+    db.exec(`ALTER TABLE orders ADD COLUMN order_code TEXT DEFAULT ''`);
+} catch (e) {
+    // Cột đã tồn tại
+}
+
+// Thêm cột payment_method vào orders
+try {
+    db.exec(`ALTER TABLE orders ADD COLUMN payment_method TEXT DEFAULT 'manual'`);
+} catch (e) {
+    // Cột đã tồn tại
+}
 
 console.log('✅ Đã tạo xong các bảng.');
 
@@ -299,7 +335,7 @@ if (existingOrders.count === 0) {
     });
     insertOrdersTransaction(sampleOrders);
     console.log(`✅ Đã tạo ${sampleOrders.length} đơn hàng mẫu.`);
-}else {
+} else {
     console.log('ℹ️  Đơn hàng đã tồn tại, bỏ qua.');
 }
 

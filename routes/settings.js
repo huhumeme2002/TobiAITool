@@ -92,5 +92,21 @@ router.post('/password', isAuthenticated, (req, res) => {
     res.redirect('/admin/settings');
 });
 
+// POST /admin/settings/sepay - Cập nhật cấu hình Sepay
+router.post('/sepay', isAuthenticated, (req, res) => {
+    const { sepay_bank_name, sepay_bank_code, sepay_account_number, sepay_account_name, sepay_api_key } = req.body;
+
+    Setting.setMany({
+        sepay_bank_name: (sepay_bank_name || '').trim(),
+        sepay_bank_code: (sepay_bank_code || '').trim(),
+        sepay_account_number: (sepay_account_number || '').trim(),
+        sepay_account_name: (sepay_account_name || '').trim(),
+        sepay_api_key: (sepay_api_key || '').trim()
+    });
+
+    req.flash('success', 'Đã cập nhật cấu hình Sepay!');
+    res.redirect('/admin/settings');
+});
+
 module.exports = router;
 

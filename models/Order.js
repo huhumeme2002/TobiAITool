@@ -76,6 +76,39 @@ const Order = {
         return db.prepare('DELETE FROM orders WHERE id = ?').run(id);
     },
 
+    // ==================== ONLINE CHECKOUT ====================
+
+    // Tạo đơn hàng từ checkout (tự sinh mã đơn)
+    createFromCheckout(data) {
+        const stmt = db.prepare(`
+            INSERT INTO orders (customer_name, customer_phone, customer_email, product_id, product_name, listed_price, actual_price, cost, profit, sale_date, status, notes, order_code, payment_method)
+            VALUES (@customer_name, @customer_phone, @customer_email, @product_id, @product_name, @listed_price, @actual_price, @cost, @profit, @sale_date, @status, @notes, @order_code, @payment_method)
+        `);
+        return stmt.run(data);
+    },
+
+    // Tìm đơn hàng theo mã đơn
+    findByOrderCode(orderCode) {
+        return db.prepare('SELECT * FROM orders WHERE order_code = ?').get(orderCode);
+    },
+
+    // Cập nhật trạng thái thanh toán
+    updatePaymentStatus(id, status) {
+        return db.prepare('UPDATE orders SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?').run(status, id);
+    },
+
+    // Tìm đơn pending theo số tiền (fallback matching)
+    findPendingByAmount(amount) {
+        return db.prepare("SELECT * FROM orders WHERE status = 'pending' AND actual_price = ? AND payment_method = 'sepay' ORDER BY created_at DESC LIMIT 1").get(amount);
+    },
+
+    // Sinh mã đơn hàng unique
+    generateOrderCode() {
+        const timestamp = Date.now().toString(36).toUpperCase();
+        const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+        return `DH${timestamp}${random}`;
+    },
+
     // ==================== THỐNG KÊ ====================
 
     // Tổng quan dashboard
