@@ -50,7 +50,7 @@ router.post('/webhook', (req, res) => {
             accumulated: parseInt(data.accumulated) || 0,
             code: data.code || '',
             content: data.content || data.description || '',
-            reference_number: data.referenceNumber || '',
+            reference_number: data.referenceCode || data.referenceNumber || '',
             description: data.description || '',
             order_id: null,
             processed: 0
