@@ -1,43 +1,75 @@
 /**
- * Routes - Checkout (thanh toán online qua Sepay)
+ * Routes - Checkout (thanh toán online qua Sepay Payment Gateway)
  */
 const express = require('express');
 const router = express.Router();
+const crypto = require('crypto');
 const Product = require('../models/Product');
 const ProductPackage = require('../models/ProductPackage');
 const Order = require('../models/Order');
 const Setting = require('../models/Setting');
 
+// Lấy config Sepay Gateway
+function getSepayConfig() {
+    const settings = Setting.getAll();
+    return {
+        merchantId: settings.sepay_merchant_id || process.env.SEPAY_MERCHANT_ID || '',
+        secretKey: settings.sepay_secret_key || process.env.SEPAY_SECRET_KEY || '',
+        environment: process.env.SEPAY_ENV || 'sandbox' // 'sandbox' hoặc 'production'
+    };
+}
+
+function getCheckoutUrl(env) {
+    return env === 'production'
+        ? 'https://pay.sepay.vn/v1/checkout/init'
+        : 'https://pay-sandbox.sepay.vn/v1/checkout/init';
+}
+
+// Tạo chữ ký HMAC-SHA256 theo format Sepay
+function createSignature(params, secretKey) {
+    const signedString = [
+        `merchant=${params.merchant}`,
+        `operation=${params.operation}`,
+        `payment_method=${params.payment_method}`,
+        `order_amount=${params.order_amount}`,
+        `currency=${params.currency}`,
+        `order_invoice_number=${params.order_invoice_number}`,
+        `order_description=${params.order_description}`,
+        `customer_id=${params.customer_id}`,
+        `success_url=${params.success_url}`,
+        `error_url=${params.error_url}`,
+        `cancel_url=${params.cancel_url}`
+    ].join(',');
+
+    return Buffer.from(
+        crypto.createHmac('sha256', secretKey).update(signedString).digest()
+    ).toString('base64');
+}
+
 // GET /checkout/:productId - Trang thanh toán
 router.get('/:productId', (req, res) => {
+    // Bỏ qua nếu là "status" hoặc "success" hoặc "error" hoặc "cancel"
+    if (['status', 'success', 'error', 'cancel'].includes(req.params.productId)) {
+        return require('express').Router().handle(req, res);
+    }
+
     const product = Product.findByIdWithPackages(req.params.productId);
     if (!product) {
         return res.status(404).render('errors/404', { title: 'Không tìm thấy sản phẩm' });
     }
 
     const settings = Setting.getAll();
-
-    // Lấy thông tin ngân hàng từ settings hoặc env
-    const bankInfo = {
-        bankName: settings.sepay_bank_name || process.env.SEPAY_BANK_NAME || '',
-        bankCode: settings.sepay_bank_code || process.env.SEPAY_BANK_CODE || '',
-        accountNumber: settings.sepay_account_number || process.env.SEPAY_ACCOUNT_NUMBER || '',
-        accountName: settings.sepay_account_name || process.env.SEPAY_ACCOUNT_NAME || ''
-    };
-
-    // Chọn gói từ query string (nếu có)
     const selectedPackageId = req.query.package ? parseInt(req.query.package) : null;
 
     res.render('landing/checkout', {
         title: `Thanh toán - ${product.name}`,
         product,
-        bankInfo,
         settings,
         selectedPackageId
     });
 });
 
-// POST /checkout/create-order - Tạo đơn hàng
+// POST /checkout/create-order - Tạo đơn hàng và redirect tới Sepay
 router.post('/create-order', (req, res) => {
     try {
         const { product_id, package_id, customer_name, customer_phone, customer_email } = req.body;
@@ -56,7 +88,6 @@ router.post('/create-order', (req, res) => {
         let cost = product.cost || 0;
         let packageName = '';
 
-        // Nếu chọn gói cụ thể
         if (package_id) {
             const pkg = ProductPackage.findById(package_id);
             if (pkg && pkg.product_id === parseInt(product_id)) {
@@ -89,17 +120,28 @@ router.post('/create-order', (req, res) => {
 
         Order.createFromCheckout(orderData);
 
-        // Lấy thông tin ngân hàng
-        const settings = Setting.getAll();
-        const bankInfo = {
-            bankName: settings.sepay_bank_name || process.env.SEPAY_BANK_NAME || '',
-            bankCode: settings.sepay_bank_code || process.env.SEPAY_BANK_CODE || '',
-            accountNumber: settings.sepay_account_number || process.env.SEPAY_ACCOUNT_NUMBER || '',
-            accountName: settings.sepay_account_name || process.env.SEPAY_ACCOUNT_NAME || ''
+        // Tạo Sepay Payment Gateway form
+        const sepayConfig = getSepayConfig();
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+
+        const formParams = {
+            merchant: sepayConfig.merchantId,
+            operation: 'PURCHASE',
+            payment_method: 'BANK_TRANSFER',
+            order_amount: price,
+            currency: 'VND',
+            order_invoice_number: orderCode,
+            order_description: orderData.product_name,
+            customer_id: (customer_phone || customer_name).trim(),
+            success_url: `${baseUrl}/checkout/success/${orderCode}`,
+            error_url: `${baseUrl}/checkout/error/${orderCode}`,
+            cancel_url: `${baseUrl}/checkout/cancel/${orderCode}`
         };
 
-        // Tạo URL QR Sepay (thay vì VietQR để Sepay nhận diện giao dịch nhanh hơn)
-        const qrUrl = `https://qr.sepay.vn/img?acc=${bankInfo.accountNumber}&bank=${bankInfo.bankCode}&amount=${price}&des=${encodeURIComponent(orderCode)}&template=compact`;
+        const signature = createSignature(formParams, sepayConfig.secretKey);
+        const checkoutUrl = getCheckoutUrl(sepayConfig.environment);
+
+        console.log(`🛒 Đơn hàng ${orderCode} - ${price}đ → Sepay Gateway`);
 
         res.json({
             success: true,
@@ -108,8 +150,14 @@ router.post('/create-order', (req, res) => {
                 amount: price,
                 productName: orderData.product_name
             },
-            bankInfo,
-            qrUrl
+            // Trả về form data để client auto-submit
+            sepayForm: {
+                action: checkoutUrl,
+                fields: {
+                    ...formParams,
+                    signature: signature
+                }
+            }
         });
     } catch (err) {
         console.error('❌ Lỗi tạo đơn hàng checkout:', err);
@@ -117,7 +165,42 @@ router.post('/create-order', (req, res) => {
     }
 });
 
-// GET /checkout/status/:orderCode - Kiểm tra trạng thái đơn hàng (polling)
+// GET /checkout/success/:orderCode - Thanh toán thành công
+router.get('/success/:orderCode', (req, res) => {
+    const order = Order.findByOrderCode(req.params.orderCode);
+    if (!order) {
+        return res.redirect('/');
+    }
+
+    // Cập nhật trạng thái paid nếu chưa (Sepay redirect trước khi IPN)
+    if (order.status === 'pending') {
+        Order.updatePaymentStatus(order.id, 'paid');
+    }
+
+    const settings = Setting.getAll();
+    res.render('landing/checkout-success', {
+        title: 'Thanh toán thành công',
+        order,
+        settings
+    });
+});
+
+// GET /checkout/error/:orderCode - Thanh toán lỗi
+router.get('/error/:orderCode', (req, res) => {
+    const settings = Setting.getAll();
+    res.render('landing/checkout-error', {
+        title: 'Lỗi thanh toán',
+        orderCode: req.params.orderCode,
+        settings
+    });
+});
+
+// GET /checkout/cancel/:orderCode - Hủy thanh toán
+router.get('/cancel/:orderCode', (req, res) => {
+    res.redirect('/');
+});
+
+// GET /checkout/status/:orderCode - Kiểm tra trạng thái (vẫn giữ cho polling)
 router.get('/status/:orderCode', (req, res) => {
     const order = Order.findByOrderCode(req.params.orderCode);
     if (!order) {

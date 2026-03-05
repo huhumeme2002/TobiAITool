@@ -888,7 +888,7 @@
             });
         });
 
-        // Create order
+        // Create order and redirect to Sepay
         async function createOrder() {
             const name = document.getElementById('customerName').value.trim();
             if (!name) {
@@ -899,7 +899,7 @@
 
             const btn = document.getElementById('btnProceed');
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Đang xử lý...';
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Đang chuyển đến trang thanh toán...';
 
             try {
                 const formData = {
@@ -918,35 +918,38 @@
 
                 const result = await response.json();
 
-                if (result.success) {
-                    currentOrderCode = result.order.orderCode;
+                if (result.success && result.sepayForm) {
+                    // Tạo form ẩn và auto-submit tới Sepay
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = result.sepayForm.action;
 
-                    // Update QR section
-                    document.getElementById('qrImage').src = result.qrUrl;
-                    document.getElementById('infoBankName').textContent = result.bankInfo.bankName;
-                    document.getElementById('infoAccountNumber').textContent = result.bankInfo.accountNumber;
-                    document.getElementById('infoAccountName').textContent = result.bankInfo.accountName;
-                    document.getElementById('infoAmount').textContent = Number(result.order.amount).toLocaleString('vi-VN') + 'đ';
-                    document.getElementById('infoContent').textContent = result.order.orderCode;
+                    // Thêm tất cả fields theo đúng thứ tự
+                    const fieldOrder = ['merchant', 'operation', 'payment_method', 'order_amount', 'currency',
+                        'order_invoice_number', 'order_description', 'customer_id',
+                        'success_url', 'error_url', 'cancel_url', 'signature'];
 
-                    // Switch to step 2
-                    goToStep(2);
+                    fieldOrder.forEach(key => {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = result.sepayForm.fields[key];
+                        form.appendChild(input);
+                    });
 
-                    // Start polling
-                    startPolling();
-
-                    // Start countdown
-                    startCountdown();
+                    document.body.appendChild(form);
+                    form.submit();
                 } else {
                     alert(result.message || 'Có lỗi xảy ra!');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-credit-card-fill"></i> Thanh toán ngay';
                 }
             } catch (err) {
                 console.error(err);
                 alert('Lỗi kết nối! Vui lòng thử lại.');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-credit-card-fill"></i> Thanh toán ngay';
             }
-
-            btn.disabled = false;
-            btn.innerHTML = '<i class="bi bi-qr-code"></i> Thanh toán ngay';
         }
 
         // Step navigation
