@@ -98,8 +98,8 @@ router.post('/create-order', (req, res) => {
             accountName: settings.sepay_account_name || process.env.SEPAY_ACCOUNT_NAME || ''
         };
 
-        // Tạo URL QR VietQR
-        const qrUrl = `https://img.vietqr.io/image/${bankInfo.bankCode}-${bankInfo.accountNumber}-compact2.png?amount=${price}&addInfo=${encodeURIComponent(orderCode)}&accountName=${encodeURIComponent(bankInfo.accountName)}`;
+        // Tạo URL QR Sepay (thay vì VietQR để Sepay nhận diện giao dịch nhanh hơn)
+        const qrUrl = `https://qr.sepay.vn/img?acc=${bankInfo.accountNumber}&bank=${bankInfo.bankCode}&amount=${price}&des=${encodeURIComponent(orderCode)}&template=compact`;
 
         res.json({
             success: true,
