@@ -88,15 +88,10 @@ router.post('/webhook', (req, res) => {
                 }
             }
 
-            // Fallback: tìm theo số tiền nếu không match được mã đơn
+            // Log nếu không match được
             if (!matched) {
                 const amount = parseInt(data.transferAmount) || 0;
-                const pendingOrder = Order.findPendingByAmount(amount);
-                if (pendingOrder) {
-                    Order.updatePaymentStatus(pendingOrder.id, 'paid');
-                    SepayTransaction.markProcessed(transactionId, pendingOrder.id);
-                    console.log(`✅ Đã xác nhận thanh toán đơn hàng (fallback) ${pendingOrder.order_code} - ${amount}đ`);
-                }
+                console.log(`ℹ️ Không tìm thấy mã đơn hàng DH... trong nội dung: "${content}" - ${amount}đ`);
             }
         }
 
