@@ -175,6 +175,12 @@ router.get('/success/:orderCode', (req, res) => {
     // Cập nhật trạng thái paid nếu chưa (Sepay redirect trước khi IPN)
     if (order.status === 'pending') {
         Order.updatePaymentStatus(order.id, 'paid');
+        console.log(`✅ Đơn hàng ${order.order_code} đã thanh toán qua Sepay Gateway`);
+
+        // Gửi thông báo Telegram
+        const { notifyOrderPaid } = require('../utils/telegram');
+        const settings = Setting.getAll();
+        notifyOrderPaid(order, settings);
     }
 
     const settings = Setting.getAll();
