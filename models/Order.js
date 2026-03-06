@@ -172,6 +172,19 @@ const Order = {
             GROUP BY sale_date
             ORDER BY sale_date ASC
         `).all();
+    },
+
+    // Đếm số đơn paid theo từng product_id (cho landing page)
+    getSalesCountByProduct() {
+        const rows = db.prepare(`
+            SELECT product_id, COUNT(*) as total_sold
+            FROM orders
+            WHERE status = 'paid'
+            GROUP BY product_id
+        `).all();
+        const map = {};
+        rows.forEach(r => { map[r.product_id] = r.total_sold; });
+        return map;
     }
 };
 

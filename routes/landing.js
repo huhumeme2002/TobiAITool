@@ -4,6 +4,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const Order = require('../models/Order');
 const Setting = require('../models/Setting');
 const TransactionProof = require('../models/TransactionProof');
 
@@ -12,11 +13,13 @@ router.get('/', (req, res) => {
     const products = Product.getVisibleWithPackages();
     const settings = Setting.getAll();
     const transactionProofs = TransactionProof.getVisible();
+    const salesCount = Order.getSalesCountByProduct();
     res.render('landing/index', {
         title: settings.brand_name || 'AI Store',
         products,
         settings,
-        transactionProofs
+        transactionProofs,
+        salesCount
     });
 });
 
