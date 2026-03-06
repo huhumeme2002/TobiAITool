@@ -186,9 +186,7 @@
                                                             product.name.toLowerCase().includes('premium'))) { %>
                                                             <span class="badge badge-premium">💎 Full model</span>
                                                             <% } %>
-                                                                <% if (product.packages && product.packages.some(pkg=>
-                                                                    !pkg.request_count || pkg.request_count === 'Vô
-                                                                    Hạn')) { %>
+                                                                <% if (product.packages && product.packages.some(pkg => !pkg.request_count || pkg.request_count === 'Vô Hạn')) { %>
                                                                     <span class="badge badge-unlimited">⚡
                                                                         Unlimited</span>
                                                                     <% } %>
