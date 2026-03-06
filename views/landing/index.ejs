@@ -32,6 +32,7 @@
                 <ul class="navbar-nav ms-auto gap-1">
                     <li class="nav-item"><a class="nav-link" href="#home">Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link" href="#products">Sản phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
                 </ul>
             </div>
@@ -340,6 +341,108 @@
         </section>
         <% } %>
 
+            <!-- ==================== FAQ SECTION ==================== -->
+            <section class="faq-section" id="faq">
+                <div class="container">
+                    <h2 class="section-title">Câu hỏi <span class="gradient-text">thường gặp</span></h2>
+                    <p class="section-subtitle">Giải đáp nhanh những thắc mắc phổ biến trước khi mua hàng</p>
+
+                    <div class="faq-container">
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span><i class="bi bi-person-check me-2"></i>Tài khoản dùng riêng hay dùng chung?</span>
+                                <i class="bi bi-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Tất cả tài khoản đều là <strong>tài khoản riêng</strong>, bạn được toàn quyền sử dụng
+                                    trong suốt thời hạn gói. Không chia sẻ với bất kỳ ai khác.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span><i class="bi bi-shield-check me-2"></i>Chính sách bảo hành như thế nào?</span>
+                                <i class="bi bi-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Bảo hành <strong>1 đổi 1</strong> trong suốt thời hạn sử dụng. Nếu tài khoản gặp lỗi,
+                                    chúng tôi sẽ thay thế tài khoản mới ngay lập tức qua Zalo/Telegram.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span><i class="bi bi-credit-card me-2"></i>Thanh toán bằng cách nào?</span>
+                                <i class="bi bi-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Hỗ trợ thanh toán qua <strong>chuyển khoản ngân hàng</strong> với hệ thống QR Code tự
+                                    động. Sau khi chuyển khoản, đơn hàng được xác nhận tức thì — không cần chờ duyệt.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span><i class="bi bi-lightning-charge me-2"></i>Sau khi thanh toán bao lâu nhận được
+                                    tài khoản?</span>
+                                <i class="bi bi-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Nhận tài khoản <strong>ngay lập tức</strong> sau khi thanh toán thành công. Hướng dẫn
+                                    sử dụng chi tiết được gửi kèm qua Zalo/Telegram.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span><i class="bi bi-laptop me-2"></i>Dùng được trên IDE nào?</span>
+                                <i class="bi bi-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Tùy sản phẩm: <strong>Cursor</strong> là IDE riêng, <strong>GitHub Copilot</strong>
+                                    dùng trên VS Code/JetBrains, <strong>Augment Code</strong> hỗ trợ VS Code. Chi tiết
+                                    tương thích được ghi rõ trong mô tả từng sản phẩm.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span><i class="bi bi-arrow-counterclockwise me-2"></i>Có được hoàn tiền không?</span>
+                                <i class="bi bi-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p><strong>Hoàn tiền 100%</strong> nếu sản phẩm không hoạt động đúng như mô tả và chúng
+                                    tôi không thể khắc phục. Cam kết quyền lợi khách hàng luôn được đặt lên hàng đầu.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span><i class="bi bi-infinity me-2"></i>"Vô hạn request" nghĩa là gì?</span>
+                                <i class="bi bi-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Bạn có thể sử dụng AI <strong>không giới hạn số lần</strong> trong thời hạn gói —
+                                    không lo bị cắt giữa chừng. Phù hợp cho dev làm việc cường độ cao.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFaq(this)">
+                                <span><i class="bi bi-people me-2"></i>Mua số lượng nhiều có giảm giá không?</span>
+                                <i class="bi bi-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Có! Mua từ <strong>3 tài khoản trở lên</strong> được giảm giá đặc biệt. Liên hệ trực
+                                    tiếp qua Zalo/Telegram để nhận báo giá team/doanh nghiệp.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- ==================== FOOTER ==================== -->
             <footer class="footer-section" id="contact">
                 <div class="container">
@@ -470,7 +573,19 @@
                             if (amount) infoHtml += '<p class="mb-2"><i class="bi bi-cash-coin me-2"></i><strong>Số tiền:</strong> <span style="color:#22c55e">' + amount + '</span></p>';
                             if (date) infoHtml += '<p class="mb-0"><i class="bi bi-calendar-check me-2"></i><strong>Ngày giao dịch:</strong> ' + date + '</p>';
                             document.getElementById('proofModalInfo').innerHTML = infoHtml;
-                            new bootstrap.Modal(document.getElementById('proofModal')).show();
+                            ap.ocument.getElementById('proofModal')).show();
+                        }
+
+                        // FAQ accordion toggle
+                        function toggleFaq(btn) {
+                            const item = btn.closest('.faq-item');
+                            const isOpen = item.classList.contains('active');
+                            // Close all other items
+                            document.querySelectorAll('.faq-item.active').forEach(el => {
+                                if (el !== item) el.classList.remove('active');
+                            });
+                            // Toggle current
+                            item.classList.toggle('active', !isOpen);
                         }
                     </script>
 </body>
