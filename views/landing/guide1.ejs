@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> - <%= settings.brand_name || 'AI Store' %></title>
+    <title>
+        <%= title %> - <%= settings.brand_name || 'AI Store' %>
+    </title>
     <meta name="description" content="Hướng dẫn chi tiết cách sử dụng Claude Code Max Plan">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
@@ -20,9 +22,9 @@
             <a class="navbar-brand" href="/">
                 <% if (settings.brand_logo) { %>
                     <img src="<%= settings.brand_logo %>" alt="Logo" style="height:36px" class="me-2">
-                <% } %>
-                <i class="bi bi-braces"></i>
-                <%= settings.brand_name || 'AI Store' %>
+                    <% } %>
+                        <i class="bi bi-braces"></i>
+                        <%= settings.brand_name || 'AI Store' %>
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="bi bi-list text-white fs-4"></i>
@@ -90,7 +92,8 @@
                             <div class="alert-info">
                                 <i class="bi bi-info-circle-fill me-2"></i>
                                 <div>
-                                    <strong>Giới thiệu:</strong> Claude Code Max Plan là công cụ AI phát triển code mạnh mẽ với nhiều model AI cao cấp.
+                                    <strong>Giới thiệu:</strong> Claude Code Max Plan là công cụ AI phát triển code mạnh
+                                    mẽ với nhiều model AI cao cấp.
                                 </div>
                             </div>
                         </section>
@@ -102,7 +105,8 @@
                                 <h3>Tải các thư viện cần thiết</h3>
 
                                 <h4 class="mt-4">Cài đặt Node.js</h4>
-                                <p>Tải và cài đặt Node.js từ trang chủ: <a href="https://nodejs.org" target="_blank">nodejs.org</a></p>
+                                <p>Tải và cài đặt Node.js từ trang chủ: <a href="https://nodejs.org"
+                                        target="_blank">nodejs.org</a></p>
 
                                 <h4 class="mt-4">Cài đặt Bun</h4>
                                 <p><strong>MacOS / Linux:</strong></p>
@@ -120,6 +124,17 @@
                                 <h3>Chạy lệnh cài đặt</h3>
                                 <p>Mở terminal và chạy lệnh sau:</p>
                                 <pre><code class="language-bash">bunx prox-claude-installer@1.0.2</code></pre>
+
+                                <div class="alert-info mt-3">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    <div>
+                                        <strong>Lưu ý cho Linux:</strong> Nếu bạn gặp lỗi khi cài đặt, hãy tự set thủ
+                                        công như sau:
+                                        <pre class="mt-2 mb-0"><code class="language-bash">export ANTHROPIC_AUTH_TOKEN="nhap_key_cua_ban"
+export ANTHROPIC_BASE_URL="http://pro-x.io.vn"
+claude</code></pre>
+                                    </div>
+                                </div>
                             </div>
                         </section>
 
@@ -172,7 +187,7 @@
                                     </div>
 
                                     <div class="pricing-item">
-                                        <h4>Claude Sonnet 4.5</h4>
+                                        <h4>Claude Sonnet 4.6</h4>
                                         <ul>
                                             <li><strong>Input Token:</strong> 3$</li>
                                             <li><strong>Output Token:</strong> 15$</li>
@@ -195,12 +210,26 @@
                             <div class="support-card">
                                 <i class="bi bi-headset fs-1 mb-3"></i>
                                 <h3>Cần hỗ trợ?</h3>
-                                <p>Nếu gặp vấn đề trong quá trình cài đặt hoặc sử dụng, vui lòng liên hệ với chúng tôi.</p>
+                                <p>Nếu gặp vấn đề trong quá trình cài đặt hoặc sử dụng, vui lòng liên hệ với chúng tôi.
+                                </p>
                                 <% if (settings.zalo_link) { %>
                                     <a href="<%= settings.zalo_link %>" target="_blank" class="btn-support">
                                         <i class="bi bi-chat-dots me-2"></i>Liên hệ hỗ trợ
                                     </a>
-                                <% } %>
+                                    <% } %>
+                            </div>
+                        </section>
+
+                        <!-- Disclaimer -->
+                        <section class="guide-section">
+                            <div class="support-card"
+                                style="background: rgba(255, 193, 7, 0.08); border: 1px solid rgba(255, 193, 7, 0.25); text-align: center;">
+                                <i class="bi bi-shield-exclamation fs-3 mb-2" style="color: #ffc107;"></i>
+                                <p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                                    <strong>Disclaimer:</strong> Chúng tôi là đơn vị cung cấp hạ tầng API trung gian độc
+                                    lập. Sản phẩm không liên kết, không phải đại lý chính thức và không được tài trợ bởi
+                                    Anthropic.
+                                </p>
                             </div>
                         </section>
                     </div>
