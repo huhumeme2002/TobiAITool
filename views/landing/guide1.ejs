@@ -66,8 +66,12 @@
                                 Bước 3: Nhập API Key
                             </a>
                             <a href="#step4" class="nav-item">
+                                <i class="bi bi-gear"></i>
+                                Bước 4: Cấu hình giao diện
+                            </a>
+                            <a href="#step5" class="nav-item">
                                 <i class="bi bi-bar-chart-line"></i>
-                                Bước 4: Theo dõi Usage
+                                Bước 5: Theo dõi Usage
                             </a>
                             <a href="#pricing" class="nav-item">
                                 <i class="bi bi-currency-dollar"></i>
@@ -123,7 +127,7 @@
                                 <div class="step-number">Bước 2</div>
                                 <h3>Chạy lệnh cài đặt</h3>
                                 <p>Mở terminal và chạy lệnh sau:</p>
-                                <pre><code class="language-bash">bunx prox-claude-installer@1.0.2</code></pre>
+                                <pre><code class="language-bash">bunx prox-claude-installer@1.0.3</code></pre>
 
                                 <div class="alert-info mt-3">
                                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -158,10 +162,33 @@ claude</code></pre>
                             </div>
                         </section>
 
-                        <!-- Step 4: Check Usage -->
+                        <!-- Step 4: Configure Claude Code UI -->
                         <section id="step4" class="guide-section">
                             <div class="step-card">
                                 <div class="step-number">Bước 4</div>
+                                <h3>Cấu hình Claude Code với giao diện</h3>
+                                <p>Tìm extension <strong>Claude Code</strong> trong VSCode và bấm vào biểu tượng
+                                    <strong>Configure</strong> ở góc trên bên phải để cho phép kết nối MCP server.
+                                </p>
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/claude3.png"
+                                        alt="Tìm extension Claude Code trong VSCode" />
+                                </div>
+                                <p class="mt-3">-> chọn icon này trên cùng góc tay phải của VScode</p>
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/claude4.png" alt="Chọn Always allow" />
+                                </div>
+                                <p class="mt-3">Trên Cursor:</p>
+                                <div class="guide-image">
+                                    <img src="/uploads/guide/claude5.png" alt="Trên Cursor" />
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Step 5: Check Usage -->
+                        <section id="step5" class="guide-section">
+                            <div class="step-card">
+                                <div class="step-number">Bước 5</div>
                                 <h3>Theo dõi Usage</h3>
                                 <p>Truy cập web sau để theo dõi lượng prompt đã sử dụng:</p>
                                 <p>
